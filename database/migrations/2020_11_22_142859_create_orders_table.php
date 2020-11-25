@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_code',10);
             $table->datetime('order_date');
             $table->unsignedBigInteger('ship_address_id');
-            $table->decimal('ship_ammount',10,2);
+            $table->decimal('ship_ammount',10,2)->default(0);
             $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('delivery_status_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('CASCADE');

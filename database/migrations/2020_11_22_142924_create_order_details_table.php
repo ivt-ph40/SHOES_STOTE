@@ -19,7 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('size',10);
             $table->string('color',20);
-            $table->decimal('price',10,2);
+            $table->decimal('price',10,2)->default(0);
             $table->unsignedBigInteger('quantity');
             $table->foreign('order_id')->references('id')->on('orders')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('RESTRICT')->onDelete('CASCADE');
