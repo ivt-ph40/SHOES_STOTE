@@ -18,7 +18,7 @@ class CreateProductDetailsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('size',10);
             $table->string('color',20);
-            $table->unsignedBigInteger('quantity');
+            $table->unsignedBigInteger('quantity')->default(0);
             $table->string('material',50);
             $table->string('product_status',20);
             $table->string('specifications',255);

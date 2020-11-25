@@ -65,3 +65,10 @@ Route::get('/404', function(){
 Route::get('/profile', function(){
     return view('users.profile');
 })->name('profile');
+
+//Show form contact us
+Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-form');
+
+//Contact submit
+Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
+

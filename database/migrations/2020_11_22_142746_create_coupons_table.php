@@ -15,7 +15,7 @@ class CreateCouponsTable extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('discount_percent',6,2);
+            $table->decimal('discount_percent',6,2)->default(0);
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->timestamps();
