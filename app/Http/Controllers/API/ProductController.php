@@ -18,15 +18,14 @@ class ProductController extends Controller
         //
     }
     public function checkQuantity(Request $request, $id){
-        $product = Product::whereHas('product_details',function($query){
+        $product = Product::whereHas('product_details',function($query) use($request){
             $query->where('quantity', '>=', $request->quantity);
         })->find($id);
-        // $product  = Product::whereHas('product_details.quantity', '>=', $request->quantity)->find($id);
 
         if($product){
-            return response()->json(['message' => 'Số lượng trong kho đủ'], 200);
+            return response()->json(['message' => 'Current available stock for this item'], 200);
         }
-        return response()->json(['message' => 'Không đủ số lượng trong kho'], 400);
+        return response()->json(['message' => 'Quantity of products you want to order is not enough in stock'], 400);
     }
 
     /**

@@ -12,17 +12,20 @@
     }
     #main-product-img{
         width: 100%;
-        height: 550px;
+        height: 600px;
     }
     #big-product-img{
         width: 100%;
         height: 320px;
     }
+    #product-name{
+        max-width: 200px;
+    }
     #product-code, #product-color{
         border-bottom: none !important;
     }
     #footer-area{
-        text-align: center;
+        text-align: left;
     }
 ')
 @section('content')
@@ -296,7 +299,6 @@
 
             <div class="ps-section__content">
                 <div class="ps-owl--colection owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-duration="1000" data-owl-mousedrag="on">
-
                     @foreach($relatedItems as $item)
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
@@ -305,7 +307,7 @@
                                 <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div>
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$item->images[0]->image_name .'') }}">
-                                <a class="ps-shoe__overlay" href="product-detail.html"></a>
+                                <a class="ps-shoe__overlay" href="{{ route('product-detail', $item->id) }}"></a>
                             </div>
                             <div class="ps-shoe__content">
                                 <div class="ps-shoe__variants">
@@ -322,8 +324,9 @@
                                         <option value="2">5</option>
                                     </select>
                                 </div>
-                                <div class="ps-shoe__detail"><a class="ps-shoe__name" href="product-detai.html">Air Jordan 7 Retro</a>
-                                    <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price"> £ 120</span>
+                                <div class="ps-shoe__detail">
+                                    <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $item->id) }}">{{ $item->product_name }}</a></p>
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span>
                                 </div>
                             </div>
                         </div>
@@ -374,7 +377,7 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> Alena Studio</a></p>
+                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
@@ -392,15 +395,14 @@
 <script>
     $(document).ready(function(){
         $('#quantity').on('change', function(){
-            var quantity =parseInt($(this.val());
+            var quantity =parseInt(this.value);
             var productID = $(this).attr('data-id');
             if(quantity<0 || quantity>10 || isNaN(quantity)){
-                alert('This field must between 0,10');
+                alert('This field must between 0 and 10');
             }
             $.ajax({
                 type: 'get',
                 url: '/api/products/'+productID+'/check-quantity',
-                // url: '/api/products/'+productID+'/check-quantity?quantity='+quantity,
                 data: {
                     'quantity' : quantity,
                 },
@@ -410,7 +412,7 @@
                 error: function(err){
                     console.log(err, err.responseJSON.message)
                     alert(err.responseJSON.message);
-                    $('#quantity').val(1);
+                    $('#quantity').value(1);
                 }
             })
         });
