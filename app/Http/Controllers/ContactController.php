@@ -21,9 +21,10 @@ class ContactController extends Controller
     public function sendMail(Request $request){
         $toEmail = $request->email;
         $fromEmail ='admin@gmail.com';
-        $data =['content' => $request->content, 'username' => 'Mr.Dat']; //get data from form contact-us
-        \Mail::send('mails.contact-us', $data, function($message) use ($toEmail, $fromEmail){
-            $message->to($toEmail, 'Mr.Dat');
+        $username = $request->username;
+        $data =['username' => $username, 'content' => $request->content]; //get data from form contact-us
+        \Mail::send('mails.contact-us', $data, function($message) use ($toEmail, $fromEmail, $username){
+            $message->to($toEmail, $username);
             // $message->from($fromEmail, 'Admin');
             $message->subject('Contact Mail');
         });

@@ -22,14 +22,20 @@ Route::get('/', 'HomeController@index')->name('home');
 
 //Show product's detail
 Route::get('/product/{id}', 'ProductController@show')->name('product-detail');
-// Route::get('/product-detail', function(){
-//     return view('users.product-detail');
-// })->name('product-detail');
+
+//Show form contact us
+Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-form');
+
+//Submit contact
+Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Show cart
 Route::get('/cart', function(){
     return view('users.cart');
-})->name('cart');
+})->name('show-cart');
+
+//Add cart
+Route::get('/add-cart/{id}', 'ProductController@addToCart')->name('add-cart');
 
 //Show list of products
 Route::get('/product-list', function(){
@@ -66,9 +72,5 @@ Route::get('/profile', function(){
     return view('users.profile');
 })->name('profile');
 
-//Show form contact us
-Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-form');
 
-//Contact submit
-Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
