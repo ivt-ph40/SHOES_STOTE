@@ -47,19 +47,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-
         $product = Product::with('images','product_details')->find($id);
-        // $categoryID = DB::table('categories')
-        //                     ->join('products','products.category_id', '=', 'categories.id')
-        //                     ->select('category_id')
-        //                     ->where('products.id', '=', $id)
-        //                     ->get();
-
-        $relatedItems = Product::with('images')
-                            ->orderBy('id', 'ASC')
+        $relatedItems = Product::with('images','category','coupons')
+                            ->whereNotIn('products.id', [$id])
                             ->get();
-
-        // $relatedItems = DB::select('select * from products inner join images on products.id = images.product_id where category_id = ?', [$categoryID]);
         return view('users.product-detail', compact('product', 'relatedItems'));
     }
 
