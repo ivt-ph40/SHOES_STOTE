@@ -151,14 +151,6 @@
         <div class="ps-container">
             <div class="row">
                 <div class="col-lg-10 col-md-12 col-lg-offset-1">
-
-                    {{-- <form action="{{ route('add-cart') }}" method="post">
-                        @csrf
-                        @if(session()->has('success-msg'))
-                            <div class="alert alert-success" role="alert">
-                                {{session()->get('success-msg')}}
-                            </div>
-                        @endif --}}
                     <div class="ps-product__thumbnail">
                         <div class="ps-product__preview">
                             <div class="ps-product__variants">
@@ -200,9 +192,9 @@
                             </select>
                         </div>
                         <h1 name="product_name">{{ $product->product_name }}</h1>
-                        {{-- <input type="hidden" name="productID" value="{{ $product->id }}"> --}}
                         <h3 class="ps-product__price" name="price">{{ number_format($product->price) }} đ</h3>
                         <div class="ps-product__block ps-product__quickview">
+                            <h4 id="product-code" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
                             <h4 id="product-code" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
                             <h4 id="product-color" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
                         </div>
@@ -221,7 +213,6 @@
                             <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
                         </div>
                     </div>
-                    {{-- </form> --}}
 
                     <div class="clearfix"></div>
                     <div class="ps-product__content mt-50">
@@ -337,7 +328,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $item->id) }}">{{ $item->product_name }}</a></p>
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span>
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span></p>
                                 </div>
                             </div>
                         </div>

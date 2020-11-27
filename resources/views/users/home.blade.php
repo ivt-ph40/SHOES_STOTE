@@ -216,7 +216,7 @@
 
                                         <div class="ps-shoe__detail">
                                             <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
-                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span>
+                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +276,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span>
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
                                 </div>
                             </div>
                         </div>

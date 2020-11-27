@@ -48,7 +48,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('images','product_details')->find($id);
+        $product = Product::with('images','product_details', 'brand')->find($id);
         $relatedItems = Product::with('images','category','coupons')
                             ->whereNotIn('products.id', [$id])
                             ->get();
@@ -89,59 +89,59 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Add product to the cart
-     *
-     * @return success message
-     */
-    public function addToCart(Request $request, $id)
-    {
-        $product = Product::with('images')->find($id);
-        $cart = Session::get('cart');
+    // /**
+    //  * Add product to the cart
+    //  *
+    //  * @return success message
+    //  */
+    // public function addToCart(Request $request, $id)
+    // {
+    //     $product = Product::with('images')->find($id);
+    //     $cart = Session::get('cart');
 
-        // if(!isset($cart[$product['productID']])):
-            $cart[$product[0]->$request->productID] = array(
-                "id" => $product[0]->$request->productID,
-                "product_name" => $product[0]->product_name,
-                "product_code" => $product[0]->product_code,
-                "color" => $product[0]->color,
-                "size" => $product[0]->size,
-                "quantity" => $product[0]->quantity,
-                "price" => $product[0]->price,
-                "product_image" => $product[0]->image,
-            );
+    //     // if(!isset($cart[$product['productID']])):
+    //         $cart[$product[0]->$request->productID] = array(
+    //             "id" => $product[0]->$request->productID,
+    //             "product_name" => $product[0]->product_name,
+    //             "product_code" => $product[0]->product_code,
+    //             "color" => $product[0]->color,
+    //             "size" => $product[0]->size,
+    //             "quantity" => $product[0]->quantity,
+    //             "price" => $product[0]->price,
+    //             "product_image" => $product[0]->image,
+    //         );
 
-        // else:
-        //     $cart[$product['id']]['quantity'] += $product->quantity;
-        // endif;
+    //     // else:
+    //     //     $cart[$product['id']]['quantity'] += $product->quantity;
+    //     // endif;
 
-        Session::put('cart', $cart);
-        // Session::flash('success','Item successfully added to cart!');
-        //dd(Session::get('cart'));
-        return redirect()->back()->with('success-msg','Item successfully added to cart!');
-    }
+    //     Session::put('cart', $cart);
+    //     // Session::flash('success','Item successfully added to cart!');
+    //     //dd(Session::get('cart'));
+    //     return redirect()->back()->with('success-msg','Item successfully added to cart!');
+    // }
 
-    public function updateCart(Request $cartdata)
-    {
-        $cart = Session::get('cart');
+    // public function updateCart(Request $cartdata)
+    // {
+    //     $cart = Session::get('cart');
 
-        foreach ($cartdata->all() as $id => $val)
-        {
-            if ($val > 0) {
-                $cart[$id]['qty'] += $val;
-            } else {
-                unset($cart[$id]);
-            }
-        }
-        Session::put('cart', $cart);
-        return redirect()->back();
-    }
+    //     foreach ($cartdata->all() as $id => $val)
+    //     {
+    //         if ($val > 0) {
+    //             $cart[$id]['qty'] += $val;
+    //         } else {
+    //             unset($cart[$id]);
+    //         }
+    //     }
+    //     Session::put('cart', $cart);
+    //     return redirect()->back();
+    // }
 
-    public function deleteCart($id)
-    {
-        $cart = Session::get('cart');
-        unset($cart[$id]);
-        Session::put('cart', $cart);
-        return redirect()->back();
-    }
+    // public function deleteCart($id)
+    // {
+    //     $cart = Session::get('cart');
+    //     unset($cart[$id]);
+    //     Session::put('cart', $cart);
+    //     return redirect()->back();
+    // }
 }
