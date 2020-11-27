@@ -21,8 +21,18 @@
     #product-name{
         max-width: 200px;
     }
-    #product-code, #product-color{
+    #sale-percent{
+        margin-bottom: 15px !important;
+    }
+    #sale-percent span{
+        font-size: 120%;
+        color: #FFFFFF;
+        font-weight: bold;
+        padding: 5px;
+    }
+    .product-info{
         border-bottom: none !important;
+        margin: 5px 0 !important;
     }
     #footer-area{
         text-align: left;
@@ -193,10 +203,17 @@
                         </div>
                         <h1 name="product_name">{{ $product->product_name }}</h1>
                         <h3 class="ps-product__price" name="price">{{ number_format($product->price) }} đ</h3>
+                        <div id="sale-percent">
+                            @if(isset($product->coupons[0]))
+                                <span class="ps-badge--sale">-{{ $product->coupons[0]->discount_percent }}%</span>
+                            @else
+                                <span>{{''}}</span>
+                            @endif
+                        </div>
                         <div class="ps-product__block ps-product__quickview">
-                            <h4 id="product-code" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
-                            <h4 id="product-code" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
-                            <h4 id="product-color" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
+                            <h4 class="product-info" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
+                            <h4 class="product-info" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
+                            <h4 class="product-info" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
                         </div>
                         <div class="ps-product__block ps-product__size">
                             <h4>CHOOSE SIZE</h4>
@@ -305,8 +322,17 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge"><span>New</span></div>
-                                <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div>
+                                @foreach($item->coupons as $coupon)
+                                    @if($coupon->discount_percent != null)
+                                    <div class="ps-badge ps-badge--sale">
+                                        <span>-{{ $coupon->discount_percent }}%</span>
+                                    </div>
+                                    @else
+                                    <div class="ps-badge">
+                                        <span>{{''}}</span>
+                                    </div>
+                                    @endif
+                                @endforeach
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$item->images[0]->image_name .'') }}">
                                 <a class="ps-shoe__overlay" href="{{ route('product-detail', $item->id) }}"></a>

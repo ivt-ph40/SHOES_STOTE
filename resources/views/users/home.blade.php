@@ -191,9 +191,18 @@
                         <div class="grid-item nike">
                             <div class="grid-item__content-wrapper">
                                 <div class="ps-shoe mb-30">
-                                    <div class="ps-shoe__thumbnail">
-                                        {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                        {{-- <div class="ps-badge ps-badge--sale"><span>-{{ number_format($product->coupons->discount_percent) }}%</span></div> --}}
+                                   <div class="ps-shoe__thumbnail">
+                                        @foreach($product->coupons as $coupon)
+                                            @if($coupon->discount_percent != null)
+                                            <div class="ps-badge ps-badge--sale">
+                                                <span>-{{ $coupon->discount_percent }}%</span>
+                                            </div>
+                                            @else
+                                            <div class="ps-badge">
+                                                <span>{{''}}</span>
+                                            </div>
+                                            @endif
+                                        @endforeach
                                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                         <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                                         <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>

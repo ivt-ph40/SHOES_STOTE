@@ -48,7 +48,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('images','product_details', 'brand')->find($id);
+        $product = Product::with('images','product_details', 'brand', 'coupons')->find($id);
         $relatedItems = Product::with('images','category','coupons')
                             ->whereNotIn('products.id', [$id])
                             ->get();

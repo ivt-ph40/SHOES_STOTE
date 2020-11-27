@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         // DB::enableQueryLog();
-        $allProducts = Product::with('images')
+        $allProducts = Product::with('images','coupons')
                         ->orderBy('id', 'ASC')
                         ->take(8)
                         ->get();
