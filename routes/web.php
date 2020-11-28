@@ -72,3 +72,39 @@ Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-fo
 //Contact submit
 Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
+//Admin 
+Route::get('/admins', function(){
+    return view('admins.home');
+})->name('home.admins');
+
+//Admin category
+Route::get('/categories', 'CategoryController@index')->name('categories.list');
+//Admin create Category
+Route::get('/categories/create', 'CategoryController@create')->name('categories.create');
+//Admin store Category
+Route::post('/categories', 'CategoryController@store')->name('categories.store');
+//Admin Delete Category 
+Route::Delete('/categories/{id}', 'CategoryController@destroy')->name('categories.destroy');
+//Admin Show edit form Category
+Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
+
+//Admin update Category
+Route::put('/categories/{id}', 'CategoryController@update')->name('categories.update');
+
+
+//Admin brand
+Route::get('/brands', 'BrandController@index')->name('brands.list');
+//Admin create brand
+Route::get('/brands/create', 'BrandController@create')->name('brands.create');
+//Admin store brand
+Route::post('/brands', 'BrandController@store')->name('brands.store');
+//Admin Delete brands 
+Route::Delete('/brands/{id}', 'BrandController@destroy')->name('brands.destroy');
+//Admin Show edit form Category
+Route::get('/brands/{id}/edit', 'BrandController@edit')->name('brands.edit');
+
+//Admin update brand
+Route::put('/brands/{id}', 'BrandController@update')->name('brands.update');
+
+//Admin product
+Route::get('/products', 'ProductAdminController@index')->name('products.list');

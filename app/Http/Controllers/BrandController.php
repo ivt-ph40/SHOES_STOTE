@@ -14,7 +14,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands = Brand::all();
+        return view('brands.list',compact('brands'));
     }
 
     /**
@@ -24,7 +25,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('brands.create');
     }
 
     /**
@@ -35,7 +36,9 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        Brand::create($data);
+        return redirect()->route('brands.list');
     }
 
     /**
@@ -55,9 +58,10 @@ class BrandController extends Controller
      * @param  \App\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function edit(Brand $brand)
+    public function edit($id)
     {
-        //
+        $brands = Brand::find($id);
+        return view('brands.edit', compact('brands'));
     }
 
     /**
@@ -67,9 +71,11 @@ class BrandController extends Controller
      * @param  \App\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token', '_method');
+        Brand::find($id)->update($data);
+        return Redirect() -> route('brands.list')->with('message', 'Update User Success !');//cau event hien thi sau khi update
     }
 
     /**
@@ -78,8 +84,10 @@ class BrandController extends Controller
      * @param  \App\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Brand $brand)
+    public function destroy($id)
     {
-        //
+        $brands = Brand::find($id);
+        $brands->delete();
+        return Redirect() -> route('brands.list')->with('message', 'Delete User Success !');
     }
 }
