@@ -30,12 +30,13 @@ Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-fo
 Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Show cart
-Route::get('/cart', function(){
-    return view('users.cart');
-})->name('show-cart');
+// Route::get('/cart', function(){
+//     return view('users.cart');
+// })->name('show-cart');
+Route::get('/cart', 'CartController@showCart')->name('show-cart');
 
-//Add cart
-Route::get('/add-cart/{id}', 'ProductController@addToCart')->name('add-cart');
+//Add to cart
+Route::post('/cart', 'CartController@cart')->name('add-cart');
 
 //Show list of products
 Route::get('/product-list', function(){

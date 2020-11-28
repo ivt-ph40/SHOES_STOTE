@@ -34,6 +34,10 @@
         border-bottom: none !important;
         margin: 5px 0 !important;
     }
+    #add-cart-btn{
+        background: none;
+        border: none;
+    }
     #footer-area{
         text-align: left;
     }
@@ -192,43 +196,49 @@
                     </div>
 
                     <div class="ps-product__info">
-                        <div class="ps-product__rating">
-                            <select class="ps-rating">
-                                <option value="1">1</option>
-                                <option value="1">2</option>
-                                <option value="1">3</option>
-                                <option value="1">4</option>
-                                <option value="2">5</option>
-                            </select>
-                        </div>
-                        <h1 name="product_name">{{ $product->product_name }}</h1>
-                        <h3 class="ps-product__price" name="price">{{ number_format($product->price) }} đ</h3>
-                        <div id="sale-percent">
-                            @if(isset($product->coupons[0]))
-                                <span class="ps-badge--sale">-{{ $product->coupons[0]->discount_percent }}%</span>
-                            @else
-                                <span>{{''}}</span>
-                            @endif
-                        </div>
-                        <div class="ps-product__block ps-product__quickview">
-                            <h4 class="product-info" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
-                            <h4 class="product-info" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
-                            <h4 class="product-info" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
-                        </div>
-                        <div class="ps-product__block ps-product__size">
-                            <h4>CHOOSE SIZE</h4>
-                            <select class="ps-select selectpicker">
-                                @foreach($product->product_details as $item)
-                                    <option value="{{ $item->size }}" name="size">{{ $item->size }}</option>
-                                @endforeach
-                            </select>
-                            <div class="form-group">
-                                <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
+                        <form action={{ route('add-cart')}} method="POST">
+                            @csrf
+                            <div class="ps-product__rating">
+                                <select class="ps-rating">
+                                    <option value="1">1</option>
+                                    <option value="1">2</option>
+                                    <option value="1">3</option>
+                                    <option value="1">4</option>
+                                    <option value="2">5</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('add-cart', $product->id) }}">Add to cart<i class="ps-icon-next"></i></a>
-                            <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
-                        </div>
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <h1>{{ $product->product_name }}</h1>
+                            <h3 class="ps-product__price">{{ number_format($product->price) }} đ</h3>
+                            <div id="sale-percent">
+                                @if(isset($product->coupons[0]))
+                                    <span class="ps-badge--sale">-{{ $product->coupons[0]->discount_percent }}%</span>
+                                @else
+                                    <span>{{''}}</span>
+                                @endif
+                            </div>
+                            <div class="ps-product__block ps-product__quickview">
+                                <h4 class="product-info">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
+                                <h4 class="product-info">CODE: <span>{{ $product->product_code }}</span></h4>
+                                <h4 class="product-info">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
+                            </div>
+                            <div class="ps-product__block ps-product__size">
+                                <h4>CHOOSE SIZE</h4>
+                                <select name="size" class="ps-select selectpicker">
+                                    @foreach($product->product_details as $item)
+                                        <option value="{{ $item->size }}">{{ $item->size }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="form-group">
+                                    <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
+                                </div>
+                            </div>
+                            <div class="ps-product__shopping">
+                                {{-- <a class="ps-btn mb-10" href="{{ route('add-cart') }}">Add to cart<i class="ps-icon-next"></i></a> --}}
+                                <button id="add-cart-btn" type="submit"><span class="ps-btn mb-10">Add to cart<i class="ps-icon-next"></i></span></button>
+                                <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="clearfix"></div>
