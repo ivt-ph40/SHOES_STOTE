@@ -84,12 +84,71 @@ class CartController extends Controller
     {
         //
     }
-    public function showCart(){
+    public function showCart(Request $request){
+        // Cart::destroy();
+        $product_id = $request->get('product_id');
+        if ($product_id && $request->get('increment')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                // dd($cartItem);
+                return $cartItem->id == $product_id;
+            });
+            // dd($rowId->first()->rowId);
+            $item = Cart::get($rowId->first()->rowId);
+            // dd($item);
+            $add = $item->qty+1;
+            Cart::update($rowId->first()->rowId, $add);
+            // dd(Cart::content());
+        }
+        if ($product_id && $request->get('decrease')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            });
+            $item = Cart::get($rowId->first()->rowId);
+            $sub = $item->qty-1;
+            Cart::update($rowId->first()->rowId, $sub);
+        }
+        if ($product_id && $request->get('remove')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            });
+            Cart::remove($rowId->first()->rowId);
+        }
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
         return view('users.cart', compact('cart', 'totalAmount'));
     }
-    public function cart(Request $request) {
+
+    public function showCartAjax(Request $request){
+        $product_id = $request->get('product_id');
+        if ($product_id && $request->get('increment')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            });
+            $item = Cart::get($rowId->first()->rowId);
+            $add = $item->qty+1;
+            Cart::update($rowId->first()->rowId, $add);
+        }
+        if ($product_id && $request->get('decrease')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            });
+            $item = Cart::get($rowId->first()->rowId);
+            $sub = $item->qty-1;
+            Cart::update($rowId->first()->rowId, $sub);
+        }
+        if ($product_id && $request->get('remove')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            });
+            Cart::remove($rowId->first()->rowId);
+        }
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
+        return response()->json(['cart' => $cart, 'totalAmount'=>$totalAmount], 200);
+    }
+
+
+    public function addCart(Request $request) {
         if ($request->isMethod('post')) {
             $product_id = $request->get('product_id');
             $product = Product::with('product_details','brand')->find($product_id);
@@ -108,24 +167,6 @@ class CartController extends Controller
                             'subTotal' => $request->quantity * $product['price'],
                         ],
             ]);
-        }
-        $product_id = $request->get('product_id');
-        if ($product_id && ($request->get('increment')) == 1) {
-            $rowId = Cart::search(array('id' => $product_id));
-            $item = Cart::get($rowId[0]);
-            $add = $item->qty+1;
-            Cart::update($rowId[0], $add);
-        }
-        if ($product_id && ($request->get('decrease')) == 1) {
-            $rowId = Cart::search(array('id' => $product_id));
-            $item = Cart::get($rowId[0]);
-            $sub = $item->qty-1;
-            Cart::update($rowId[0], $sub);
-        }
-        if ($product_id && ($request->get('remove')) == 1) {
-            $rowId = Cart::search(array('id' => $product_id));
-
-            Cart::remove($rowId[0]);
         }
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();

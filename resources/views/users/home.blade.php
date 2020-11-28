@@ -69,7 +69,7 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
                                         <li><a href="product-listing.html">Lifestyle</a></li>
                                         <li><a href="product-listing.html">Running</a></li>
                                         <li><a href="product-listing.html">Training</a></li>
@@ -99,7 +99,7 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
                                         <li><a href="product-listing.html">Lifestyle</a></li>
                                         <li><a href="product-listing.html">Running</a></li>
                                         <li><a href="product-listing.html">Training</a></li>
@@ -195,7 +195,7 @@
                                         @foreach($product->coupons as $coupon)
                                             @if($coupon->discount_percent != null)
                                             <div class="ps-badge ps-badge--sale">
-                                                <span>-{{ $coupon->discount_percent }}%</span>
+                                                <span>-{{ number_format($coupon->discount_percent) }}%</span>
                                             </div>
                                             @else
                                             <div class="ps-badge">

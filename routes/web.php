@@ -30,13 +30,17 @@ Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-fo
 Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Show cart
-// Route::get('/cart', function(){
-//     return view('users.cart');
-// })->name('show-cart');
 Route::get('/cart', 'CartController@showCart')->name('show-cart');
+Route::get('/cartAjax', 'CartController@showCartAjax');
 
 //Add to cart
-Route::post('/cart', 'CartController@cart')->name('add-cart');
+Route::post('/cart', 'CartController@addCart')->name('add-cart');
+
+//Show all men shoes
+Route::get('/all-men-shoes', 'ProductController@showAllMenShoes')->name('all-men-shoes-list');
+
+//Show all women shoes
+Route::get('/all-women-shoes', 'ProductController@showAllWomenShoes')->name('all-women-shoes-list');
 
 //Show list of products
 Route::get('/product-list', function(){

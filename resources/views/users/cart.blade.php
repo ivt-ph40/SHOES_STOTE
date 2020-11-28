@@ -149,36 +149,39 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($cart as $item)
-                        <tr>
-                            <td>
-                                <a class="ps-product__preview" href="product-detail.html">
-                                    <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
-                                    {{ $item->name }}
-                                </a>
-                            </td>
-                            <td>{{ $item->options->brand }}</td>
-                            <td>{{ $item->options->size }}</td>
-                            <td>{{ $item->options->color }}</td>
-                            <td>{{ number_format($item->price) }} đ</td>
-                            <td>
-                                <div class="form-group--number">
-                                    {{-- <button class="minus"><span>-</span></button>
-                                    <input class="form-control" type="text" value="{{ $item->qty }}">
-                                    <button class="plus"><span>+</span></button> --}}
-                                    <button class="minus"><a class="cart_quantity_down" href='{{ url("cart?product_id=$item->id&decrease=1") }}'> - </a></button>
-                                    <input class="form-control" type="text" value="{{ $item->qty }}">
-                                    <button class="plus"><a class="cart_quantity_up" href='{{ url("cart?product_id=$item->id&increment=1") }}'> + </a></button>
-                                </div>
-                            </td>
-                            <td>{{ number_format($item->options->subTotal) }}đ</td>
-                            <td>
-                                <div><a class="ps-remove" href='{{ url("cart?product_id=$item->id&remove=1") }}'></a></div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+                    <div id="shopping-cart-tbl">
+                        <tbody>
+                            @foreach($cart as $item)
+                            <tr>
+                                <td>
+                                    <a class="ps-product__preview" href="product-detail.html">
+                                        <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
+                                        {{ $item->name }}
+                                    </a>
+                                </td>
+                                <td>{{ $item->options->brand }}</td>
+                                <td>{{ $item->options->size }}</td>
+                                <td>{{ $item->options->color }}</td>
+                                <td>{{ number_format($item->price) }} đ</td>
+                                <td>
+                                    <div class="form-group--number">
+                                        {{-- <button class="minus"><span>-</span></button>
+                                        <input class="form-control" type="text" value="{{ $item->qty }}">
+                                        <button class="plus"><span>+</span></button> --}}
+                                        <button class="minus"><a class="cart_quantity_down" data-route='{{ url("cartAjax?product_id=$item->id&decrease=1") }}'> - </a></button>
+                                        <input class="form-control" class="cart_quantity_input" type="text" value="{{ $item->qty }}">
+                                        <button class="plus"><a class="cart_quantity_up" data-route='{{ url("cartAjax?product_id=$item->id&increment=1") }}'> + </a></button>
+                                    </div>
+                                </td>
+                                <td>{{ number_format($item->options->subTotal) }}đ</td>
+                                <td>
+                                    <div><a class="ps-remove" href='{{ url("cart?product_id=$item->id&remove=1") }}'></a></div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </div>
+
                 </table>
 
                 <div class="ps-cart__actions">
@@ -252,5 +255,31 @@
         </div>
     </div>
 </main>
+<script>
+    function updateQty(url){
+        var $qty = $('.cart_quantity_input');
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            data: {
+                cart_qty: $qty.val()
+            },
+            success:function(data){
+                console.log(data);
+                // $qty.val(data.qty);
+            }
+        });
+    }
+
+    $('.cart_quantity_up, .cart_quantity_down').on('click', function(e) {
+        e.preventDefault();
+        //get the data-route for the 'up'
+        var url = $(this).data('route');
+        //call the ajax function
+        updateQty(url);
+    });
+</script>
 @endsection
+
 
