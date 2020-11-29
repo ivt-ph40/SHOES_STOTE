@@ -21,8 +21,21 @@
     #product-name{
         max-width: 200px;
     }
-    #product-code, #product-color{
+    #sale-percent{
+        margin: 15px 0 !important;
+        line-height: 30px;
+    }
+    #sale-percent h3{
+        font-weight: bold;
+        max-width: 150px;
+    }
+    .product-info{
         border-bottom: none !important;
+        margin: 5px 0 !important;
+    }
+    #add-cart-btn{
+        background: none;
+        border: none;
     }
     #footer-area{
         text-align: left;
@@ -68,18 +81,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -98,18 +111,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -160,7 +173,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto">
+                            <a class="popup-youtube ps-product__video" href="https://www.youtube.com/watch?v=LBukoM3CLic">
                             <img name="image" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
                         </div>
                         <div class="ps-product__image">
@@ -182,36 +195,49 @@
                     </div>
 
                     <div class="ps-product__info">
-                        <div class="ps-product__rating">
-                            <select class="ps-rating">
-                                <option value="1">1</option>
-                                <option value="1">2</option>
-                                <option value="1">3</option>
-                                <option value="1">4</option>
-                                <option value="2">5</option>
-                            </select>
-                        </div>
-                        <h1 name="product_name">{{ $product->product_name }}</h1>
-                        <h3 class="ps-product__price" name="price">{{ number_format($product->price) }} đ</h3>
-                        <div class="ps-product__block ps-product__quickview">
-                            <h4 id="product-code" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
-                            <h4 id="product-code" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
-                            <h4 id="product-color" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
-                        </div>
-                        <div class="ps-product__block ps-product__size">
-                            <h4>CHOOSE SIZE</h4>
-                            <select class="ps-select selectpicker">
-                                @foreach($product->product_details as $item)
-                                    <option value="{{ $item->size }}" name="size">{{ $item->size }}</option>
-                                @endforeach
-                            </select>
-                            <div class="form-group">
-                                <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
+                        <form action={{ route('add-cart')}} method="POST">
+                            @csrf
+                            <div class="ps-product__rating">
+                                <select class="ps-rating">
+                                    <option value="1">1</option>
+                                    <option value="1">2</option>
+                                    <option value="1">3</option>
+                                    <option value="1">4</option>
+                                    <option value="2">5</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('add-cart', $product->id) }}">Add to cart<i class="ps-icon-next"></i></a>
-                            <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
-                        </div>
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <h1>{{ $product->product_name }}</h1>
+                            <div id="sale-percent">
+                                @if(isset($product->discount_percent))
+                                    <del><h4>{{ number_format($product->price) }}đ</h4></del>
+                                    <h3 class="ps-product__price">{{ number_format($product->price - (($product->discount_percent * $product->price)/100)) }}đ</h3>
+                                @else
+                                    <h3 class="ps-product__price">{{ number_format($product->price) }}đ</h3>
+                                    <h3>{{''}}</h3>
+                                @endif
+                            </div>
+                            <div class="ps-product__block ps-product__quickview">
+                                <h4 class="product-info">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
+                                <h4 class="product-info">CODE: <span>{{ $product->product_code }}</span></h4>
+                                <h4 class="product-info">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
+                            </div>
+                            <div class="ps-product__block ps-product__size">
+                                <h4>CHOOSE SIZE</h4>
+                                <select name="size" class="ps-select selectpicker">
+                                    @foreach($product->product_details as $item)
+                                        <option value="{{ $item->size }}">{{ $item->size }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="form-group">
+                                    <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
+                                </div>
+                            </div>
+                            <div class="ps-product__shopping">
+                                <button id="add-cart-btn" type="submit"><span class="ps-btn mb-10">Add to cart<i class="ps-icon-next"></i></span></button>
+                                <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                            </div>
+                        </form>
                     </div>
 
                     <div class="clearfix"></div>
@@ -305,8 +331,15 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge"><span>New</span></div>
-                                <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div>
+                                @if($item->discount_percent != null)
+                                <div class="ps-badge ps-badge--sale">
+                                    <span>-{{ $item->discount_percent }}%</span>
+                                </div>
+                                @else
+                                <div>
+                                    <span>{{''}}</span>
+                                </div>
+                                @endif
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$item->images[0]->image_name .'') }}">
                                 <a class="ps-shoe__overlay" href="{{ route('product-detail', $item->id) }}"></a>
@@ -328,7 +361,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $item->id) }}">{{ $item->product_name }}</a></p>
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span></p>
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }}đ</span></p>
                                 </div>
                             </div>
                         </div>

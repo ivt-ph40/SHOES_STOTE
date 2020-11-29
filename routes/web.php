@@ -30,22 +30,68 @@ Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-fo
 Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Show cart
-Route::get('/cart', function(){
-    return view('users.cart');
-})->name('show-cart');
+Route::get('/cart', 'CartController@showCart')->name('show-cart');
+Route::get('/cartAjax', 'CartController@showCartAjax');
+Route::post('/cart/update/quantity', 'CartController@updateQuantity')->name('cart.update.quantity');
 
-//Add cart
-Route::get('/add-cart/{id}', 'ProductController@addToCart')->name('add-cart');
+//Add to cart
+Route::post('/cart', 'CartController@addCart')->name('add-cart');
+
+//Show order info
+Route::get('/checkout', 'OrderController@showOrderInfo')->name('checkout');
+
+//Submit order
+Route::post('/place-order','OrderController@submitOrder')->name('submit-order');
+
+//Remove cart
+Route::get('/cart_remove', 'CartController@cart_remove')->name('cart_remove');
+
+//Show all men shoes
+Route::get('/all-men-shoes', 'ProductController@showAllMenShoes')->name('all-men-shoes-list');
+
+//Show lifestyle shoes of men
+Route::get('/lifestyle-men-shoes', 'ProductController@showLifestyleMenShoes')->name('lifestyle-men-shoes-list');
+
+//Show running shoes of men
+Route::get('/running-men-shoes', 'ProductController@showRunningMenShoes')->name('running-men-shoes-list');
+
+//Show training shoes of men
+Route::get('/training-men-shoes', 'ProductController@showTrainingMenShoes')->name('training-men-shoes-list');
+
+//Show football shoes of men
+Route::get('/football-men-shoes', 'ProductController@showFootballMenShoes')->name('football-men-shoes-list');
+
+//Show Nike's men shoes
+Route::get('/Nike-men-shoes', 'ProductController@showNikeMenShoes')->name('Nike-men-shoes-list');
+
+//Show Adidas's men shoes
+Route::get('/Adidas-men-shoes', 'ProductController@showAdidasMenShoes')->name('Adidas-men-shoes-list');
+
+//Show all women shoes
+Route::get('/all-women-shoes', 'ProductController@showAllWomenShoes')->name('all-women-shoes-list');
+
+//Show lifestyle shoes of women
+Route::get('/lifestyle-women-shoes', 'ProductController@showLifestyleWomenShoes')->name('lifestyle-women-shoes-list');
+
+//Show running shoes of women
+Route::get('/running-women-shoes', 'ProductController@showRunningWomenShoes')->name('running-women-shoes-list');
+
+//Show training shoes of women
+Route::get('/training-women-shoes', 'ProductController@showTrainingWomenShoes')->name('training-women-shoes-list');
+
+//Show football shoes of women
+Route::get('/football-women-shoes', 'ProductController@showFootballWomenShoes')->name('football-women-shoes-list');
+
+//Show Nike's women shoes
+Route::get('/Nike-women-shoes', 'ProductController@showNikeWomenShoes')->name('Nike-women-shoes-list');
+
+//Show Adidas's women shoes
+Route::get('/Adidas-women-shoes', 'ProductController@showAdidasWomenShoes')->name('Adidas-women-shoes-list');
 
 //Show list of products
 Route::get('/product-list', function(){
     return view('users.product-listing');
 })->name('product-list');
-
-//Show order detail
-Route::get('/checkout', function(){
-    return view('users.checkout');
-})->name('checkout');
 
 //Show favorite product list
 Route::get('/wishlist', function(){

@@ -21,8 +21,8 @@ class HomeController extends Controller
                         ->take(8)
                         ->get();
 
-        $saleProducts = Product::with('images','coupons')
-                        ->whereHas('coupons')
+        $saleProducts = Product::with('images')
+                        ->where('products.discount_percent', '<>', '0')
                         ->orderBy('id', 'ASC')
                         ->get();
         // dd(DB::getQueryLog());

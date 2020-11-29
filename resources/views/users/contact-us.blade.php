@@ -54,18 +54,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -84,18 +84,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
