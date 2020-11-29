@@ -65,18 +65,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -95,18 +95,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                 <div class="ps-product__column">
                     <div class="ps-shoe mb-30">
                         <div class="ps-shoe__thumbnail">
-                             @foreach($product->coupons as $coupon)
+                             {{-- @foreach($product->coupons as $coupon)
                                  @if($coupon->discount_percent != null)
                                  <div class="ps-badge ps-badge--sale">
                                      <span>-{{ $coupon->discount_percent }}%</span>
@@ -174,7 +174,7 @@
                                      <span>{{''}}</span>
                                  </div>
                                  @endif
-                             @endforeach
+                             @endforeach --}}
                              <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                              <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                              <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
@@ -201,28 +201,6 @@
                              </div>
                          </div>
                      </div>
-                    {{-- <div class="ps-shoe mb-30">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="ps-badge"><span>New</span></div>
-                            <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div><a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a><img src="images/shoe/1.jpg" alt=""><a class="ps-shoe__overlay" href="product-detail.html"></a>
-                            </div>
-                            <div class="ps-shoe__content">
-                                <div class="ps-shoe__variants">
-                                    <div class="ps-shoe__variant normal"><img src="images/shoe/2.jpg" alt=""><img src="images/shoe/3.jpg" alt=""><img src="images/shoe/4.jpg" alt=""><img src="images/shoe/5.jpg" alt=""></div>
-                                    <select class="ps-rating ps-shoe__rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="2">5</option>
-                                    </select>
-                                </div>
-                            <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">Air Jordan 7 Retro</a>
-                                <p class="ps-shoe__categories"><a href="#">Men shoes</a>,<a href="#"> Nike</a>,<a href="#"> Jordan</a></p><span class="ps-shoe__price">
-                                <del>£220</del> £ 120</span>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
                 @endforeach
             </div>

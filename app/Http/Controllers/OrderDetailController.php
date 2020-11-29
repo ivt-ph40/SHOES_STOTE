@@ -82,4 +82,5 @@ class OrderDetailController extends Controller
     {
         //
     }
+
 }

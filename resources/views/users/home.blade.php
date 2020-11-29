@@ -70,17 +70,17 @@
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
                                         <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -100,17 +100,17 @@
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
                                         <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -192,17 +192,15 @@
                             <div class="grid-item__content-wrapper">
                                 <div class="ps-shoe mb-30">
                                    <div class="ps-shoe__thumbnail">
-                                        @foreach($product->coupons as $coupon)
-                                            @if($coupon->discount_percent != null)
-                                            <div class="ps-badge ps-badge--sale">
-                                                <span>-{{ number_format($coupon->discount_percent) }}%</span>
-                                            </div>
-                                            @else
-                                            <div class="ps-badge">
-                                                <span>{{''}}</span>
-                                            </div>
-                                            @endif
-                                        @endforeach
+                                        @if($product->discount_percent != 0)
+                                        <div class="ps-badge ps-badge--sale">
+                                            <span>-{{ number_format($product->discount_percent) }}%</span>
+                                        </div>
+                                        @else
+                                        <div>
+                                            <span>{{''}}</span>
+                                        </div>
+                                        @endif
                                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                         <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                                         <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
@@ -225,7 +223,7 @@
 
                                         <div class="ps-shoe__detail">
                                             <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
-                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
                                         </div>
                                     </div>
                                 </div>
@@ -263,7 +261,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge ps-badge--sale"><span>-{{ number_format($product->coupons[0]->discount_percent) }}%</span></div>
+                                <div class="ps-badge ps-badge--sale"><span>-{{ number_format($product->discount_percent) }}%</span></div>
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                                 <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
@@ -285,7 +283,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
                                 </div>
                             </div>
                         </div>

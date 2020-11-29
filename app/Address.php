@@ -24,4 +24,5 @@ class Address extends Model
     public function orders(){
         return $this->hasMany('App\Order');
     }
+
 }

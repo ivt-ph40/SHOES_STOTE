@@ -61,18 +61,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -91,18 +91,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -135,67 +135,81 @@
 <main class="ps-main">
     <div class="ps-content pt-80 pb-80">
         <div class="ps-container">
+            @if(session()->has('message'))
+                <div class="alert alert-success" role="alert">
+                {{session()->get('message')}}
+                </div>
+            @endif
             <div class="ps-cart-listing">
-                <table class="table ps-cart__table">
-                    <thead>
-                        <tr>
-                            <th>All Products</th>
-                            <th>Brand</th>
-                            <th>Size</th>
-                            <th>Color</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <div id="shopping-cart-tbl">
-                        <tbody>
-                            @foreach($cart as $item)
+                    <table class="table ps-cart__table">
+                        <thead>
                             <tr>
-                                <td>
-                                    <a class="ps-product__preview" href="product-detail.html">
-                                        <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
-                                        {{ $item->name }}
-                                    </a>
-                                </td>
-                                <td>{{ $item->options->brand }}</td>
-                                <td>{{ $item->options->size }}</td>
-                                <td>{{ $item->options->color }}</td>
-                                <td>{{ number_format($item->price) }} đ</td>
-                                <td>
-                                    <div class="form-group--number">
-                                        {{-- <button class="minus"><span>-</span></button>
-                                        <input class="form-control" type="text" value="{{ $item->qty }}">
-                                        <button class="plus"><span>+</span></button> --}}
-                                        <button class="minus"><a class="cart_quantity_down" data-route='{{ url("cartAjax?product_id=$item->id&decrease=1") }}'> - </a></button>
-                                        <input class="form-control" class="cart_quantity_input" type="text" value="{{ $item->qty }}">
-                                        <button class="plus"><a class="cart_quantity_up" data-route='{{ url("cartAjax?product_id=$item->id&increment=1") }}'> + </a></button>
-                                    </div>
-                                </td>
-                                <td>{{ number_format($item->options->subTotal) }}đ</td>
-                                <td>
-                                    <div><a class="ps-remove" href='{{ url("cart?product_id=$item->id&remove=1") }}'></a></div>
-                                </td>
+                                <th>All Products</th>
+                                <th>Size</th>
+                                <th>Color</th>
+                                <th>Price</th>
+                                <th>Discount Amount</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
                             </tr>
-                            @endforeach
-                        </tbody>
-                    </div>
+                        </thead>
+                            <tbody>
+                                @foreach($cart as $item)
+                                <tr>
+                                    <td>
+                                        <a class="ps-product__preview" href="product-detail.html">
+                                            <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
+                                            {{ $item->name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $item->options->size }}</td>
+                                    <td>{{ $item->options->color }}</td>
+                                    <td><span name="price">{{ number_format($item->price) }}đ</span></td>
+                                    <td>
+                                        @if($item->options->discountAmount != null)
+                                            <span name="discountAmount">{{ number_format($item->options->discountAmount) }}đ</span>
+                                        @else
+                                            <span>{{0}}đ</span>
+                                        @endif
+                                    </td>
 
-                </table>
+                                    <td>
+                                        <div class="form-group--number">
+                                            <button class="minus" type="button" onclick="updateQuantity(this)" data-action="minus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
+                                                <span > - </span>
+                                            </button>
+                                            <input name="qty-{{$item->rowId}}" class="form-control" type="text" value="{{ $item->qty }}">
+                                            <button class="plus" type="button" onclick="updateQuantity(this)" data-action="plus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
+                                                <span> + </span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span id="subTotal-{{ $item->rowId }}">
+                                            {{ number_format($item->options->subTotal) }}đ
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div><a class="ps-remove" href='{{ url("cart?product_id=$item->id&remove=1") }}'></a></div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                    </table>
 
-                <div class="ps-cart__actions">
-                    <div class="ps-cart__promotion">
-                        <div class="form-group">
-                            <a href='{{ route('home') }}'><button class="ps-btn ps-btn--gray">Continue Shopping</button></a>
+                    <div class="ps-cart__actions">
+                        <div class="ps-cart__promotion">
+                            <div class="form-group">
+                                <a href='{{ route('home') }}'><button class="ps-btn ps-btn--gray">Continue Shopping</button></a>
+                            </div>
+                        </div>
+
+                        <div class="ps-cart__total">
+                            <h3>Total Amount: <span id="total">{{ $totalAmount }}đ</span></h3>
+                            <a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
                         </div>
                     </div>
-
-                    <div class="ps-cart__total">
-                        <h3>Total Price: <span id="total">{{ $totalAmount }} đ</span></h3>
-                        <a class="ps-btn" href="checkout.html">Process to checkout<i class="ps-icon-next"></i></a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -256,30 +270,74 @@
     </div>
 </main>
 <script>
-    function updateQty(url){
-        var $qty = $('.cart_quantity_input');
+    // function updateQty(url){
+    //     var $qty = $('.cart_quantity_input');
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: url,
+    //         dataType: 'json',
+    //         data: {
+    //             cart_qty: $qty.val()
+    //         },
+    //         success:function(data){
+    //             console.log(data);
+    //             // $qty.val(data.qty);
+    //         }
+    //     });
+    // }
+
+    // $('.cart_quantity_up, .cart_quantity_down').on('click', function(e) {
+    //     e.preventDefault();
+    //     //get the data-route for the 'up'
+    //     var url = $(this).data('route');
+    //     //call the ajax function
+    //     updateQty(url);
+    // });
+
+
+    function updateQuantity(event)
+    {
+        // get params
+        var rowId = $(event).data('row-id');
+        var qty =   $('input[name=qty-' + rowId + ']').val();
+        var action = $(event).data('action');
+
+        //validation
+        if(qty <=1 && action === 'minus')
+        {
+            return false;
+        }
+
+        // make params
+        var formData = {
+            '_token'   : '{{ csrf_token() }}',
+            'row_id'   :  rowId,
+            'qty'      :  Number(qty),
+
+            'action'   :  action
+        };
+
+        // process the form
         $.ajax({
-            type: 'GET',
-            url: url,
-            dataType: 'json',
-            data: {
-                cart_qty: $qty.val()
-            },
-            success:function(data){
-                console.log(data);
-                // $qty.val(data.qty);
+            type        : 'POST',
+            url         : '{{route("cart.update.quantity")}}',
+            data        : formData,
+            dataType    : 'json',
+            encode          : true
+        })
+        .done(function(data) {
+            if(data.status) {
+                $('input[name=qty-' + rowId + ']').val(data.qty);
+                $("#subTotal-" + rowId).text(data.subTotal + 'đ') ;
+                $("#total").text(data.total + 'đ');
+
+            } else {
+                alert(data.message);
             }
         });
-    }
 
-    $('.cart_quantity_up, .cart_quantity_down').on('click', function(e) {
-        e.preventDefault();
-        //get the data-route for the 'up'
-        var url = $(this).data('route');
-        //call the ajax function
-        updateQty(url);
-    });
+        // Almost done!
+    }
 </script>
 @endsection
-
 

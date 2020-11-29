@@ -35,10 +35,6 @@ class Product extends Model
         return $this->hasMany('App\Rating');
     }
 
-    public function coupons(){
-        return $this->belongsToMany('App\Coupon');
-    }
-
     public function product_details(){
         return $this->hasMany('App\ProductDetail');
     }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Cart;
 use App\Product;
-// use Request;
+use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 
 class CartController extends Controller
 {
@@ -85,19 +84,14 @@ class CartController extends Controller
         //
     }
     public function showCart(Request $request){
-        // Cart::destroy();
         $product_id = $request->get('product_id');
         if ($product_id && $request->get('increment')) {
             $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                // dd($cartItem);
                 return $cartItem->id == $product_id;
             });
-            // dd($rowId->first()->rowId);
             $item = Cart::get($rowId->first()->rowId);
-            // dd($item);
             $add = $item->qty+1;
             Cart::update($rowId->first()->rowId, $add);
-            // dd(Cart::content());
         }
         if ($product_id && $request->get('decrease')) {
             $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
@@ -152,6 +146,7 @@ class CartController extends Controller
         if ($request->isMethod('post')) {
             $product_id = $request->get('product_id');
             $product = Product::with('product_details','brand')->find($product_id);
+            $discountAmount = ($product['discount_percent'] * $product['price'])/100;
             Cart::add(
                 ['id' => $product['id'],
                 'name' => $product['product_name'],
@@ -161,10 +156,10 @@ class CartController extends Controller
                 'options' => [
                             'image' => $product->images[0]['image_name'],
                             'code' => $product['product_code'],
-                            'brand' => $product->brand['brand_name'],
                             'color' => $product->product_details[0]['color'],
                             'size' => $request->size,
-                            'subTotal' => $request->quantity * $product['price'],
+                            'discountAmount' => $discountAmount,
+                            'subTotal' => ($request->quantity * $product['price']) - $discountAmount,
                         ],
             ]);
         }
@@ -176,7 +171,7 @@ class CartController extends Controller
     public function cart_remove()
     {
         Cart::destroy();
-        return redirect()->route('show-cart');
+        return redirect()->away('cart')->with('message', 'Order Successfully!');
     }
 
 
@@ -184,5 +179,47 @@ class CartController extends Controller
     {
         $cart = Cart::content();
         return view('users.checkout');
+    }
+
+
+    public function updateQuantity(Request $request)
+    {
+        $rowId = $request->get('row_id');
+        $qty = $request->get('qty');
+        $action = $request->get('action');
+        $item = Cart::get($rowId);
+
+        $msg = 'No action';
+        $status = true;
+        $newQty = 0;
+        $newSubTotal = 0;
+
+        switch ($action) {
+            case 'plus':
+                $newQty = $qty + 1;
+                break;
+            case 'minus':
+                $newQty = $qty > 1 ? $qty - 1 : 1; // Keep min 1
+                break;
+            default:
+                $status = false;
+                throw new \Exception('Action is invalid');
+                break;
+        }
+
+        if ($status) {
+            $newSubTotal = $newQty * $item->price - $item->discountAmount;
+            // Cart::update($rowId, $newQty);
+            Cart::update($rowId, $newQty, ['options' => ['subTotal' => $newSubTotal]]);
+            $msg = 'Update is success';
+        }
+
+        return response()->json([
+            'message' => $msg,
+            'status' => $status,
+            'qty' => $newQty,
+            'subTotal' => number_format($newSubTotal),
+            'total' => Cart::priceTotal(2, '.', ',')
+        ]);
     }
 }
