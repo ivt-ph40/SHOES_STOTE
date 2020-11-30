@@ -84,9 +84,17 @@ class CartController extends Controller
         //
     }
     public function showCart(Request $request){
+        $product_id = $request->get('product_id');
+        if ($product_id && $request->get('remove')) {
+            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            });
+            Cart::remove($rowId->first()->rowId);
+        }
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
-        return view('users.cart', compact('cart', 'totalAmount'));
+        $cartCount = Cart::content()->count();
+        return view('users.cart', compact('cart', 'totalAmount', 'cartCount'));
     }
 
     public function addCart(Request $request) {
@@ -125,7 +133,8 @@ class CartController extends Controller
         }
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
-        return view('users.cart', compact('cart', 'totalAmount'));
+        $cartCount = Cart::content()->count();
+        return view('users.cart', compact('cart', 'totalAmount', 'cartCount'));
     }
 
     public function cart_remove()
@@ -138,7 +147,8 @@ class CartController extends Controller
     public function checkout()
     {
         $cart = Cart::content();
-        return view('users.checkout');
+        $cartCount = Cart::content()->count();
+        return view('users.checkout', compact('cartCount'));
     }
 
 

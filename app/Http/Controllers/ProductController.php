@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
-use DB;
+use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 
 class ProductController extends Controller
 {
@@ -47,11 +47,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $cartCount = Cart::content()->count();
         $product = Product::with('images','product_details', 'brand')->find($id);
         $relatedItems = Product::with('images','category')
                             ->whereNotIn('products.id', [$id])
                             ->get();
-        return view('users.product-detail', compact('product', 'relatedItems'));
+        return view('users.product-detail', compact('product', 'relatedItems', 'cartCount'));
     }
 
     /**
@@ -90,6 +91,7 @@ class ProductController extends Controller
 
     public function showAllMenShoes(){
         // DB::enableQueryLog();
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
@@ -97,100 +99,110 @@ class ProductController extends Controller
                             ->orderBy('products.id', 'ASC')
                             ->get();
         // dd(DB::getQueryLog());
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showAllWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showLifestyleMenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 3);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showLifestyleWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 4);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showRunningMenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 5);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showRunningWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 6);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showTrainingMenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 9);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showTrainingWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 10);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showFootballMenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 7);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showFootballWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 8);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showNikeMenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
@@ -200,10 +212,11 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showNikeWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
@@ -213,10 +226,11 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showAdidasMenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
@@ -226,10 +240,11 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 
     public function showAdidasWomenShoes(){
+        $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
@@ -239,6 +254,6 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        return view('users.product-listing', compact('products'));
+        return view('users.product-listing', compact('products', 'cartCount'));
     }
 }
