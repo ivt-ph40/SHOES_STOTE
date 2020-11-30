@@ -209,7 +209,7 @@
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <h1>{{ $product->product_name }}</h1>
                             <div id="sale-percent">
-                                @if(isset($product->discount_percent))
+                                @if($product->discount_percent != 0)
                                     <del><h4>{{ number_format($product->price) }}đ</h4></del>
                                     <h3 class="ps-product__price">{{ number_format($product->price - (($product->discount_percent * $product->price)/100)) }}đ</h3>
                                 @else
@@ -331,7 +331,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                @if($item->discount_percent != null)
+                                @if($item->discount_percent != 0)
                                 <div class="ps-badge ps-badge--sale">
                                     <span>-{{ $item->discount_percent }}%</span>
                                 </div>

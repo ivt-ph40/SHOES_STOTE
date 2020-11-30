@@ -164,20 +164,18 @@
                 <div class="ps-product__column">
                     <div class="ps-shoe mb-30">
                         <div class="ps-shoe__thumbnail">
-                             {{-- @foreach($product->coupons as $coupon)
-                                 @if($coupon->discount_percent != null)
-                                 <div class="ps-badge ps-badge--sale">
-                                     <span>-{{ $coupon->discount_percent }}%</span>
-                                 </div>
-                                 @else
-                                 <div class="ps-badge">
-                                     <span>{{''}}</span>
-                                 </div>
-                                 @endif
-                             @endforeach --}}
-                             <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                             <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
-                             <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
+                            @if($product->discount_percent != 0)
+                            <div class="ps-badge ps-badge--sale">
+                                <span>-{{ number_format($product->discount_percent) }}%</span>
+                            </div>
+                            @else
+                            <div>
+                                <span>{{''}}</span>
+                            </div>
+                            @endif
+                            <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                            <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
+                            <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
                          </div>
                          <div class="ps-shoe__content">
                              <div class="ps-shoe__variants">
@@ -353,28 +351,6 @@
                     </div>
                 </aside>
             </div>
-                <!--aside.ps-widget--sidebar-->
-                <!--    .ps-widget__header: h3 Ads Banner-->
-                <!--    .ps-widget__content-->
-                <!--        a(href='product-listing'): img(src="images/offer/sidebar.jpg" alt="")-->
-                <!---->
-                <!--aside.ps-widget--sidebar-->
-                <!--    .ps-widget__header: h3 Best Seller-->
-                <!--    .ps-widget__content-->
-                <!--        - for (var i = 0; i < 3; i ++)-->
-                <!--            .ps-shoe--sidebar-->
-                <!--                .ps-shoe__thumbnail-->
-                <!--                    a(href='#')-->
-                <!--                    img(src="images/shoe/sidebar/"+(i+1)+".jpg" alt="")-->
-                <!--                .ps-shoe__content-->
-                <!--                    if i == 1-->
-                <!--                        a(href='#').ps-shoe__title Nike Flight Bonafide-->
-                <!--                    else if i == 2-->
-                <!--                        a(href='#').ps-shoe__title Nike Sock Dart QS-->
-                <!--                    else-->
-                <!--                        a(href='#').ps-shoe__title Men's Sky-->
-                <!--                    p <del> £253.00</del> £152.00-->
-                <!--                    a(href='#').ps-btn PURCHASE-->
         </div>
     </div>
 
