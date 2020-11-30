@@ -148,7 +148,6 @@
                                 <th>Size</th>
                                 <th>Color</th>
                                 <th>Price</th>
-                                <th>Discount Amount</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
                                 <th></th>
@@ -166,14 +165,6 @@
                                     <td>{{ $item->options->size }}</td>
                                     <td>{{ $item->options->color }}</td>
                                     <td><span name="price">{{ number_format($item->price) }}đ</span></td>
-                                    <td>
-                                        @if($item->options->discountAmount != null)
-                                            <span name="discountAmount">{{ number_format($item->options->discountAmount) }}đ</span>
-                                        @else
-                                            <span>{{0}}đ</span>
-                                        @endif
-                                    </td>
-
                                     <td>
                                         <div class="form-group--number">
                                             <button class="minus" type="button" onclick="updateQuantity(this)" data-action="minus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">

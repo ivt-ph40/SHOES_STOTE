@@ -84,84 +84,44 @@ class CartController extends Controller
         //
     }
     public function showCart(Request $request){
-        $product_id = $request->get('product_id');
-        if ($product_id && $request->get('increment')) {
-            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                return $cartItem->id == $product_id;
-            });
-            $item = Cart::get($rowId->first()->rowId);
-            $add = $item->qty+1;
-            Cart::update($rowId->first()->rowId, $add);
-        }
-        if ($product_id && $request->get('decrease')) {
-            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                return $cartItem->id == $product_id;
-            });
-            $item = Cart::get($rowId->first()->rowId);
-            $sub = $item->qty-1;
-            Cart::update($rowId->first()->rowId, $sub);
-        }
-        if ($product_id && $request->get('remove')) {
-            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                return $cartItem->id == $product_id;
-            });
-            Cart::remove($rowId->first()->rowId);
-        }
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
         return view('users.cart', compact('cart', 'totalAmount'));
     }
 
-    public function showCartAjax(Request $request){
-        $product_id = $request->get('product_id');
-        if ($product_id && $request->get('increment')) {
-            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                return $cartItem->id == $product_id;
-            });
-            $item = Cart::get($rowId->first()->rowId);
-            $add = $item->qty+1;
-            Cart::update($rowId->first()->rowId, $add);
-        }
-        if ($product_id && $request->get('decrease')) {
-            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                return $cartItem->id == $product_id;
-            });
-            $item = Cart::get($rowId->first()->rowId);
-            $sub = $item->qty-1;
-            Cart::update($rowId->first()->rowId, $sub);
-        }
-        if ($product_id && $request->get('remove')) {
-            $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
-                return $cartItem->id == $product_id;
-            });
-            Cart::remove($rowId->first()->rowId);
-        }
-        $cart = Cart::content();
-        $totalAmount = Cart::priceTotal();
-        return response()->json(['cart' => $cart, 'totalAmount'=>$totalAmount], 200);
-    }
-
-
     public function addCart(Request $request) {
         if ($request->isMethod('post')) {
-            $product_id = $request->get('product_id');
+            $data = $request->all();
+            $product_id = $data['product_id'];
             $product = Product::with('product_details','brand')->find($product_id);
             $discountAmount = ($product['discount_percent'] * $product['price'])/100;
-            Cart::add(
-                ['id' => $product['id'],
-                'name' => $product['product_name'],
-                'qty' => $request->quantity,
-                'price' => $product['price'],
-                'weight' => '0',
-                'options' => [
-                            'image' => $product->images[0]['image_name'],
-                            'code' => $product['product_code'],
-                            'color' => $product->product_details[0]['color'],
-                            'size' => $request->size,
-                            'discountAmount' => $discountAmount,
-                            'subTotal' => ($request->quantity * $product['price']) - $discountAmount,
-                        ],
-            ]);
+            $item = Cart::search(function ($cartItem, $rowId) use ($product_id){
+                return $cartItem->id == $product_id;
+            })->first();
+
+            if(($item != null) && (!empty($item->rowId))){
+                $newQty = $data['quantity'] + $item->qty;
+                $newSubTotal = $newQty * $item->price;
+                $itemCart = Cart::get($item->rowId);
+                $options = $itemCart->options->merge(['subTotal' => $newSubTotal]);
+                Cart::update($item->rowId, ['qty' => $newQty, 'price' => $itemCart->price,'options' => $options]);
+            }else{
+                Cart::add(
+                    ['id' => $product['id'],
+                    'name' => $product['product_name'],
+                    'qty' => $request->quantity,
+                    'price' => $product['price'] - $discountAmount,
+                    'weight' => '0',
+                    'options' => [
+                                'image' => $product->images[0]['image_name'],
+                                'code' => $product['product_code'],
+                                'color' => $product->product_details[0]['color'],
+                                'size' => $request->size,
+                                'subTotal' => $request->quantity * ($product['price'] - $discountAmount),
+                            ],
+                ]);
+            }
+
         }
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
@@ -208,7 +168,7 @@ class CartController extends Controller
         }
 
         if ($status) {
-            $newSubTotal = $newQty * $item->price - $item->discountAmount;
+            $newSubTotal = $newQty * $item->price;
             // Cart::update($rowId, $newQty);
             Cart::update($rowId, $newQty, ['options' => ['subTotal' => $newSubTotal]]);
             $msg = 'Update is success';

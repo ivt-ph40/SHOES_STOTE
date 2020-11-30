@@ -31,7 +31,6 @@ Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Show cart
 Route::get('/cart', 'CartController@showCart')->name('show-cart');
-Route::get('/cartAjax', 'CartController@showCartAjax');
 Route::post('/cart/update/quantity', 'CartController@updateQuantity')->name('cart.update.quantity');
 
 //Add to cart

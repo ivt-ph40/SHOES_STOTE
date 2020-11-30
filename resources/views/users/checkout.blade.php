@@ -242,7 +242,7 @@
                                     <thead>
                                     <tr>
                                         <th class="text-uppercase">Product</th>
-                                        <th class="text-uppercase">Total</th>
+                                        <th class="text-uppercase"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -253,8 +253,8 @@
                                         </tr>
                                         @endforeach
                                         <tr>
-                                            <td><strong>Order Total</strong></td>
-                                            <td>{{ $totalAmount }}đ</td>
+                                            <td class="text-uppercase"><strong>Order Total</strong></td>
+                                            <td><strong>{{ $totalAmount }}đ</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>

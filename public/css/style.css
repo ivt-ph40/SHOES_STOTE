@@ -1434,7 +1434,7 @@ textarea.form-control {
     display: inline-block; }
   .form-group--number input.form-control {
     position: relative;
-    top: -2px;
+    top: -1px;
     margin-right: -4px;
     display: inline-block;
     width: 130px;
