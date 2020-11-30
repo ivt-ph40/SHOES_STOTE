@@ -315,10 +315,10 @@
                             <option value="1">4</option>
                             <option value="5">5</option>
                         </select>
-                        <p>Logan May - CEO & Founder Invision</p>
+                        <p>Nike - Just Do It</p>
                     </header>
                     <footer>
-                        <p>“Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant. “</p>
+                        <p>“ The American Foundation for the Blind gave Nike the 1995 Access Award for its creation and distribution of a "Just Do It" poster done in braille. “</p>
                     </footer>
                 </div>
 
@@ -332,10 +332,10 @@
                             <option value="1">4</option>
                             <option value="5">5</option>
                         </select>
-                        <p>Logan May - CEO & Founder Invision</p>
+                        <p>Adidas - Impossible Is Nothing</p>
                     </header>
                     <footer>
-                        <p>“Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant. “</p>
+                        <p>“ Adidas’s famous tagline follows in the great sports apparel trend of inspirational mumbo-jumbo. It’ll also send you into an existential spiral. “</p>
                     </footer>
                 </div>
             </div>
