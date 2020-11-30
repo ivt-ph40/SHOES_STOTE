@@ -28,7 +28,7 @@ class ContactController extends Controller
             // $message->from($fromEmail, 'Admin');
             $message->subject('Contact Mail');
         });
-        return 'success';
+        return view('users.success');
     }
     /**
      * Show the form for creating a new resource.
