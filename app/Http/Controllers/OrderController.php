@@ -90,7 +90,8 @@ class OrderController extends Controller
     public function showOrderInfo(){
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
-        return view('users.checkout', compact('cart', 'totalAmount'));
+        $cartCount = Cart::content()->count();
+        return view('users.checkout', compact('cart', 'totalAmount', 'cartCount'));
     }
 
     public function submitOrder(CreateOrderRequest $request){

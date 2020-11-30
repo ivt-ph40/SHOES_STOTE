@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
-use DB;
+use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 
 class HomeController extends Controller
 {
@@ -16,6 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         // DB::enableQueryLog();
+        $cartCount = Cart::content()->count();
         $allProducts = Product::with('images')
                         ->orderBy('id', 'ASC')
                         ->take(8)
@@ -26,7 +27,7 @@ class HomeController extends Controller
                         ->orderBy('id', 'ASC')
                         ->get();
         // dd(DB::getQueryLog());
-        return view('users.home', compact('allProducts','saleProducts'));
+        return view('users.home', compact('allProducts','saleProducts', 'cartCount'));
     }
 
     /**

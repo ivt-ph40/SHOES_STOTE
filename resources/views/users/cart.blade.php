@@ -118,7 +118,15 @@
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
-                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+                <div class="ps-cart">
+                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                        @if($cartCount != null)
+                            <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
+                        @else
+                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        @endif
+                    </a>
+                </div>
             </div>
         </div>
     </nav>

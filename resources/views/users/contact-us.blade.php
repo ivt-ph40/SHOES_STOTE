@@ -111,7 +111,15 @@
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
-                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+                <div class="ps-cart">
+                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                        @if($cartCount != null)
+                            <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
+                        @else
+                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        @endif
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -136,14 +144,29 @@
                         <div class="form-group">
                             <label>Name <sub>*</sub></label>
                             <input name="username" class="form-control" type="text" placeholder="">
+                            @if($errors->has('username'))
+                                <p style="color: red;">
+                                    {{ $errors->first('username') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label>Email <sub>*</sub></label>
                             <input name="email" class="form-control" type="email" placeholder="">
+                            @if($errors->has('email'))
+                                <p style="color: red;">
+                                    {{ $errors->first('email') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group mb-25">
                             <label>Your Message <sub>*</sub></label>
-                            <textarea name="content" class="form-control" rows="6"></textarea>
+                            <textarea name="message" class="form-control" rows="6"></textarea>
+                            @if($errors->has('message'))
+                                <p style="color: red;">
+                                    {{ $errors->first('message') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
                             <button class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
