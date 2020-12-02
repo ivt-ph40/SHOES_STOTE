@@ -149,7 +149,7 @@
         <div class="ps-products" data-mh="product-listing">
             <div class="ps-product-action">
                 <div class="ps-product__filter">
-                    <select class="ps-select selectpicker">
+                    <select id="sort" class="ps-select selectpicker" >
                         <option value="1">Sortby</option>
                         <option value="2">Name</option>
                         <option value="3">Price (Low to High)</option>
@@ -212,14 +212,6 @@
             </div>
 
             <div class="ps-product-action">
-                <div class="ps-product__filter">
-                    <select class="ps-select selectpicker">
-                        <option value="1">Sortby</option>
-                        <option value="2">Name</option>
-                        <option value="3">Price (Low to High)</option>
-                        <option value="3">Price (High to Low)</option>
-                    </select>
-                </div>
                 <div class="ps-pagination">
                     <ul class="pagination">
                         <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
@@ -240,13 +232,33 @@
                 </div>
                 <div class="ps-widget__content">
                     <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Life(521)</a></li>
-                        <li><a href="product-listing.html">Running(76)</a></li>
-                        <li><a href="product-listing.html">Baseball(21)</a></li>
-                        <li><a href="product-listing.html">Football(105)</a></li>
-                        <li><a href="product-listing.html">Soccer(108)</a></li>
-                        <li><a href="product-listing.html">Trainning & game(47)</a></li>
-                        <li><a href="product-listing.html">More</a></li>
+                        <li
+                            @if( \Route::currentRouteName() == 'lifestyle-shoes-list'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ route('lifestyle-shoes-list') }}">Lifestyle</a>
+                        </li>
+                        <li @if( \Route::currentRouteName() == 'running-shoes-list'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ route('running-shoes-list') }}">Running</a>
+                        </li>
+                        <li
+                            @if( \Route::currentRouteName() == 'football-shoes-list'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ route('football-shoes-list') }}">Football</a>
+                        </li>
+                        <li
+                            @if( \Route::currentRouteName() == 'training-shoes-list'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ route('training-shoes-list') }}">Training</a>
+                        </li>
                     </ul>
                 </div>
             </aside>
@@ -265,100 +277,24 @@
                 </div>
                 <div class="ps-widget__content">
                     <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Nike(521)</a></li>
-                        <li><a href="product-listing.html">Adidas(76)</a></li>
-                        <li><a href="product-listing.html">Baseball(69)</a></li>
-                        <li><a href="product-listing.html">Gucci(36)</a></li>
-                        <li><a href="product-listing.html">Dior(108)</a></li>
-                        <li><a href="product-listing.html">B&G(108)</a></li>
-                        <li><a href="product-listing.html">Louis Vuiton(47)</a></li>
+                        <li
+                            @if( \Route::currentRouteName() == 'Nike-shoes-list'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ route('Nike-shoes-list') }}">Nike</a>
+                        </li>
+                        <li
+                            @if( \Route::currentRouteName() == 'Adidas-shoes-list'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ route('Adidas-shoes-list') }}">Adidas</a>
+                        </li>
                     </ul>
                 </div>
             </aside>
 
-            <aside class="ps-widget--sidebar ps-widget--category">
-                <div class="ps-widget__header">
-                    <h3>Width</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <ul class="ps-list--checked">
-                        <li class="current"><a href="product-listing.html">Narrow</a></li>
-                        <li><a href="product-listing.html">Regular</a></li>
-                        <li><a href="product-listing.html">Wide</a></li>
-                        <li><a href="product-listing.html">Extra Wide</a></li>
-                    </ul>
-                </div>
-            </aside>
-            <div class="ps-sticky desktop">
-                <aside class="ps-widget--sidebar">
-                    <div class="ps-widget__header">
-                        <h3>Size</h3>
-                    </div>
-                    <div class="ps-widget__content">
-                        <table class="table ps-table--size">
-                            <tbody>
-                            <tr>
-                                <td class="active">3</td>
-                                <td>5.5</td>
-                                <td>8</td>
-                                <td>10.5</td>
-                                <td>13</td>
-                            </tr>
-                            <tr>
-                                <td>3.5</td>
-                                <td>6</td>
-                                <td>8.5</td>
-                                <td>11</td>
-                                <td>13.5</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>6.5</td>
-                                <td>9</td>
-                                <td>11.5</td>
-                                <td>14</td>
-                            </tr>
-                            <tr>
-                                <td>4.5</td>
-                                <td>7</td>
-                                <td>9.5</td>
-                                <td>12</td>
-                                <td>14.5</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>7.5</td>
-                                <td>10</td>
-                                <td>12.5</td>
-                                <td>15</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </aside>
-                <aside class="ps-widget--sidebar">
-                    <div class="ps-widget__header">
-                        <h3>Color</h3>
-                    </div>
-                    <div class="ps-widget__content">
-                        <ul class="ps-list--color">
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                            <li><a href="#"></a></li>
-                        </ul>
-                    </div>
-                </aside>
-            </div>
         </div>
     </div>
 

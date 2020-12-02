@@ -183,11 +183,11 @@
             <div class="ps-section__header mb-50">
                 <h3 class="ps-section__title" data-mask="features">- Features Shoes</h3>
                 <ul class="ps-masonry__filter">
-                    <li class="current"><a href="#" data-filter="*">All <sup>8</sup></a></li>
-                    <li><a href="#" data-filter=".nike">Nike <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".adidas">Adidas <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".men">Men <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".women">Women <sup>1</sup></a></li>
+                    <li class="current"><a href="#" data-filter="*">All <sup>{{ $allCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".nike">Nike <sup>{{ $nikeCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".adidas">Adidas <sup>{{ $adidasCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".men">Men <sup>{{ $menCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".women">Women <sup>{{ $womenCount }}</sup></a></li>
                 </ul>
             </div>
 

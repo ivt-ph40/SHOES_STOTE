@@ -107,7 +107,7 @@ class CartController extends Controller
                 return $cartItem->id == $product_id;
             })->first();
 
-            if(($item != null) && (!empty($item->rowId))){
+            if(($item != null) && (!empty($item->rowId)) && ($product['product_name'] == $item->name) &&($data['size'] == $item->options->size)){
                 $newQty = $data['quantity'] + $item->qty;
                 $newSubTotal = $newQty * $item->price;
                 $itemCart = Cart::get($item->rowId);
