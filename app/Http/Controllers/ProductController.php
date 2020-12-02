@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
+use Illuminate\Support\Facades\Route;
 
 class ProductController extends Controller
 {
@@ -256,4 +257,86 @@ class ProductController extends Controller
                             ->get();
         return view('users.product-listing', compact('products', 'cartCount'));
     }
+
+    public function showLifestyleShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    public function showRunningShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    public function showTrainingShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    public function showFootballShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    public function showAllShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    public function showNikeShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    public function showAdidasShoes(){
+        $cartCount = Cart::content()->count();
+        $products = Product::with('images')
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('users.product-listing', compact('products', 'cartCount'));
+    }
+
+    // public function sortProductByName(){
+    //     $cartCount = Cart::content()->count();
+    //     $products = Product::with('images')
+    //                         ->orderBy('products.product_name', 'ASC')
+    //                         ->get();
+    //     return view('users.product-listing', compact('products', 'cartCount'));
+    // }
 }

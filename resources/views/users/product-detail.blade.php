@@ -232,9 +232,11 @@
                             </div>
                             <div class="ps-product__block ps-product__size">
                                 <h4>CHOOSE SIZE</h4>
-                                <select name="size" class="ps-select selectpicker">
+                                <select class="ps-select selectpicker" name="size">
                                     @foreach($product->product_details as $item)
-                                        <option value="{{ $item->size }}">{{ $item->size }}</option>
+                                        @if($item->product_status != 'out of stock')
+                                            <option value="{{ $item->size }}">{{ $item->size }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <div class="form-group">

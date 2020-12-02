@@ -383,7 +383,7 @@ table.full-width-gmail-android {
         <div class="content">
             <span class="brand">
             <a href="#">
-                Shoes shop
+                Skytheme shop
             </a>
             </span>
         </div>

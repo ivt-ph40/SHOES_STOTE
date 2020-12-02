@@ -183,11 +183,11 @@
             <div class="ps-section__header mb-50">
                 <h3 class="ps-section__title" data-mask="features">- Features Shoes</h3>
                 <ul class="ps-masonry__filter">
-                    <li class="current"><a href="#" data-filter="*">All <sup>8</sup></a></li>
-                    <li><a href="#" data-filter=".nike">Nike <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".adidas">Adidas <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".men">Men <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".women">Women <sup>1</sup></a></li>
+                    <li class="current"><a href="#" data-filter="*">All <sup>{{ $allCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".nike">Nike <sup>{{ $nikeCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".adidas">Adidas <sup>{{ $adidasCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".men">Men <sup>{{ $menCount }}</sup></a></li>
+                    <li><a href="#" data-filter=".women">Women <sup>{{ $womenCount }}</sup></a></li>
                 </ul>
             </div>
 
@@ -315,10 +315,10 @@
                             <option value="1">4</option>
                             <option value="5">5</option>
                         </select>
-                        <p>Logan May - CEO & Founder Invision</p>
+                        <p>Nike - Just Do It</p>
                     </header>
                     <footer>
-                        <p>“Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant. “</p>
+                        <p>“ The American Foundation for the Blind gave Nike the 1995 Access Award for its creation and distribution of a "Just Do It" poster done in braille. “</p>
                     </footer>
                 </div>
 
@@ -332,10 +332,10 @@
                             <option value="1">4</option>
                             <option value="5">5</option>
                         </select>
-                        <p>Logan May - CEO & Founder Invision</p>
+                        <p>Adidas - Impossible Is Nothing</p>
                     </header>
                     <footer>
-                        <p>“Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant. “</p>
+                        <p>“ Adidas’s famous tagline follows in the great sports apparel trend of inspirational mumbo-jumbo. It’ll also send you into an existential spiral. “</p>
                     </footer>
                 </div>
             </div>

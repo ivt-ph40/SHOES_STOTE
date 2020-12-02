@@ -113,6 +113,8 @@ class OrderController extends Controller
                 ];
                 OrderDetail::create($orderDetail);
             }
+            $totalAmount = Cart::priceTotal();
+            $this->sendOrderConfirmationMail($data, $cart, $totalAmount);
             return redirect()->route('cart_remove');
         }
         else{
@@ -130,5 +132,16 @@ class OrderController extends Controller
         for ($i = 0; $i < $length; $i++)
             $randString .= $characters[ord($randomBytes[$i]) % $charactersLength];
         return $randString;
+    }
+
+    public function sendOrderConfirmationMail($orderInfo, $cart, $totalAmount){
+        $toEmail = $orderInfo['email'];
+        $fromEmail ='admin@gmail.com';
+        $username = $orderInfo['username'];
+        $data =['username' => $username, 'orderInfo' => $orderInfo, 'cart' => $cart, 'totalAmount' => $totalAmount];
+        \Mail::send('mails.order-confirmation', $data, function($message) use ($toEmail, $fromEmail, $username){
+            $message->to($toEmail, $username);
+            $message->subject('Order Confirmation Mail');
+        });
     }
 }
