@@ -179,7 +179,6 @@ class CartController extends Controller
 
         if ($status) {
             $newSubTotal = $newQty * $item->price;
-            // Cart::update($rowId, $newQty);
             Cart::update($rowId, $newQty, ['options' => ['subTotal' => $newSubTotal]]);
             $msg = 'Update is success';
         }

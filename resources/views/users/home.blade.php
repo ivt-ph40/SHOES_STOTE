@@ -18,6 +18,9 @@
         width: 80px;
         height: 60px;
     }
+    .pagination {
+        display: inline-block;
+    }
     #product-name{
         max-width: 200px;
     }
@@ -121,11 +124,11 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="Search Product…">
+                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
+                    @csrf
+                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
-
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -135,6 +138,9 @@
                         @endif
                     </a>
                 </div>
+                @if(session()->has('message'))
+                    <p style="color:red;">{{session()->get('message')}}</p>
+                @endif
             </div>
         </div>
     </nav>
@@ -182,19 +188,18 @@
         <div class="ps-container">
             <div class="ps-section__header mb-50">
                 <h3 class="ps-section__title" data-mask="features">- Features Shoes</h3>
-                <ul class="ps-masonry__filter">
-                    <li class="current"><a href="#" data-filter="*">All <sup>{{ $allCount }}</sup></a></li>
+                {{-- <ul class="ps-masonry__filter">
+                    <li class="current"><a href="#" data-filter="*">All <sup>{{ $allCount }}</sup>
                     <li><a href="#" data-filter=".nike">Nike <sup>{{ $nikeCount }}</sup></a></li>
                     <li><a href="#" data-filter=".adidas">Adidas <sup>{{ $adidasCount }}</sup></a></li>
                     <li><a href="#" data-filter=".men">Men <sup>{{ $menCount }}</sup></a></li>
                     <li><a href="#" data-filter=".women">Women <sup>{{ $womenCount }}</sup></a></li>
-                </ul>
+                </ul> --}}
             </div>
 
             <div class="ps-section__content pb-50">
                 <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
                     <div class="ps-masonry">
-                        <div class="grid-sizer"></div>
                         @foreach ($allProducts as $product)
                         <div class="grid-item nike">
                             <div class="grid-item__content-wrapper">
