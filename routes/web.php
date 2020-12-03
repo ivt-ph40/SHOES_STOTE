@@ -20,6 +20,9 @@
 //Show homepage
 Route::get('/', 'HomeController@index')->name('home');
 
+//Search product
+Route::post('/search-product', 'ProductController@search')->name('search-product');
+
 //Show product's detail
 Route::get('/product/{id}', 'ProductController@show')->name('product-detail');
 
@@ -100,10 +103,10 @@ Route::get('/training-shoes', 'ProductController@showTrainingShoes')->name('trai
 Route::get('/football-shoes', 'ProductController@showFootballShoes')->name('football-shoes-list');
 
 //Show all Nike shoes
-Route::get('/Nike-shoes', 'ProductController@showNikeShoes')->name('Nike-shoes-list');
+Route::get('/Nike-shoes-list', 'ProductController@showNikeShoes')->name('Nike-shoes-list');
 
 //Show all Adidas shoes
-Route::get('/Adidas-shoes', 'ProductController@showAdidasShoes')->name('Adidas-shoes-list');
+Route::get('/Adidas-shoes-list', 'ProductController@showAdidasShoes')->name('Adidas-shoes-list');
 
 //Sort product by name
 Route::get('/Sort-product-by-name', 'ProductController@sortProductByName')->name('sort-by-name');

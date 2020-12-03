@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 use Illuminate\Support\Facades\Route;
+use DB;
 
 class ProductController extends Controller
 {
@@ -89,9 +90,21 @@ class ProductController extends Controller
     {
         //
     }
+    public function search(Request $request){
+        $products = Product::with('images')
+                            ->where('products.product_name', 'like', '%'. $request->input('input-search'). '%')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        $cartCount = Cart::content()->count();
+        if($products->first() != null){
+            return view('users.product-listing', compact('products', 'cartCount'));
+        }else{
+            return redirect()->back()->with('message', 'Not found!')->withInput();
+        }
+
+    }
 
     public function showAllMenShoes(){
-        // DB::enableQueryLog();
         $cartCount = Cart::content()->count();
         $products = Product::with('images')
                             ->whereHas('category', function ($query) {
@@ -99,7 +112,6 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
-        // dd(DB::getQueryLog());
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 

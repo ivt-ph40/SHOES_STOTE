@@ -15,30 +15,30 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // DB::enableQueryLog();
         $cartCount = Cart::content()->count();
         $allCount = Product::count('id');
-        $nikeCount = Product::whereHas('brand', function ($query) {
-                            $query->where('brands.brand_name','like','Nike');
-                        })->count();
-        $adidasCount = Product::whereHas('brand', function ($query) {
-                            $query->where('brands.brand_name','like','Adidas');
-                        })->count();
-        $menCount = Product::whereHas('category', function ($query) {
-                            $query->where('categories.parent_id', 1);
-                        })->count();
-        $womenCount = Product::whereHas('category', function ($query) {
-                            $query->where('categories.parent_id', 2);
-                        })->count();
+        // $nikeCount = Product::whereHas('brand', function ($query) {
+        //                     $query->where('brands.brand_name','like','Nike');
+        //                 })->count();
+        // $adidasCount = Product::whereHas('brand', function ($query) {
+        //                     $query->where('brands.brand_name','like','Adidas');
+        //                 })->count();
+        // $menCount = Product::whereHas('category', function ($query) {
+        //                     $query->where('categories.parent_id', 1);
+        //                 })->count();
+        // $womenCount = Product::whereHas('category', function ($query) {
+        //                     $query->where('categories.parent_id', 2);
+        //                 })->count();
         $allProducts = Product::with('images')
                         ->orderBy('id', 'ASC')
+                        ->take(8)
                         ->get();
         $saleProducts = Product::with('images')
                         ->where('products.discount_percent', '<>', '0')
                         ->orderBy('id', 'ASC')
                         ->get();
-        // dd(DB::getQueryLog());
-        return view('users.home', compact('allCount', 'nikeCount', 'adidasCount', 'menCount', 'womenCount', 'allProducts','saleProducts','cartCount'));
+        // return view('users.home', compact('allCount', 'nikeCount', 'adidasCount', 'menCount', 'womenCount', 'allProducts','saleProducts','cartCount'));
+        return view('users.home', compact('allCount', 'allProducts','saleProducts','cartCount'));
     }
 
     /**
@@ -106,4 +106,5 @@ class HomeController extends Controller
     {
         //
     }
+
 }

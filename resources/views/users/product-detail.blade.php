@@ -133,8 +133,9 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="Search Product…">
+                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
+                    @csrf
+                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
@@ -147,6 +148,9 @@
                         @endif
                     </a>
                 </div>
+                @if(session()->has('message'))
+                    <p style="color:red;">{{session()->get('message')}}</p>
+                @endif
             </div>
         </div>
     </nav>

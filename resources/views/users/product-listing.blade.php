@@ -117,8 +117,9 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="Search Product…">
+                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
+                    @csrf
+                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
@@ -131,6 +132,9 @@
                         @endif
                     </a>
                 </div>
+                @if(session()->has('message'))
+                    <p style="color:red;">{{session()->get('message')}}</p>
+                @endif
             </div>
         </div>
     </nav>
@@ -156,7 +160,7 @@
                         <option value="3">Price (High to Low)</option>
                     </select>
                 </div>
-                <div class="ps-pagination">
+                {{-- <div class="ps-pagination">
                     <ul class="pagination">
                         <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
                         <li class="active"><a href="#">1</a></li>
@@ -165,7 +169,7 @@
                         <li><a href="#">...</a></li>
                         <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
             <div class="ps-product__columns">
                 @foreach ($products as $product)
@@ -211,7 +215,7 @@
                 @endforeach
             </div>
 
-            <div class="ps-product-action">
+            {{-- <div class="ps-product-action">
                 <div class="ps-pagination">
                     <ul class="pagination">
                         <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
@@ -222,7 +226,7 @@
                         <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="ps-sidebar" data-mh="product-listing">
