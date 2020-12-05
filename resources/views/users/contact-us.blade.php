@@ -147,7 +147,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Name <sub>*</sub></label>
-                            <input name="username" class="form-control" type="text" placeholder="">
+                            <input name="username" value={{ old('username') }} class="form-control" type="text" placeholder="">
                             @if($errors->has('username'))
                                 <p style="color: red;">
                                     {{ $errors->first('username') }}
@@ -156,7 +156,7 @@
                         </div>
                         <div class="form-group">
                             <label>Email <sub>*</sub></label>
-                            <input name="email" class="form-control" type="email" placeholder="">
+                            <input name="email" value={{ old('email') }} class="form-control" type="text" placeholder="">
                             @if($errors->has('email'))
                                 <p style="color: red;">
                                     {{ $errors->first('email') }}
@@ -165,7 +165,7 @@
                         </div>
                         <div class="form-group mb-25">
                             <label>Your Message <sub>*</sub></label>
-                            <textarea name="message" class="form-control" rows="6"></textarea>
+                            <textarea name="message" value={{ old('message') }} class="form-control" rows="6"></textarea>
                             @if($errors->has('message'))
                                 <p style="color: red;">
                                     {{ $errors->first('message') }}

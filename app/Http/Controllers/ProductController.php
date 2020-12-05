@@ -6,6 +6,7 @@ use App\Product;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 use Illuminate\Support\Facades\Route;
+use App\Review;
 use DB;
 
 class ProductController extends Controller
@@ -51,10 +52,15 @@ class ProductController extends Controller
     {
         $cartCount = Cart::content()->count();
         $product = Product::with('images','product_details', 'brand')->find($id);
+        $reviews = Review::with('product', 'user')
+                            ->whereHas('product', function ($query) use($id){
+                                $query->where('products.id', $id);
+                            })
+                            ->get();
         $relatedItems = Product::with('images','category')
                             ->whereNotIn('products.id', [$id])
                             ->get();
-        return view('users.product-detail', compact('product', 'relatedItems', 'cartCount'));
+        return view('users.product-detail', compact('product', 'relatedItems', 'reviews','cartCount'));
     }
 
     /**
@@ -104,119 +110,858 @@ class ProductController extends Controller
 
     }
 
-    public function showAllMenShoes(){
+    public function showAllMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+            $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showAllWomenShoes(){
+    public function showAllWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showLifestyleMenShoes(){
+    public function showLifestyleMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 3);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showLifestyleWomenShoes(){
+    public function showLifestyleWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 4);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showRunningMenShoes(){
+    public function showRunningMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 5);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showRunningWomenShoes(){
+    public function showRunningWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 6);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showTrainingMenShoes(){
+    public function showTrainingMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 9);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showTrainingWomenShoes(){
+    public function showTrainingWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 10);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showFootballMenShoes(){
+    public function showFootballMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 7);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showFootballWomenShoes(){
+    public function showFootballWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8);
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8);
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8);
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.id', 8);
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showNikeMenShoes(){
+    public function showNikeMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
                             })
@@ -225,12 +970,95 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showNikeWomenShoes(){
+    public function showNikeWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Nike');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
@@ -239,12 +1067,95 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showAdidasMenShoes(){
+    public function showAdidasMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 3);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 5);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 7);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 9);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
                             })
@@ -253,12 +1164,95 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showAdidasWomenShoes(){
+    public function showAdidasWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-        $products = Product::with('images')
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 4);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 6);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 8);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.id', 10);
+                            })
+                            ->whereHas('brand', function ($query) {
+                                $query->where('brands.brand_name','like','Adidas');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
                             ->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
@@ -267,88 +1261,11 @@ class ProductController extends Controller
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
+                break;
+        }
+
         return view('users.product-listing', compact('products', 'cartCount'));
     }
 
-    public function showLifestyleShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->whereHas('category', function ($query) {
-                                $query->whereIn('categories.id', [3,4]);
-                            })
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
 
-    public function showRunningShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->whereHas('category', function ($query) {
-                                $query->whereIn('categories.id', [5,6]);
-                            })
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
-
-    public function showTrainingShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->whereHas('category', function ($query) {
-                                $query->whereIn('categories.id', [9,10]);
-                            })
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
-
-    public function showFootballShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->whereHas('category', function ($query) {
-                                $query->whereIn('categories.id', [7,8]);
-                            })
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
-
-    public function showAllShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
-
-    public function showNikeShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->whereHas('brand', function ($query) {
-                                $query->where('brands.brand_name','like','Nike');
-                            })
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
-
-    public function showAdidasShoes(){
-        $cartCount = Cart::content()->count();
-        $products = Product::with('images')
-                            ->whereHas('brand', function ($query) {
-                                $query->where('brands.brand_name','like','Nike');
-                            })
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
-        return view('users.product-listing', compact('products', 'cartCount'));
-    }
-
-    // public function sortProductByName(){
-    //     $cartCount = Cart::content()->count();
-    //     $products = Product::with('images')
-    //                         ->orderBy('products.product_name', 'ASC')
-    //                         ->get();
-    //     return view('users.product-listing', compact('products', 'cartCount'));
-    // }
 }

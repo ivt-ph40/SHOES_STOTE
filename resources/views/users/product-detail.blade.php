@@ -268,38 +268,56 @@
                         </div>
 
                         <div class="tab-pane" role="tabpanel" id="tab_02">
-                            <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
-                            <div class="ps-review">
-                                <div class="ps-review__thumbnail"><img src="images/user/1.jpg" alt=""></div>
-                                <div class="ps-review__content">
-                                    <header>
-                                        <select class="ps-rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="5">5</option>
-                                        </select>
-                                        <p>By Alena Studio</p>
-                                    </header>
-                                    <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
-                                </div>
-                            </div>
-                            <form class="ps-product__review" action="_action" method="post">
+                            @if($reviews != null)
+                                <p class="mb-20"><strong>{{ $reviews[0]->product->product_name }}</strong></p>
+                                @foreach($reviews as $review)
+                                    <div class="ps-review">
+                                        <div class="ps-review__content">
+                                            <header>
+                                                <select class="ps-rating">
+                                                <option value="1">1</option>
+                                                <option value="1">2</option>
+                                                <option value="1">3</option>
+                                                <option value="1">4</option>
+                                                <option value="5">5</option>
+                                                </select>
+                                                <p>By {{ $review->user->last_name. ' ' . $review->user->first_name }}</p>
+                                            </header>
+                                            <p>{{ $review->content }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <span>{{ '' }}</span>
+                            @endif
+                            <form class="ps-product__review" action="{{ route('submit-review') }}" method="POST">
+                                @csrf
                                 <h4>ADD YOUR REVIEW</h4>
+                                <input type="hidden" name="user_id" value="3">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
-                                            <label>Name:<span>*</span></label>
-                                            <input class="form-control" type="text" placeholder="">
+                                            <label>Name<span>*</span></label>
+                                            <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                            @if($errors->has('username'))
+                                                <p style="color: red;">
+                                                    {{ $errors->first('username') }}
+                                                </p>
+                                            @endif
                                         </div>
                                         <div class="form-group">
-                                            <label>Email:<span>*</span></label>
-                                            <input class="form-control" type="email" placeholder="">
+                                            <label>Email<span>*</span></label>
+                                            <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                            @if($errors->has('email'))
+                                                <p style="color: red;">
+                                                    {{ $errors->first('email') }}
+                                                </p>
+                                            @endif
                                         </div>
                                         <div class="form-group">
                                             <label>Your rating<span></span></label>
-                                            <select class="ps-rating">
+                                            <select name="rating" class="ps-rating">
                                                 <option value="1">1</option>
                                                 <option value="1">2</option>
                                                 <option value="1">3</option>
@@ -311,7 +329,8 @@
                                     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
                                             <label>Your Review:</label>
-                                            <textarea class="form-control" rows="6"></textarea>
+                                            <textarea name="content" value="{{ old('content') }}" class="form-control" rows="6"></textarea>
+                                            @endif
                                         </div>
                                             <div class="form-group">
                                             <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>

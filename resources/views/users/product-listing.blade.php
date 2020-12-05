@@ -15,7 +15,7 @@
         height: 320px;
     }
     #small-product-img{
-        width: 80px;
+        width: 70px;
         height: 60px;
     }
     #product-name{
@@ -151,15 +151,7 @@
 <main class="ps-main">
     <div class="ps-products-wrap pt-80 pb-80">
         <div class="ps-products" data-mh="product-listing">
-            <div class="ps-product-action">
-                <div class="ps-product__filter">
-                    <select id="sort" class="ps-select selectpicker" >
-                        <option value="1">Sortby</option>
-                        <option value="2">Name</option>
-                        <option value="3">Price (Low to High)</option>
-                        <option value="3">Price (High to Low)</option>
-                    </select>
-                </div>
+            {{-- <div class="ps-product-action"> --}}
                 {{-- <div class="ps-pagination">
                     <ul class="pagination">
                         <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
@@ -170,7 +162,7 @@
                         <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
                     </ul>
                 </div> --}}
-            </div>
+            {{-- </div> --}}
             <div class="ps-product__columns">
                 @foreach ($products as $product)
                 <div class="ps-product__column">
@@ -232,36 +224,67 @@
         <div class="ps-sidebar" data-mh="product-listing">
             <aside class="ps-widget--sidebar ps-widget--category">
                 <div class="ps-widget__header">
+                    <h3>Sort By</h3>
+                </div>
+                <div class="ps-widget__content">
+                    <ul class="ps-list--checked">
+                        <li
+                            @if(str_contains(Request::fullUrl(), 'sort=name'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ URL::current()."?sort=name" }}">Name</a>
+                        </li>
+                        <li
+                            @if(str_contains(Request::fullUrl(), 'sort=price_asc'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ URL::current()."?sort=price_asc" }}">Price (Low to High)</a>
+                        </li>
+                        <li
+                            @if(str_contains(Request::fullUrl(), 'sort=price_desc'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ URL::current()."?sort=price_desc" }}">Price (High to Low)</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <aside class="ps-widget--sidebar ps-widget--category">
+                <div class="ps-widget__header">
                     <h3>Category</h3>
                 </div>
                 <div class="ps-widget__content">
                     <ul class="ps-list--checked">
                         <li
-                            @if( \Route::currentRouteName() == 'lifestyle-shoes-list'))
+                            @if(str_contains(Request::fullUrl(), 'sort=category_lifestyle'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ route('lifestyle-shoes-list') }}">Lifestyle</a>
-                        </li>
-                        <li @if( \Route::currentRouteName() == 'running-shoes-list'))
-                                class="current"
-                            @endif
-                        >
-                            <a href="{{ route('running-shoes-list') }}">Running</a>
+                            <a href="{{ URL::current()."?sort=category_lifestyle" }}">Lifestyle</a>
                         </li>
                         <li
-                            @if( \Route::currentRouteName() == 'football-shoes-list'))
+                            @if(str_contains(Request::fullUrl(), 'sort=category_running'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ route('football-shoes-list') }}">Football</a>
+                            <a href="{{ URL::current()."?sort=category_running" }}">Running</a>
                         </li>
                         <li
-                            @if( \Route::currentRouteName() == 'training-shoes-list'))
+                            @if(str_contains(Request::fullUrl(), 'sort=category_football'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ route('training-shoes-list') }}">Training</a>
+                            <a href="{{ URL::current()."?sort=category_football" }}">Football</a>
+                        </li>
+                        <li
+                            @if(str_contains(Request::fullUrl(), 'sort=category_training'))
+                                class="current"
+                            @endif
+                        >
+                            <a href="{{ URL::current()."?sort=category_training" }}">Training</a>
                         </li>
                     </ul>
                 </div>
@@ -275,30 +298,6 @@
                     <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
                 </div>
             </aside>
-            <aside class="ps-widget--sidebar ps-widget--category">
-                <div class="ps-widget__header">
-                    <h3>Sky Brand</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <ul class="ps-list--checked">
-                        <li
-                            @if( \Route::currentRouteName() == 'Nike-shoes-list'))
-                                class="current"
-                            @endif
-                        >
-                            <a href="{{ route('Nike-shoes-list') }}">Nike</a>
-                        </li>
-                        <li
-                            @if( \Route::currentRouteName() == 'Adidas-shoes-list'))
-                                class="current"
-                            @endif
-                        >
-                            <a href="{{ route('Adidas-shoes-list') }}">Adidas</a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-
         </div>
     </div>
 

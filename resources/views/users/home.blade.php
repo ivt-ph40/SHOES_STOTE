@@ -188,19 +188,12 @@
         <div class="ps-container">
             <div class="ps-section__header mb-50">
                 <h3 class="ps-section__title" data-mask="features">- Features Shoes</h3>
-                {{-- <ul class="ps-masonry__filter">
-                    <li class="current"><a href="#" data-filter="*">All <sup>{{ $allCount }}</sup>
-                    <li><a href="#" data-filter=".nike">Nike <sup>{{ $nikeCount }}</sup></a></li>
-                    <li><a href="#" data-filter=".adidas">Adidas <sup>{{ $adidasCount }}</sup></a></li>
-                    <li><a href="#" data-filter=".men">Men <sup>{{ $menCount }}</sup></a></li>
-                    <li><a href="#" data-filter=".women">Women <sup>{{ $womenCount }}</sup></a></li>
-                </ul> --}}
             </div>
 
             <div class="ps-section__content pb-50">
                 <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
                     <div class="ps-masonry">
-                        @foreach ($allProducts as $product)
+                        @foreach ($products as $product)
                         <div class="grid-item nike">
                             <div class="grid-item__content-wrapper">
                                 <div class="ps-shoe mb-30">
