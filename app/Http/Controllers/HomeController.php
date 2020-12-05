@@ -17,19 +17,7 @@ class HomeController extends Controller
     {
         $cartCount = Cart::content()->count();
         $allCount = Product::count('id');
-        // $nikeCount = Product::whereHas('brand', function ($query) {
-        //                     $query->where('brands.brand_name','like','Nike');
-        //                 })->count();
-        // $adidasCount = Product::whereHas('brand', function ($query) {
-        //                     $query->where('brands.brand_name','like','Adidas');
-        //                 })->count();
-        // $menCount = Product::whereHas('category', function ($query) {
-        //                     $query->where('categories.parent_id', 1);
-        //                 })->count();
-        // $womenCount = Product::whereHas('category', function ($query) {
-        //                     $query->where('categories.parent_id', 2);
-        //                 })->count();
-        $allProducts = Product::with('images')
+        $products = Product::with('images')
                         ->orderBy('id', 'ASC')
                         ->take(8)
                         ->get();
@@ -37,8 +25,7 @@ class HomeController extends Controller
                         ->where('products.discount_percent', '<>', '0')
                         ->orderBy('id', 'ASC')
                         ->get();
-        // return view('users.home', compact('allCount', 'nikeCount', 'adidasCount', 'menCount', 'womenCount', 'allProducts','saleProducts','cartCount'));
-        return view('users.home', compact('allCount', 'allProducts','saleProducts','cartCount'));
+        return view('users.home', compact('allCount', 'products','saleProducts','cartCount'));
     }
 
     /**

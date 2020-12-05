@@ -26,6 +26,9 @@ Route::post('/search-product', 'ProductController@search')->name('search-product
 //Show product's detail
 Route::get('/product/{id}', 'ProductController@show')->name('product-detail');
 
+//Store review
+Route::post('/review', 'ReviewController@store')->name('submit-review');
+
 //Show form contact us
 Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-form');
 
@@ -89,27 +92,6 @@ Route::get('/Nike-women-shoes', 'ProductController@showNikeWomenShoes')->name('N
 
 //Show Adidas's women shoes
 Route::get('/Adidas-women-shoes', 'ProductController@showAdidasWomenShoes')->name('Adidas-women-shoes-list');
-
-//Show all lifestyle shoes
-Route::get('/lifestyle-shoes', 'ProductController@showLifestyleShoes')->name('lifestyle-shoes-list');
-
-//Show all running shoes
-Route::get('/running-shoes', 'ProductController@showRunningShoes')->name('running-shoes-list');
-
-//Show all training shoes
-Route::get('/training-shoes', 'ProductController@showTrainingShoes')->name('training-shoes-list');
-
-//Show all football shoes
-Route::get('/football-shoes', 'ProductController@showFootballShoes')->name('football-shoes-list');
-
-//Show all Nike shoes
-Route::get('/Nike-shoes-list', 'ProductController@showNikeShoes')->name('Nike-shoes-list');
-
-//Show all Adidas shoes
-Route::get('/Adidas-shoes-list', 'ProductController@showAdidasShoes')->name('Adidas-shoes-list');
-
-//Sort product by name
-Route::get('/Sort-product-by-name', 'ProductController@sortProductByName')->name('sort-by-name');
 
 //Show favorite product list
 Route::get('/wishlist', function(){
