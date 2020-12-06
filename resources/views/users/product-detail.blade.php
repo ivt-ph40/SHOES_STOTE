@@ -330,7 +330,6 @@
                                         <div class="form-group">
                                             <label>Your Review:</label>
                                             <textarea name="content" value="{{ old('content') }}" class="form-control" rows="6"></textarea>
-                                            @endif
                                         </div>
                                             <div class="form-group">
                                             <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
