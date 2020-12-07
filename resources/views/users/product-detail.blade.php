@@ -311,15 +311,17 @@
                             <form class="ps-product__review" action="{{ route('submit-review') }}" method="POST">
                                 @csrf
                                 <h4>ADD YOUR REVIEW</h4>
-                                @if(\Auth::user()->id != null)
+                                @if(\Auth::user() != null)
                                     <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
+                                @else
+                                    <input type="hidden" name="user_id" value="{{ 'null' }}">
                                 @endif
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
                                             <label>Name<span>*</span></label>
-                                            @if((\Auth::user()->last_name. ' '.\Auth::user()->first_name) != null)
+                                            @if(\Auth::user() != null)
                                                 <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
                                             @else
                                                 <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
@@ -332,7 +334,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Email<span>*</span></label>
-                                            @if(\Auth::user()->email != null)
+                                            @if(\Auth::user() != null)
                                                 <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
                                             @else
                                                 <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
