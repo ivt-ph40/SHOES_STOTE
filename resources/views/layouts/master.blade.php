@@ -28,14 +28,14 @@
         <!-- Custom CSS-->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-         <!-- CSS Admin Library-->
+         {{-- <!-- CSS Admin Library-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome Icons -->
         <link rel="stylesheet" href="{{ asset('plugins/AdminPlugins/plugins/fontawesome-free/css/all.min.css') }}">
         <!-- overlayScrollbars -->
         <link rel="stylesheet" href="{{ asset('plugins/AdminPlugins/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}"> --}}
 
         <!-- Bootstrap CSS -->
         {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}

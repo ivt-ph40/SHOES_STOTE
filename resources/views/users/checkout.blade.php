@@ -32,7 +32,25 @@
                 </div>
 
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                    <div class="header__actions"><a href="#">Login & Regiser</a></div>
+                    <div class="header__actions">
+                        @if (Route::has('form-login'))
+                            <div class="top-right links">
+                                @auth
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('form-login') }}">Login</a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">Register</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,9 +176,17 @@
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing">
                             <h3>Billing Detail</h3>
+                            @if(\Auth::user()->id != null)
+                                <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
+                            @endif
                             <div class="form-group form-group--inline">
                                 <label>Customer Name<span>*</span></label>
-                                <input name="username" class="form-control" type="text" value="{{ old('username') }}">
+                                @if((\Auth::user()->last_name. ' '.\Auth::user()->first_name) != null)
+                                    <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                @endif
+                                {{-- <input name="username" class="form-control" type="text" value="{{ old('username') }}"> --}}
                                 @if($errors->has('username'))
                                 <p style="color: red;">
                                     {{ $errors->first('username') }}
@@ -169,7 +195,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Email Address<span>*</span></label>
-                                <input name="email" class="form-control" type="text" value="{{ old('email') }}">
+                                @if(\Auth::user()->email != null)
+                                    <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                @endif
+                                {{-- <input name="email" class="form-control" type="text" value="{{ old('email') }}"> --}}
                                 @if($errors->has('email'))
                                     <p style="color: red;">
                                         {{ $errors->first('email') }}
@@ -178,7 +209,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Phone<span>*</span></label>
-                                <input name="phone" class="form-control" type="text" value="{{ old('phone') }}">
+                                @if(\Auth::user()->addresses[0]->phone != null)
+                                    <input name="phone" value="{{ \Auth::user()->addresses[0]->phone }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="phone" class="form-control" type="text" value="{{ old('phone') }}">
+                                @endif
+                                {{-- <input name="phone" class="form-control" type="text" value="{{ old('phone') }}"> --}}
                                 @if($errors->has('phone'))
                                     <p style="color: red;">
                                         {{ $errors->first('phone') }}
@@ -187,7 +223,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Street<span>*</span></label>
-                                <input name="street" class="form-control" type="text" value="{{ old('street') }}">
+                                @if(\Auth::user()->addresses[0]->street != null)
+                                    <input name="street" value="{{ \Auth::user()->addresses[0]->street }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="street" class="form-control" type="text" value="{{ old('street') }}">
+                                @endif
+                                {{-- <input name="street" class="form-control" type="text" value="{{ old('street') }}"> --}}
                                 @if($errors->has('street'))
                                     <p style="color: red;">
                                         {{ $errors->first('street') }}
@@ -196,7 +237,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Ward<span>*</span></label>
-                                <input name="ward" class="form-control" type="text" value="{{ old('ward') }}">
+                                @if(\Auth::user()->addresses[0]->ward != null)
+                                    <input name="ward" value="{{ \Auth::user()->addresses[0]->ward }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="ward" class="form-control" type="text" value="{{ old('ward') }}">
+                                @endif
+                                {{-- <input name="ward" class="form-control" type="text" value="{{ old('ward') }}"> --}}
                                 @if($errors->has('ward'))
                                     <p style="color: red;">
                                         {{ $errors->first('ward') }}
@@ -205,7 +251,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>District<span>*</span></label>
-                                <input name="district" class="form-control" type="text" value="{{ old('district') }}">
+                                @if(\Auth::user()->addresses[0]->district != null)
+                                    <input name="district" value="{{ \Auth::user()->addresses[0]->district }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="district" class="form-control" type="text" value="{{ old('district') }}">
+                                @endif
+                                {{-- <input name="district" class="form-control" type="text" value="{{ old('district') }}"> --}}
                                 @if($errors->has('district'))
                                     <p style="color: red;">
                                         {{ $errors->first('district') }}
@@ -214,7 +265,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>City<span>*</span></label>
-                                <input name="city" class="form-control" type="text" value="{{ old('city') }}">
+                                @if(\Auth::user()->addresses[0]->city != null)
+                                    <input name="city" value="{{ \Auth::user()->addresses[0]->city }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="city" class="form-control" type="text" value="{{ old('city') }}">
+                                @endif
+                                {{-- <input name="city" class="form-control" type="text" value="{{ old('city') }}"> --}}
                                 @if($errors->has('city'))
                                     <p style="color: red;">
                                         {{ $errors->first('city') }}
@@ -223,23 +279,17 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Zipcode</label>
-                                <input name="zip_code" class="form-control" type="text" value="{{ old('zip_code') }}">
+                                @if(\Auth::user()->addresses[0]->zip_code != null)
+                                    <input name="zip_code" value="{{ \Auth::user()->addresses[0]->zip_code }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="zip_code" class="form-control" type="text" value="{{ old('zip_code') }}">
+                                @endif
+                                {{-- <input name="zip_code" class="form-control" type="text" value="{{ old('zip_code') }}"> --}}
                                 @if($errors->has('zip_code'))
                                     <p style="color: red;">
                                         {{ $errors->first('zip_code') }}
                                     </p>
                                 @endif
-                            </div>
-                            {{-- <div class="form-group">
-                                <div class="ps-checkbox">
-                                    <input class="form-control" type="checkbox" id="cb01">
-                                    <label for="cb01">Create an account?</label>
-                                </div>
-                            </div> --}}
-                            <h3 class="mt-40"> Addition information</h3>
-                            <div class="form-group form-group--inline textarea">
-                                <label>Order Notes</label>
-                                <textarea class="form-control" rows="5" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                             </div>
                         </div>
                     </div>
@@ -302,7 +352,7 @@
                         </div>
                         <div class="ps-shipping">
                             <h3>FREE SHIPPING</h3>
-                            <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.<br> <a href="#"> Singup </a> for free shipping on every order, every time.</p>
+                            <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.</p>
                         </div>
                     </div>
                 </div>

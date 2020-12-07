@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateReviewRequest;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 use App\Product;
@@ -39,12 +40,18 @@ class ReviewController extends Controller
      */
     public function store(CreateReviewRequest $request)
     {
-        $data = $request->all();
-        Review::create($data);
-        Rating::create($request->only(['product_id', 'rating']));
+        if (Auth::check()) {
+            $data = $request->all();
+            Review::create($data);
+            Rating::create($request->only(['product_id', 'rating']));
 
-        $product_id = $data['product_id'];
-        return redirect()->route('product-detail', $product_id);
+            $product_id = $data['product_id'];
+            return redirect()->route('product-detail', $product_id);
+        }
+        else{
+            return view('users.login');
+        }
+
     }
 
     /**
