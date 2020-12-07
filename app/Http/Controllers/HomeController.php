@@ -9,11 +9,11 @@ use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Show the application dashboard.
      *
-     * @return void
+     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function __construct()
+    public function index()
     {
         $cartCount = Cart::content()->count();
         $allCount = Product::count('id');
@@ -26,16 +26,6 @@ class HomeController extends Controller
                         ->orderBy('id', 'ASC')
                         ->get();
         return view('users.home', compact('allCount', 'products','saleProducts','cartCount'));
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
     }
 
 }

@@ -44,20 +44,30 @@
 
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
                     <div class="header__actions">
-                        {{-- @if (Route::has('form-login'))
+                        @if (Route::has('form-login'))
                             <div class="top-right links">
                                 @auth
                                     <a href="{{ url('/home') }}">Home</a>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
+                                    {{-- <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <span class="navbar-text">
+                                            Welcome {{ \Auth::user()->name }} !
+                                        </span>
+                                        &nbsp;
+                                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
+                                    </form> --}}
                                 @else
                                     <a href="{{ route('form-login') }}">Login</a>
-
                                     @if (Route::has('register'))
                                         <a href="{{ route('register') }}">Register</a>
                                     @endif
                                 @endauth
                             </div>
-                        @endif --}}
-                        <a href="#">Login & Regiser</a>
+                        @endif
+                        {{-- <a href="#">Login & Regiser</a> --}}
                     </div>
                 </div>
             </div>
@@ -144,10 +154,6 @@
                     <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
-<<<<<<< HEAD
-
-                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
-=======
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -160,7 +166,6 @@
                 @if(session()->has('message'))
                     <p style="color:red;">{{session()->get('message')}}</p>
                 @endif
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -249,11 +254,7 @@
 
                                         <div class="ps-shoe__detail">
                                             <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
-<<<<<<< HEAD
-                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
-=======
                                             <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                         </div>
                                     </div>
                                 </div>
@@ -313,11 +314,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
-<<<<<<< HEAD
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
-=======
                                     <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                 </div>
                             </div>
                         </div>

@@ -15,8 +15,8 @@
 //     return view('welcome');
 // });
 
-
 //Show homepage
+Route::get('/', 'HomeController@index')->name('home');
 
 //Search product
 Route::post('/search-product', 'ProductController@search')->name('search-product');
@@ -118,7 +118,7 @@ Route::get('/profile', function(){
 
 
 
-//Admin 
+//Admin
 Route::get('/admins', function(){
     return view('admins.home');
 })->name('home.admins');
@@ -129,7 +129,7 @@ Route::get('/categories', 'CategoryController@index')->name('categories.list');
 Route::get('/categories/create', 'CategoryController@create')->name('categories.create');
 //Admin store Category
 Route::post('/categories', 'CategoryController@store')->name('categories.store');
-//Admin Delete Category 
+//Admin Delete Category
 Route::Delete('/categories/{id}', 'CategoryController@destroy')->name('categories.destroy');
 //Admin Show edit form Category
 Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
@@ -144,7 +144,7 @@ Route::get('/brands', 'BrandController@index')->name('brands.list');
 Route::get('/brands/create', 'BrandController@create')->name('brands.create');
 //Admin store brand
 Route::post('/brands', 'BrandController@store')->name('brands.store');
-//Admin Delete brands 
+//Admin Delete brands
 Route::Delete('/brands/{id}', 'BrandController@destroy')->name('brands.destroy');
 //Admin Show edit form Category
 Route::get('/brands/{id}/edit', 'BrandController@edit')->name('brands.edit');
@@ -183,11 +183,11 @@ Route::get('/login', 'Auth\LoginController@showLoginForm')->name('form-login');
 //Submit login
 Route::post('/login', 'Auth\LoginController@login')->name('login');
 
-//Show homepage
-Route::get('/home', 'HomeController@index')->name('home');
+// //Show homepage
+// Route::get('/home', 'HomeController@index')->name('home');
 
 //Logout
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 //Register form
 Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('form-register');

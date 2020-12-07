@@ -286,6 +286,7 @@
                                     @endforeach
                                 </tbody>
                         </table>
+                        <br/>
                         <!-- Order detail -->
 
 						<!-- Totals -->
