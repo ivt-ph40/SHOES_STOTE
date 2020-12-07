@@ -15,10 +15,8 @@
 //     return view('welcome');
 // });
 
-// Auth::routes();
 
 //Show homepage
-Route::get('/', 'HomeController@index')->name('home');
 
 //Search product
 Route::post('/search-product', 'ProductController@search')->name('search-product');
@@ -118,5 +116,83 @@ Route::get('/profile', function(){
     return view('users.profile');
 })->name('profile');
 
+
+
+//Admin 
+Route::get('/admins', function(){
+    return view('admins.home');
+})->name('home.admins');
+
+//Admin category
+Route::get('/categories', 'CategoryController@index')->name('categories.list');
+//Admin create Category
+Route::get('/categories/create', 'CategoryController@create')->name('categories.create');
+//Admin store Category
+Route::post('/categories', 'CategoryController@store')->name('categories.store');
+//Admin Delete Category 
+Route::Delete('/categories/{id}', 'CategoryController@destroy')->name('categories.destroy');
+//Admin Show edit form Category
+Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
+
+//Admin update Category
+Route::put('/categories/{id}', 'CategoryController@update')->name('categories.update');
+
+
+//Admin brand
+Route::get('/brands', 'BrandController@index')->name('brands.list');
+//Admin create brand
+Route::get('/brands/create', 'BrandController@create')->name('brands.create');
+//Admin store brand
+Route::post('/brands', 'BrandController@store')->name('brands.store');
+//Admin Delete brands 
+Route::Delete('/brands/{id}', 'BrandController@destroy')->name('brands.destroy');
+//Admin Show edit form Category
+Route::get('/brands/{id}/edit', 'BrandController@edit')->name('brands.edit');
+
+//Admin update brand
+Route::put('/brands/{id}', 'BrandController@update')->name('brands.update');
+
+//Admin product
+Route::get('/products', 'ProductAdminController@index')->name('products.list');
+
+//Admin select product
+Route::post('/products', 'ProductAdminController@select')->name('products.select');
+//Admin create product
+Route::get('/products/create', 'ProductAdminController@create')->name('products.create');
+//Admin store brand
+Route::post('/products/create', 'ProductAdminController@store')->name('products.store');
+//Admin Show edit form Product
+Route::get('/products/{code}/edit', 'ProductAdminController@edit')->name('products.edit');
+//Admin update Product
+Route::put('/products/{id}', 'ProductAdminController@update')->name('products.update');
+
+
+
+
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+//Gen ra các route cho authern
+// Auth::routes();
+// Route::get('/home', 'HomeController@index')->name('home');
+
+//Show login form
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('form-login');
+
+//Submit login
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+//Show homepage
+Route::get('/home', 'HomeController@index')->name('home');
+
+//Logout
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+//Register form
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('form-register');
+
+//Create user
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
 

@@ -144,6 +144,10 @@
                     <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
+<<<<<<< HEAD
+
+                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+=======
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -156,6 +160,7 @@
                 @if(session()->has('message'))
                     <p style="color:red;">{{session()->get('message')}}</p>
                 @endif
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -244,7 +249,11 @@
 
                                         <div class="ps-shoe__detail">
                                             <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
+<<<<<<< HEAD
+                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+=======
                                             <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                         </div>
                                     </div>
                                 </div>
@@ -304,7 +313,11 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
+<<<<<<< HEAD
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+=======
                                     <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                 </div>
                             </div>
                         </div>

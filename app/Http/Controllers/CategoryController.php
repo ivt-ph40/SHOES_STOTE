@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('categories.list',compact('categories'));
     }
 
     /**
@@ -24,7 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $parents = Category::where('parent_id','=', NULL)->get();
+        return view('categories.create',compact('parents'));
     }
 
     /**
@@ -35,7 +39,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        Category::create($data);
+        return redirect()->route('categories.list');
     }
 
     /**
@@ -55,9 +61,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        $categories = Category::find($id);
+        return view('categories.edit', compact('categories'));
     }
 
     /**
@@ -67,9 +74,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token', '_method');
+        Category::find($id)->update($data);
+        return Redirect() -> route('categories.list')->with('message', 'Update User Success !');//cau event hien thi sau khi update
     }
 
     /**
@@ -78,8 +87,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $categories = Category::find($id);
+        $categories->delete();
+        return Redirect() -> route('categories.list')->with('message', 'Delete User Success !');
     }
 }
