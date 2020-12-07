@@ -16,7 +16,13 @@
             <tr>
                 <td scope="row">{{$category->id}}</td>
                 <td>{{$category->category_name}}</td>
-                <td>{{$category->parent_id }}</td>
+                <td>
+                    @if ($category->parent_id === 1)
+                        Men
+                    @else
+                        Women
+                    @endif
+                </td>
                 <td><a href="{{route('categories.edit', $category->id)}}" class="btn btn-primary">Edit</a></td>
                 <td>
                     <form action="{{route('categories.destroy', $category->id)}}" method="POST">

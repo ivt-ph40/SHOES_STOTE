@@ -15,21 +15,25 @@
 //     return view('welcome');
 // });
 
-// Auth::routes();
 
 //Show homepage
-Route::get('/', 'HomeController@index')->name('home');
 
 //Show product's detail
 Route::get('/product/{id}', 'ProductController@show')->name('product-detail');
-// Route::get('/product-detail', function(){
-//     return view('users.product-detail');
-// })->name('product-detail');
+
+//Show form contact us
+Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-form');
+
+//Submit contact
+Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Show cart
 Route::get('/cart', function(){
     return view('users.cart');
-})->name('cart');
+})->name('show-cart');
+
+//Add cart
+Route::get('/add-cart/{id}', 'ProductController@addToCart')->name('add-cart');
 
 //Show list of products
 Route::get('/product-list', function(){
@@ -66,11 +70,7 @@ Route::get('/profile', function(){
     return view('users.profile');
 })->name('profile');
 
-//Show form contact us
-Route::get('/contact-us', 'ContactController@showContactForm')->name('contact-form');
 
-//Contact submit
-Route::post('/contact-us', 'ContactController@sendMail')->name('send-contact');
 
 //Admin 
 Route::get('/admins', function(){
@@ -108,3 +108,45 @@ Route::put('/brands/{id}', 'BrandController@update')->name('brands.update');
 
 //Admin product
 Route::get('/products', 'ProductAdminController@index')->name('products.list');
+
+//Admin select product
+Route::post('/products', 'ProductAdminController@select')->name('products.select');
+//Admin create product
+Route::get('/products/{id}/create', 'ProductAdminController@create')->name('products.create');
+//Admin store brand
+Route::post('/products/create', 'ProductAdminController@store')->name('products.store');
+//Admin Show edit form Product
+Route::get('/products/{id}/{category_id}/edit', 'ProductAdminController@edit')->name('products.edit');
+//Admin update Product
+Route::put('/products/{id}', 'ProductAdminController@update')->name('products.update');
+
+
+
+
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+//Gen ra các route cho authern
+// Auth::routes();
+// Route::get('/home', 'HomeController@index')->name('home');
+
+//Show login form
+Route::get('/login', 'Auth\LoginController@showLoginForm')->name('form-login');
+
+//Submit login
+Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+//Show homepage
+Route::get('/home', 'HomeController@index')->name('home');
+
+//Logout
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+//Register form
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('form-register');
+
+//Create user
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
+

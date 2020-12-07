@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('company-info') }}">About Us</a></li>
+                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -125,7 +125,7 @@
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
-                <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
             </div>
         </div>
     </nav>
@@ -161,7 +161,7 @@
                                 @endforeach
                             </div>
                             <a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto">
-                            <img src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
+                            <img name="image" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
                         </div>
                         <div class="ps-product__image">
                             @foreach($product->images as $image)
@@ -191,27 +191,29 @@
                                 <option value="2">5</option>
                             </select>
                         </div>
-                        <h1>{{ $product->product_name }}</h1>
-                        <h3 class="ps-product__price">{{ number_format($product->price) }} đ</h3>
+                        <h1 name="product_name">{{ $product->product_name }}</h1>
+                        <h3 class="ps-product__price" name="price">{{ number_format($product->price) }} đ</h3>
                         <div class="ps-product__block ps-product__quickview">
-                            <h4 id="product-code">CODE: <span>{{ $product->product_code }}</span></h4>
-                            <h4 id="product-color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
+                            <h4 id="product-code" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
+                            <h4 id="product-code" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
+                            <h4 id="product-color" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
                         </div>
                         <div class="ps-product__block ps-product__size">
                             <h4>CHOOSE SIZE</h4>
                             <select class="ps-select selectpicker">
                                 @foreach($product->product_details as $item)
-                                    <option value="{{ $item->size }}">{{ $item->size }}</option>
+                                    <option value="{{ $item->size }}" name="size">{{ $item->size }}</option>
                                 @endforeach
                             </select>
                             <div class="form-group">
                                 <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
                             </div>
                         </div>
-                        <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('cart') }}">Add to cart<i class="ps-icon-next"></i></a>
+                        <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('add-cart', $product->id) }}">Add to cart<i class="ps-icon-next"></i></a>
                             <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
                         </div>
                     </div>
+
                     <div class="clearfix"></div>
                     <div class="ps-product__content mt-50">
                         <ul class="tab-list" role="tablist">
@@ -326,7 +328,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $item->id) }}">{{ $item->product_name }}</a></p>
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span>
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span></p>
                                 </div>
                             </div>
                         </div>

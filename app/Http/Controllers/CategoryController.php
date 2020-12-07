@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -26,8 +27,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $brand = Brand::all();
-        return view('categories.create',compact('brand'));
+        $parents = Category::where('parent_id','=', NULL)->get();
+        return view('categories.create',compact('parents'));
     }
 
     /**

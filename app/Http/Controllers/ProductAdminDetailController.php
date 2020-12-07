@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ContactController extends Controller
+class ProductAdminDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,21 +15,7 @@ class ContactController extends Controller
     {
         //
     }
-    public function showContactForm(){
-        return view('users.contact-us');
-    }
-    public function sendMail(Request $request){
-        $toEmail = $request->email;
-        $fromEmail ='admin@gmail.com';
-        $username = $request->username;
-        $data =['username' => $username, 'content' => $request->content]; //get data from form contact-us
-        \Mail::send('mails.contact-us', $data, function($message) use ($toEmail, $fromEmail, $username){
-            $message->to($toEmail, $username);
-            // $message->from($fromEmail, 'Admin');
-            $message->subject('Contact Mail');
-        });
-        return 'success';
-    }
+
     /**
      * Show the form for creating a new resource.
      *

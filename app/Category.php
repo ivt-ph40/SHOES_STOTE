@@ -10,10 +10,6 @@ class Category extends Model
         'category_name', 'parent_id',
     ];
 
-    public function brands(){
-        return $this->hasMany('App\Brand');
-    }
-
     public function products(){
         return $this->hasMany('App\Product');
     }

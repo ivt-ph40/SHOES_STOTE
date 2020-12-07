@@ -5,11 +5,11 @@
         @csrf
         <div class="form-group">
             <label for="">Category Name</label>
-            <input type="text" name="category_name" id="" class="form-control" placeholder="" aria-describedby="helpId">
+            <input type="text" name="category_name" id="" class="form-control" placeholder="" aria-describedby="helpId" required>
             <label for="">Loại</label>
             <select name="parent_id">
-                @foreach($brand as $bran)
-                <option name="parent_id" value="{{$bran->id}}">{{$bran->brand_name}}</option>
+                @foreach($parents as $parent)
+                <option name="parent_id" value="{{$parent->id}}">{{$parent->category_name}}</option>
                 @endforeach
             </select>
         </div>
