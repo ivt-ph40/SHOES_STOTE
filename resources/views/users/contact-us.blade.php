@@ -54,18 +54,31 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
+<<<<<<< HEAD
                                         <li><a href="product-listing.html">All Shoes</a></li>
                                         <li><a href="product-listing.html">Lifestyle</a></li>
                                         <li><a href="product-listing.html">Running</a></li>
                                         <li><a href="product-listing.html">Training</a></li>
                                         <li><a href="product-listing.html">Football</a></li>
+=======
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
+<<<<<<< HEAD
                                         <li><a href="product-listing.html">NIKE</a></li>
                                         <li><a href="product-listing.html">Adidas</a></li>
+=======
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                     </ul>
                                 </div>
                             </div>
@@ -84,18 +97,31 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
+<<<<<<< HEAD
                                         <li><a href="product-listing.html">All Shoes</a></li>
                                         <li><a href="product-listing.html">Lifestyle</a></li>
                                         <li><a href="product-listing.html">Running</a></li>
                                         <li><a href="product-listing.html">Training</a></li>
                                         <li><a href="product-listing.html">Football</a></li>
+=======
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
+<<<<<<< HEAD
                                         <li><a href="product-listing.html">NIKE</a></li>
                                         <li><a href="product-listing.html">Adidas</a></li>
+=======
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                     </ul>
                                 </div>
                             </div>
@@ -106,12 +132,33 @@
             </div>
 
             <div class="navigation__column right">
+<<<<<<< HEAD
                 <form class="ps-search--header" action="do_action" method="post">
                     <input class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
                 <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+=======
+                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
+                    @csrf
+                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
+                    <button><i class="ps-icon-search"></i></button>
+                </form>
+
+                <div class="ps-cart">
+                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                        @if($cartCount != null)
+                            <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
+                        @else
+                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        @endif
+                    </a>
+                </div>
+                @if(session()->has('message'))
+                    <p style="color:red;">{{session()->get('message')}}</p>
+                @endif
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -135,6 +182,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Name <sub>*</sub></label>
+<<<<<<< HEAD
                             <input name="username" class="form-control" type="text" placeholder="">
                         </div>
                         <div class="form-group">
@@ -144,6 +192,32 @@
                         <div class="form-group mb-25">
                             <label>Your Message <sub>*</sub></label>
                             <textarea name="content" class="form-control" rows="6"></textarea>
+=======
+                            <input name="username" value={{ old('username') }} class="form-control" type="text" placeholder="">
+                            @if($errors->has('username'))
+                                <p style="color: red;">
+                                    {{ $errors->first('username') }}
+                                </p>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label>Email <sub>*</sub></label>
+                            <input name="email" value={{ old('email') }} class="form-control" type="text" placeholder="">
+                            @if($errors->has('email'))
+                                <p style="color: red;">
+                                    {{ $errors->first('email') }}
+                                </p>
+                            @endif
+                        </div>
+                        <div class="form-group mb-25">
+                            <label>Your Message <sub>*</sub></label>
+                            <textarea name="message" value={{ old('message') }} class="form-control" rows="6"></textarea>
+                            @if($errors->has('message'))
+                                <p style="color: red;">
+                                    {{ $errors->first('message') }}
+                                </p>
+                            @endif
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                         </div>
                         <div class="form-group">
                             <button class="ps-btn">Send Message<i class="ps-icon-next"></i></button>

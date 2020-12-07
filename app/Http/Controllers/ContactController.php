@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart as Cart;
+use App\Http\Requests\SendMessageRequest;
 
 class ContactController extends Controller
 {
@@ -16,19 +18,24 @@ class ContactController extends Controller
         //
     }
     public function showContactForm(){
-        return view('users.contact-us');
+        $cartCount = Cart::content()->count();
+        return view('users.contact-us', compact('cartCount'));
     }
-    public function sendMail(Request $request){
+    public function sendMail(SendMessageRequest $request){
         $toEmail = $request->email;
         $fromEmail ='admin@gmail.com';
         $username = $request->username;
+<<<<<<< HEAD
         $data =['username' => $username, 'content' => $request->content]; //get data from form contact-us
+=======
+        $data =['username' => $username, 'message' => $request->message]; //get data from form contact-us
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
         \Mail::send('mails.contact-us', $data, function($message) use ($toEmail, $fromEmail, $username){
             $message->to($toEmail, $username);
             // $message->from($fromEmail, 'Admin');
             $message->subject('Contact Mail');
         });
-        return 'success';
+        return view('users.success');
     }
     /**
      * Show the form for creating a new resource.

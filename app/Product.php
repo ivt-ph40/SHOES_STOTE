@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
+<<<<<<< HEAD
         'id',
+=======
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
         'category_id',
         'brand_id',
         'product_code',
@@ -34,10 +37,6 @@ class Product extends Model
 
     public function ratings(){
         return $this->hasMany('App\Rating');
-    }
-
-    public function coupons(){
-        return $this->belongsToMany('App\Coupon');
     }
 
     public function product_details(){

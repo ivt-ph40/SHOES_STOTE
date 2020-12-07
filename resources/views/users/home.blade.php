@@ -18,6 +18,9 @@
         width: 80px;
         height: 60px;
     }
+    .pagination {
+        display: inline-block;
+    }
     #product-name{
         max-width: 200px;
     }
@@ -40,7 +43,22 @@
                 </div>
 
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                    <div class="header__actions"><a href="#">Login & Regiser</a></div>
+                    <div class="header__actions">
+                        {{-- @if (Route::has('form-login'))
+                            <div class="top-right links">
+                                @auth
+                                    <a href="{{ url('/home') }}">Home</a>
+                                @else
+                                    <a href="{{ route('form-login') }}">Login</a>
+
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">Register</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        @endif --}}
+                        <a href="#">Login & Regiser</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,18 +87,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -99,18 +117,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -121,12 +139,28 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="Search Product…">
+                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
+                    @csrf
+                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
+<<<<<<< HEAD
 
                 <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+=======
+                <div class="ps-cart">
+                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                        @if($cartCount != null)
+                            <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
+                        @else
+                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        @endif
+                    </a>
+                </div>
+                @if(session()->has('message'))
+                    <p style="color:red;">{{session()->get('message')}}</p>
+                @endif
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -174,26 +208,25 @@
         <div class="ps-container">
             <div class="ps-section__header mb-50">
                 <h3 class="ps-section__title" data-mask="features">- Features Shoes</h3>
-                <ul class="ps-masonry__filter">
-                    <li class="current"><a href="#" data-filter="*">All <sup>8</sup></a></li>
-                    <li><a href="#" data-filter=".nike">Nike <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".adidas">Adidas <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".men">Men <sup>1</sup></a></li>
-                    <li><a href="#" data-filter=".women">Women <sup>1</sup></a></li>
-                </ul>
             </div>
 
             <div class="ps-section__content pb-50">
                 <div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
                     <div class="ps-masonry">
-                        <div class="grid-sizer"></div>
-                        @foreach ($allProducts as $product)
+                        @foreach ($products as $product)
                         <div class="grid-item nike">
                             <div class="grid-item__content-wrapper">
                                 <div class="ps-shoe mb-30">
-                                    <div class="ps-shoe__thumbnail">
-                                        {{-- <div class="ps-badge"><span>New</span></div> --}}
-                                        {{-- <div class="ps-badge ps-badge--sale"><span>-{{ number_format($product->coupons->discount_percent) }}%</span></div> --}}
+                                   <div class="ps-shoe__thumbnail">
+                                        @if($product->discount_percent != 0)
+                                        <div class="ps-badge ps-badge--sale">
+                                            <span>-{{ number_format($product->discount_percent) }}%</span>
+                                        </div>
+                                        @else
+                                        <div>
+                                            <span>{{''}}</span>
+                                        </div>
+                                        @endif
                                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                         <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                                         <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
@@ -216,7 +249,11 @@
 
                                         <div class="ps-shoe__detail">
                                             <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
+<<<<<<< HEAD
                                             <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+=======
+                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +291,7 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge ps-badge--sale"><span>-{{ number_format($product->coupons[0]->discount_percent) }}%</span></div>
+                                <div class="ps-badge ps-badge--sale"><span>-{{ number_format($product->discount_percent) }}%</span></div>
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                                 <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
@@ -276,7 +313,11 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
+<<<<<<< HEAD
                                     <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+=======
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                 </div>
                             </div>
                         </div>
@@ -300,10 +341,10 @@
                             <option value="1">4</option>
                             <option value="5">5</option>
                         </select>
-                        <p>Logan May - CEO & Founder Invision</p>
+                        <p>Nike - Just Do It</p>
                     </header>
                     <footer>
-                        <p>“Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant. “</p>
+                        <p>“ The American Foundation for the Blind gave Nike the 1995 Access Award for its creation and distribution of a "Just Do It" poster done in braille. “</p>
                     </footer>
                 </div>
 
@@ -317,10 +358,10 @@
                             <option value="1">4</option>
                             <option value="5">5</option>
                         </select>
-                        <p>Logan May - CEO & Founder Invision</p>
+                        <p>Adidas - Impossible Is Nothing</p>
                     </header>
                     <footer>
-                        <p>“Dessert pudding dessert jelly beans cupcake sweet caramels gingerbread. Fruitcake biscuit cheesecake. Cookie topping sweet muffin pudding tart bear claw sugar plum croissant. “</p>
+                        <p>“ Adidas’s famous tagline follows in the great sports apparel trend of inspirational mumbo-jumbo. It’ll also send you into an existential spiral. “</p>
                     </footer>
                 </div>
             </div>

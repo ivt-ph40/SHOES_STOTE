@@ -21,8 +21,21 @@
     #product-name{
         max-width: 200px;
     }
-    #product-code, #product-color{
+    #sale-percent{
+        margin: 15px 0 !important;
+        line-height: 30px;
+    }
+    #sale-percent h3{
+        font-weight: bold;
+        max-width: 150px;
+    }
+    .product-info{
         border-bottom: none !important;
+        margin: 5px 0 !important;
+    }
+    #add-cart-btn{
+        background: none;
+        border: none;
     }
     #footer-area{
         text-align: left;
@@ -68,18 +81,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-men-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-men-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-men-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-men-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-men-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-men-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-men-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -98,18 +111,18 @@
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">Shoes</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">All Shoes</a></li>
-                                        <li><a href="product-listing.html">Lifestyle</a></li>
-                                        <li><a href="product-listing.html">Running</a></li>
-                                        <li><a href="product-listing.html">Training</a></li>
-                                        <li><a href="product-listing.html">Football</a></li>
+                                        <li><a href="{{ route('all-women-shoes-list') }}">All Shoes</a></li>
+                                        <li><a href="{{ route('lifestyle-women-shoes-list') }}">Lifestyle</a></li>
+                                        <li><a href="{{ route('running-women-shoes-list') }}">Running</a></li>
+                                        <li><a href="{{ route('training-women-shoes-list') }}">Training</a></li>
+                                        <li><a href="{{ route('football-women-shoes-list') }}">Football</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
                                     <h4 class="mega-heading">BRAND</h4>
                                     <ul class="mega-item">
-                                        <li><a href="product-listing.html">NIKE</a></li>
-                                        <li><a href="product-listing.html">Adidas</a></li>
+                                        <li><a href="{{ route('Nike-women-shoes-list') }}">NIKE</a></li>
+                                        <li><a href="{{ route('Adidas-women-shoes-list') }}">Adidas</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -120,12 +133,28 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="do_action" method="post">
-                    <input class="form-control" type="text" placeholder="Search Product…">
+                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
+                    @csrf
+                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
 
+<<<<<<< HEAD
                 <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
+=======
+                <div class="ps-cart">
+                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                        @if($cartCount != null)
+                            <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
+                        @else
+                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        @endif
+                    </a>
+                </div>
+                @if(session()->has('message'))
+                    <p style="color:red;">{{session()->get('message')}}</p>
+                @endif
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -160,7 +189,11 @@
                                     </div>
                                 @endforeach
                             </div>
+<<<<<<< HEAD
                             <a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto">
+=======
+                            <a class="popup-youtube ps-product__video" href="https://www.youtube.com/watch?v=LBukoM3CLic">
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                             <img name="image" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
                         </div>
                         <div class="ps-product__image">
@@ -182,6 +215,7 @@
                     </div>
 
                     <div class="ps-product__info">
+<<<<<<< HEAD
                         <div class="ps-product__rating">
                             <select class="ps-rating">
                                 <option value="1">1</option>
@@ -212,6 +246,53 @@
                         <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('add-cart', $product->id) }}">Add to cart<i class="ps-icon-next"></i></a>
                             <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
                         </div>
+=======
+                        <form action={{ route('add-cart')}} method="POST">
+                            @csrf
+                            <div class="ps-product__rating">
+                                <select class="ps-rating">
+                                    <option value="1">1</option>
+                                    <option value="1">2</option>
+                                    <option value="1">3</option>
+                                    <option value="1">4</option>
+                                    <option value="2">5</option>
+                                </select>
+                            </div>
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <h1>{{ $product->product_name }}</h1>
+                            <div id="sale-percent">
+                                @if($product->discount_percent != 0)
+                                    <del><h4>{{ number_format($product->price) }}đ</h4></del>
+                                    <h3 class="ps-product__price">{{ number_format($product->price - (($product->discount_percent * $product->price)/100)) }}đ</h3>
+                                @else
+                                    <h3 class="ps-product__price">{{ number_format($product->price) }}đ</h3>
+                                    <h3>{{''}}</h3>
+                                @endif
+                            </div>
+                            <div class="ps-product__block ps-product__quickview">
+                                <h4 class="product-info">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
+                                <h4 class="product-info">CODE: <span>{{ $product->product_code }}</span></h4>
+                                <h4 class="product-info">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
+                            </div>
+                            <div class="ps-product__block ps-product__size">
+                                <h4>CHOOSE SIZE</h4>
+                                <select class="ps-select selectpicker" name="size">
+                                    @foreach($product->product_details as $item)
+                                        @if($item->product_status != 'out of stock')
+                                            <option value="{{ $item->size }}">{{ $item->size }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <div class="form-group">
+                                    <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
+                                </div>
+                            </div>
+                            <div class="ps-product__shopping">
+                                <button id="add-cart-btn" type="submit"><span class="ps-btn mb-10">Add to cart<i class="ps-icon-next"></i></span></button>
+                                <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
+                            </div>
+                        </form>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                     </div>
 
                     <div class="clearfix"></div>
@@ -228,38 +309,56 @@
                         </div>
 
                         <div class="tab-pane" role="tabpanel" id="tab_02">
-                            <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>
-                            <div class="ps-review">
-                                <div class="ps-review__thumbnail"><img src="images/user/1.jpg" alt=""></div>
-                                <div class="ps-review__content">
-                                    <header>
-                                        <select class="ps-rating">
-                                        <option value="1">1</option>
-                                        <option value="1">2</option>
-                                        <option value="1">3</option>
-                                        <option value="1">4</option>
-                                        <option value="5">5</option>
-                                        </select>
-                                        <p>By Alena Studio</p>
-                                    </header>
-                                    <p>Soufflé danish gummi bears tart. Pie wafer icing. Gummies jelly beans powder. Chocolate bar pudding macaroon candy canes chocolate apple pie chocolate cake. Sweet caramels sesame snaps halvah bear claw wafer. Sweet roll soufflé muffin topping muffin brownie. Tart bear claw cake tiramisu chocolate bar gummies dragée lemon drops brownie.</p>
-                                </div>
-                            </div>
-                            <form class="ps-product__review" action="_action" method="post">
+                            @if($reviews != null)
+                                <p class="mb-20"><strong>{{ $reviews[0]->product->product_name }}</strong></p>
+                                @foreach($reviews as $review)
+                                    <div class="ps-review">
+                                        <div class="ps-review__content">
+                                            <header>
+                                                <select class="ps-rating">
+                                                <option value="1">1</option>
+                                                <option value="1">2</option>
+                                                <option value="1">3</option>
+                                                <option value="1">4</option>
+                                                <option value="5">5</option>
+                                                </select>
+                                                <p>By {{ $review->user->last_name. ' ' . $review->user->first_name }}</p>
+                                            </header>
+                                            <p>{{ $review->content }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <span>{{ '' }}</span>
+                            @endif
+                            <form class="ps-product__review" action="{{ route('submit-review') }}" method="POST">
+                                @csrf
                                 <h4>ADD YOUR REVIEW</h4>
+                                <input type="hidden" name="user_id" value="3">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
-                                            <label>Name:<span>*</span></label>
-                                            <input class="form-control" type="text" placeholder="">
+                                            <label>Name<span>*</span></label>
+                                            <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                            @if($errors->has('username'))
+                                                <p style="color: red;">
+                                                    {{ $errors->first('username') }}
+                                                </p>
+                                            @endif
                                         </div>
                                         <div class="form-group">
-                                            <label>Email:<span>*</span></label>
-                                            <input class="form-control" type="email" placeholder="">
+                                            <label>Email<span>*</span></label>
+                                            <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                            @if($errors->has('email'))
+                                                <p style="color: red;">
+                                                    {{ $errors->first('email') }}
+                                                </p>
+                                            @endif
                                         </div>
                                         <div class="form-group">
                                             <label>Your rating<span></span></label>
-                                            <select class="ps-rating">
+                                            <select name="rating" class="ps-rating">
                                                 <option value="1">1</option>
                                                 <option value="1">2</option>
                                                 <option value="1">3</option>
@@ -271,7 +370,7 @@
                                     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
                                             <label>Your Review:</label>
-                                            <textarea class="form-control" rows="6"></textarea>
+                                            <textarea name="content" value="{{ old('content') }}" class="form-control" rows="6"></textarea>
                                         </div>
                                             <div class="form-group">
                                             <button class="ps-btn ps-btn--sm">Submit<i class="ps-icon-next"></i></button>
@@ -305,8 +404,15 @@
                     <div class="ps-shoes--carousel">
                         <div class="ps-shoe">
                             <div class="ps-shoe__thumbnail">
-                                <div class="ps-badge"><span>New</span></div>
-                                <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div>
+                                @if($item->discount_percent != 0)
+                                <div class="ps-badge ps-badge--sale">
+                                    <span>-{{ $item->discount_percent }}%</span>
+                                </div>
+                                @else
+                                <div>
+                                    <span>{{''}}</span>
+                                </div>
+                                @endif
                                 <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$item->images[0]->image_name .'') }}">
                                 <a class="ps-shoe__overlay" href="{{ route('product-detail', $item->id) }}"></a>
@@ -328,7 +434,11 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $item->id) }}">{{ $item->product_name }}</a></p>
+<<<<<<< HEAD
                                     <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span></p>
+=======
+                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }}đ</span></p>
+>>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                 </div>
                             </div>
                         </div>
