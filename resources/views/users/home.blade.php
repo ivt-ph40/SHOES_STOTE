@@ -42,23 +42,17 @@
                     <p>92 Quang Trung Street, Da Nang City  -  Hotline: 804-377-3580 - 804-399-3580</p>
                 </div>
 
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
                     <div class="header__actions">
                         @if (Route::has('form-login'))
                             <div class="top-right links">
                                 @auth
-                                    <a href="{{ url('/home') }}">Home</a>
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
                                     @if (Route::has('login'))
                                         <a href="{{ route('logout') }}">Logout</a>
                                     @endif
-                                    {{-- <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <span class="navbar-text">
-                                            Welcome {{ \Auth::user()->name }} !
-                                        </span>
-                                        &nbsp;
-                                        <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
-                                    </form> --}}
                                 @else
                                     <a href="{{ route('form-login') }}">Login</a>
                                     @if (Route::has('register'))
@@ -67,7 +61,6 @@
                                 @endauth
                             </div>
                         @endif
-                        {{-- <a href="#">Login & Regiser</a> --}}
                     </div>
                 </div>
             </div>

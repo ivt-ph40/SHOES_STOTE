@@ -52,7 +52,25 @@
                 </div>
 
                 <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                    <div class="header__actions"><a href="#">Login & Regiser</a></div>
+                    <div class="header__actions">
+                        @if (Route::has('form-login'))
+                            <div class="top-right links">
+                                @auth
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('form-login') }}">Login</a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">Register</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -293,13 +311,19 @@
                             <form class="ps-product__review" action="{{ route('submit-review') }}" method="POST">
                                 @csrf
                                 <h4>ADD YOUR REVIEW</h4>
-                                <input type="hidden" name="user_id" value="3">
+                                @if(\Auth::user()->id != null)
+                                    <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
+                                @endif
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
                                             <label>Name<span>*</span></label>
-                                            <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                            @if((\Auth::user()->last_name. ' '.\Auth::user()->first_name) != null)
+                                                <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
+                                            @else
+                                                <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                            @endif
                                             @if($errors->has('username'))
                                                 <p style="color: red;">
                                                     {{ $errors->first('username') }}
@@ -308,7 +332,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Email<span>*</span></label>
-                                            <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                            @if(\Auth::user()->email != null)
+                                                <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
+                                            @else
+                                                <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                            @endif
                                             @if($errors->has('email'))
                                                 <p style="color: red;">
                                                     {{ $errors->first('email') }}
