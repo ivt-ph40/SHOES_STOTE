@@ -17,11 +17,13 @@ class ProductAdminController extends Controller
      */
     public function index()
     {
-        $products1 = Product::all();
         $categories = Category::all()->unique('category_name');
         $products = Product::with('brand')
                             ->join('brands',function($join){
                                 $join->on('products.brand_id', '=', 'brands.id');
+                            })
+                            ->join('categories',function($join){
+                                $join->on('products.category_id', '=', 'categories.id');
                             })
                             ->orderBy('products.id', 'ASC')
                             ->get();
@@ -89,12 +91,10 @@ class ProductAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$category_id)
+    public function edit($code)
     {
-        $products = Product::find($id);
-        $categories_id = Category::find($category_id);
-        $parents = Category::where('parent_id','=', NULL)->get();
-        return view('products.edit', compact('products','categories_id','parents'));
+        $products = Product::where('product_code','=',$code)->first();
+        return view('products.edit', compact('products'));
     }
 
     /**
@@ -107,10 +107,10 @@ class ProductAdminController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->except('_token', '_method');
-        $category = Category::where('category_name','=', $data['category_name'])
-                            ->where('parent_id','=', $data['parent_id'])
-                            ->first();
-        $data['category_id'] = $category['id'];
+        // $category = Category::where('category_name','=', $data['category_name'])
+        //                     ->where('parent_id','=', $data['parent_id'])
+        //                     ->first();
+        // $data['category_id'] = $category['id'];
         Product::find($id)->update($data);
         return redirect()->route('products.select')->with('message', 'Update User Success !');//cau event hien thi sau khi update
     }

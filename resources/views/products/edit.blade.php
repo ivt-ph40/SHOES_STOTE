@@ -6,19 +6,10 @@
     @method('PUT')
 
     <div class="form-group">
-        <label for="">Category Name</label>
-        <input type="text" class="form-control" name="category_name" placeholder="Input field"
-            value="{{$categories_id->category_name}}">
-    </div>
-
-    <div class="form-group">
-        <label for="">Parent </label>
-        <select name="parent_id" >
-            @foreach ($parents as $parent)
-            <option name="parent_id" value="{{$parent->id}}">{{$parent->category_name}}</option>
-            @endforeach
-        </select>
-    </div>
+        <label for="">Product ID</label>
+        <input type="text" class="form-control" name="product_id" placeholder="Input field"
+            value="{{$products->id}}">
+	</div>
 
     <div class="form-group">
         <label for="">Product Code</label>

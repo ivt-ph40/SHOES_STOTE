@@ -112,11 +112,11 @@ Route::get('/products', 'ProductAdminController@index')->name('products.list');
 //Admin select product
 Route::post('/products', 'ProductAdminController@select')->name('products.select');
 //Admin create product
-Route::get('/products/{id}/create', 'ProductAdminController@create')->name('products.create');
+Route::get('/products/create', 'ProductAdminController@create')->name('products.create');
 //Admin store brand
 Route::post('/products/create', 'ProductAdminController@store')->name('products.store');
 //Admin Show edit form Product
-Route::get('/products/{id}/{category_id}/edit', 'ProductAdminController@edit')->name('products.edit');
+Route::get('/products/{code}/edit', 'ProductAdminController@edit')->name('products.edit');
 //Admin update Product
 Route::put('/products/{id}', 'ProductAdminController@update')->name('products.update');
 

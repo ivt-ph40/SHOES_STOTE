@@ -19,8 +19,6 @@
     </div>
     <button type="submit" class="btn btn-primary" action="save">Confirm</button>
 </form>
-<a href="{{route('products.sub-branch.brand')}}" class="btn btn-primary">Category</a>
-<a href="{{route('products.sub-branch.category')}}" class="btn btn-primary">Brand</a>
 <h1>List Product</h1>
 <table class="table">
     <thead>
@@ -30,6 +28,7 @@
             <th>Product_name</th>
             <th>Hãng</th>
             <th>Giới Tính</th>
+            <th>Price</th>
             <th>Discount</th>
             <th>Edit</th>
         </tr>
@@ -53,10 +52,11 @@
                 @endif</td>
             <td>{{$product->price}}</td>
             <td>{{$product->discount_percent}}</td>
+            <td><a href="{{route('products.edit', $product->product_code)}}" class="btn btn-primary">Edit</a></td>
         </tr>
         
         @endforeach
     </tbody>
-
+    <a href="{{route('products.create')}}" class="btn btn-primary">Create</a>
 </table>
 @endsection
