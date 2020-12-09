@@ -187,12 +187,12 @@
                                 @foreach($cart as $item)
                                 <tr>
                                     <td>
-                                        <a class="ps-product__preview" href="product-detail.html">
+                                        <a class="ps-product__preview" href="{{ route('product-detail', $item->id) }}">
                                             <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
                                             {{ $item->name }}
                                         </a>
                                     </td>
-                                    <td>{{ $item->options->size }}</td>
+                                    <td><span id="size">{{ $item->options->size }}</span></td>
                                     <td>{{ $item->options->color }}</td>
                                     <td><span name="price">{{ number_format($item->price) }}đ</span></td>
                                     <td>
@@ -200,7 +200,7 @@
                                             <button class="minus" type="button" onclick="updateQuantity(this)" data-action="minus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
                                                 <span > - </span>
                                             </button>
-                                            <input name="qty-{{$item->rowId}}" class="form-control" type="text" value="{{ $item->qty }}">
+                                            <input id="quantity" data-id="{{ $item->id }}" name="qty-{{$item->rowId}}" class="form-control" type="text" value="{{ $item->qty }}" readonly>
                                             <button class="plus" type="button" onclick="updateQuantity(this)" data-action="plus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
                                                 <span> + </span>
                                             </button>
@@ -222,13 +222,13 @@
                     <div class="ps-cart__actions">
                         <div class="ps-cart__promotion">
                             <div class="form-group">
-                                <a href='{{ route('home') }}'><button class="ps-btn ps-btn--gray">Continue Shopping</button></a>
+                                <a href='{{ route('home') }}'><button class="ps-btn ps-btn--gray" onclick="checkQuantity(this)">Continue Shopping</button></a>
                             </div>
                         </div>
 
                         <div class="ps-cart__total">
                             <h3>Total Amount: <span id="total">{{ $totalAmount }}đ</span></h3>
-                            <a class="ps-btn" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
+                            <a class="ps-btn" id="buttonCheckOut" href="{{ route('checkout') }}">Process to checkout<i class="ps-icon-next"></i></a>
                         </div>
                     </div>
             </div>
@@ -275,7 +275,7 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> DongTQ</a></p>
+                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
@@ -291,31 +291,6 @@
     </div>
 </main>
 <script>
-    // function updateQty(url){
-    //     var $qty = $('.cart_quantity_input');
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: url,
-    //         dataType: 'json',
-    //         data: {
-    //             cart_qty: $qty.val()
-    //         },
-    //         success:function(data){
-    //             console.log(data);
-    //             // $qty.val(data.qty);
-    //         }
-    //     });
-    // }
-
-    // $('.cart_quantity_up, .cart_quantity_down').on('click', function(e) {
-    //     e.preventDefault();
-    //     //get the data-route for the 'up'
-    //     var url = $(this).data('route');
-    //     //call the ajax function
-    //     updateQty(url);
-    // });
-
-
     function updateQuantity(event)
     {
         // get params
@@ -356,9 +331,39 @@
                 alert(data.message);
             }
         });
-
-        // Almost done!
     }
+
+    $(document).ready(function () {
+        $('#buttonCheckOut').click(function (e) {
+            e.preventDefault();
+            var productID = $('#quantity').attr('data-id');
+            var quantity = parseInt($('#quantity').val());
+            var size = parseInt($('#size').html());
+            console.log(quantity,productID,size);
+
+            if(quantity<0 || quantity>10 || isNaN(quantity)){
+                alert('This field must between 0 and 10');
+                return false;
+            }
+            $.ajax({
+                type: 'get',
+                url: '/api/products/'+productID+'/check-quantity',
+                data: {
+                    'quantity' : quantity,
+                    'size': size,
+                },
+                success: function(res){
+                    console.log('ok');
+                    window.location.href = "http://skytheme.com/checkout";
+                },
+                error: function(err){
+                    console.log(err, err.responseJSON.message)
+                    alert(err.responseJSON.message);
+                    $('#quantity').val(1);
+                }
+            });
+        });
+    });
 </script>
 @endsection
 
