@@ -28,15 +28,6 @@
         <!-- Custom CSS-->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-         {{-- <!-- CSS Admin Library-->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-        <!-- Font Awesome Icons -->
-        <link rel="stylesheet" href="{{ asset('plugins/AdminPlugins/plugins/fontawesome-free/css/all.min.css') }}">
-        <!-- overlayScrollbars -->
-        <link rel="stylesheet" href="{{ asset('plugins/AdminPlugins/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}"> --}}
-
         <!-- Bootstrap CSS -->
         {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
 
@@ -135,32 +126,6 @@
         <script type="text/javascript" src="{{ asset('plugins/revolution/js/extensions/revolution.extension.navigation.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('plugins/revolution/js/extensions/revolution.extension.parallax.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('plugins/revolution/js/extensions/revolution.extension.actions.min.js') }}"></script>
-
-        <!-- JS Admin Library-->
-
-        <!-- REQUIRED SCRIPTS -->
-        {{-- <!-- jQuery -->
-        <script src="plugins/AdminPlugins/plugins/jquery/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="plugins/AdminPlugins/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- overlayScrollbars -->
-        <script src="plugins/AdminPlugins/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="dist/js/adminlte.js"></script> --}}
-
-        {{-- <!-- PAGE PLUGINS -->
-        <!-- jQuery Mapael -->
-        <script src="plugins/AdminPlugins/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-        <script src="plugins/AdminPlugins/plugins/raphael/raphael.min.js"></script>
-        <script src="plugins/AdminPlugins/plugins/jquery-mapael/jquery.mapael.min.js"></script>
-        <script src="plugins/AdminPlugins/plugins/jquery-mapael/maps/usa_states.min.js"></script>
-        <!-- ChartJS -->
-        <script src="plugins/AdminPlugins/plugins/chart.js/Chart.min.js"></script>
-
-        <!-- AdminLTE for demo purposes -->
-        <script src="'dist/js/demo.js"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard2.js"></script> --}}
 
         <!-- Custom scripts-->
         <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>

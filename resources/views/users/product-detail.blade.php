@@ -313,8 +313,6 @@
                                 <h4>ADD YOUR REVIEW</h4>
                                 @if(\Auth::user() != null)
                                     <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
-                                @else
-                                    <input type="hidden" name="user_id" value="{{ 'null' }}">
                                 @endif
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
@@ -491,9 +489,18 @@
 </main>
 <script>
     $(document).ready(function(){
-        $('#quantity').on('change', function(){
-            var quantity =parseInt(this.value);
+        var size = null;
+        $("select.ps-select").change(function(){
+            console.log('ok');
+            window.size = $(this).children("option:selected").val();
+        });
+
+        $('#quantity').on('change', function(e){
+            e.preventDefault();
+            var quantity = parseInt($(this).val());
             var productID = $(this).attr('data-id');
+            console.log(quantity,productID,parseInt(window.size));
+
             if(quantity<0 || quantity>10 || isNaN(quantity)){
                 alert('This field must between 0 and 10');
             }
@@ -502,6 +509,7 @@
                 url: '/api/products/'+productID+'/check-quantity',
                 data: {
                     'quantity' : quantity,
+                    'size' : window.size,
                 },
                 success: function(res){
                     console.log('ok');
@@ -509,9 +517,9 @@
                 error: function(err){
                     console.log(err, err.responseJSON.message)
                     alert(err.responseJSON.message);
-                    $('#quantity').value(1);
+                    $('#quantity').val(1);
                 }
-            })
+            });
         });
     });
 
