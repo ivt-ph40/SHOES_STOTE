@@ -97,22 +97,386 @@ class ProductController extends Controller
         //
     }
     public function search(Request $request){
+        $input_search = $request->only('input_search');
         $products = Product::with('images')
-                            ->where('products.product_name', 'like', '%'. $request->input('input-search'). '%')
+                            ->where('products.product_name', 'like', '%'. $request->input('input_search'). '%')
                             ->orderBy('products.id', 'ASC')
                             ->get();
         $cartCount = Cart::content()->count();
         if($products->first() != null){
-            return view('users.product-listing', compact('products', 'cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cartCount'));
         }else{
             return redirect()->back()->with('message', 'Not found!')->withInput();
         }
 
     }
 
+    public function showMenNewReleases(Request $request){
+        $cartCount = Cart::content()->count();
+        $input_search = $request->only('input_search');
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.product_name', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'price_asc':
+            $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.price', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.price', 'DESC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+        }
+
+        return view('users.product-listing', compact('products','input_search', 'cartCount'));
+    }
+
+    public function showWomenNewReleases(Request $request){
+        $cartCount = Cart::content()->count();
+        $input_search = $request->only('input_search');
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.product_name', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'price_asc':
+            $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.price', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.price', 'DESC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->orderBy('products.created_at', 'DESC')
+                            ->orderBy('products.id', 'ASC')
+                            ->take(4)
+                            ->get();
+                break;
+        }
+
+        return view('users.product-listing', compact('products','input_search', 'cartCount'));
+    }
+
+    public function showMenSaleShoes(Request $request){
+        $cartCount = Cart::content()->count();
+        $input_search = $request->only('input_search');
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+            $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 1);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+        }
+
+        if($products->first() != null){
+            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+        }else{
+            return redirect()->back()->with('message', 'No product for sale!');
+        }
+    }
+
+    public function showWomenSaleShoes(Request $request){
+        $cartCount = Cart::content()->count();
+        $input_search = $request->only('input_search');
+        switch($request->get('sort')){
+            case 'name':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.product_name', 'ASC')
+                            ->get();
+                break;
+            case 'price_asc':
+            $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.price', 'ASC')
+                            ->get();
+                break;
+            case 'price_desc':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.price', 'DESC')
+                            ->get();
+                break;
+            case 'category_lifestyle':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [3,4]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_running':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [5,6]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_football':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [7,8]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            case 'category_training':
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2)
+                                        ->whereIn('categories.id', [9,10]);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+            default:
+                $products = Product::with('images')
+                            ->whereHas('category', function ($query) {
+                                $query->where('categories.parent_id', 2);
+                            })
+                            ->where('products.discount_percent', '<>', '0')
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+                break;
+        }
+        if($products->first() != null){
+            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+        }else{
+            return redirect()->back()->with('message', 'No product for sale!');
+        }
+    }
+
     public function showAllMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -184,12 +548,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showAllWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -261,12 +625,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showLifestyleMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -338,12 +702,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showLifestyleWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -415,12 +779,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showRunningMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -491,12 +855,12 @@ class ProductController extends Controller
                             ->get();
                 break;
         }
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showRunningWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -568,12 +932,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showTrainingMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -645,12 +1009,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showTrainingWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -722,12 +1086,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showFootballMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -799,12 +1163,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showFootballWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -876,12 +1240,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showNikeMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -973,12 +1337,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showNikeWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -1070,12 +1434,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showAdidasMenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -1167,12 +1531,12 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
     public function showAdidasWomenShoes(Request $request){
         $cartCount = Cart::content()->count();
-
+        $input_search = $request->only('input_search');
         switch($request->get('sort')){
             case 'name':
                 $products = Product::with('images')
@@ -1264,7 +1628,7 @@ class ProductController extends Controller
                 break;
         }
 
-        return view('users.product-listing', compact('products', 'cartCount'));
+        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
     }
 
 

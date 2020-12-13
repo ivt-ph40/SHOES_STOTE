@@ -49,6 +49,18 @@ Route::post('/place-order','OrderController@submitOrder')->name('submit-order');
 //Remove cart
 Route::get('/cart_remove', 'CartController@cart_remove')->name('cart_remove');
 
+//Show new releases for men
+Route::get('/new_releases_men', 'ProductController@showMenNewReleases')->name('new-releases-men');
+
+//Show new releases for women
+Route::get('/new_releases_women', 'ProductController@showWomenNewReleases')->name('new-releases-women');
+
+//Show sale shoes for men
+Route::get('/sale_shoes_men', 'ProductController@showMenSaleShoes')->name('sale-shoes-men');
+
+//Show sale shoes for women
+Route::get('/sale_shoes_women', 'ProductController@showWomenSaleShoes')->name('sale-shoes-women');
+
 //Show all men shoes
 Route::get('/all-men-shoes', 'ProductController@showAllMenShoes')->name('all-men-shoes-list');
 
