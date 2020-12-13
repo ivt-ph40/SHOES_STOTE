@@ -31,7 +31,7 @@
                     <p>92 Quang Trung Street, Da Nang City  -  Hotline: 804-377-3580 - 804-399-3580</p>
                 </div>
 
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
                     <div class="header__actions">
                         @if (Route::has('form-login'))
                             <div class="top-right links">
@@ -59,21 +59,21 @@
     <nav class="navigation">
         <div class="container-fluid">
             <div class="navigation__column left">
-                <div class="header__logo"><a class="ps-logo" href="index.html"><img src="{{ asset('images/logo.png') }}"></a></div>
+                <div class="header__logo"><a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}"></a></div>
             </div>
 
             <div class="navigation__column center">
                 <ul class="main-menu menu">
                     <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Men</a>
+                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="{{ route('all-men-shoes-list') }}">Men</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('new-releases-men') }}">NEW RELEASES</a></li>
                                         <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('sale-shoes-men') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -96,14 +96,14 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item"><a href="#">Women</a>
+                    <li class="menu-item"><a href="{{ route('all-women-shoes-list') }}">Women</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('new-releases-women') }}">NEW RELEASES</a></li>
                                         <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('sale-shoes-women') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -133,10 +133,9 @@
             <div class="navigation__column right">
                 <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
                     @csrf
-                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
+                    <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
                     <button><i class="ps-icon-search"></i></button>
                 </form>
-
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -242,7 +241,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " id="footer-area">
                         <aside class="ps-widget--footer ps-widget--info">
                             <header>
-                                <a class="ps-logo" href="index.html"><img src="{{ asset('images/logo-white.png') }}"></a>
+                                <a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo-white.png') }}"></a>
                                 <h3 class="ps-widget__title">Address Office 1</h3>
                             </header>
                             <footer>
@@ -275,14 +274,14 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
+                        <p>&copy; <a href="{{ route('home') }}">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://myaccount.google.com/"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="https://twitter.com/?lang=en"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -359,7 +358,7 @@
                 error: function(err){
                     console.log(err, err.responseJSON.message)
                     alert(err.responseJSON.message);
-                    $('#quantity').val(1);
+                    // $('#quantity').val(1);
                 }
             });
         });
