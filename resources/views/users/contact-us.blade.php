@@ -33,6 +33,7 @@
                                         Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
                                     </span>
                                     @if (Route::has('login'))
+                                        <a href="{{ route('show-profile', \Auth::user()->id) }}">Profile</a>
                                         <a href="{{ route('logout') }}">Logout</a>
                                     @endif
                                 @else
@@ -65,7 +66,6 @@
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
                                         <li><a href="{{ route('new-releases-men') }}">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
                                         <li><a href="{{ route('sale-shoes-men') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
@@ -95,7 +95,6 @@
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
                                         <li><a href="{{ route('new-releases-women') }}">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
                                         <li><a href="{{ route('sale-shoes-women') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>

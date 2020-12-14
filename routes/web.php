@@ -103,6 +103,12 @@ Route::get('/Nike-women-shoes', 'ProductController@showNikeWomenShoes')->name('N
 //Show Adidas's women shoes
 Route::get('/Adidas-women-shoes', 'ProductController@showAdidasWomenShoes')->name('Adidas-women-shoes-list');
 
+//Show profile
+Route::get('/profile/{userID}/edit', 'HomeController@showProfile')->name('show-profile');
+
+//Update profile
+Route::put('/profile/{userID}', 'HomeController@updateProfile')->name('update-profile');
+
 //Show favorite product list
 Route::get('/wishlist', function(){
     return view('users.wishlist');
@@ -123,10 +129,7 @@ Route::get('/404', function(){
     return view('users.404');
 })->name('notfound');
 
-//Show profile
-Route::get('/profile', function(){
-    return view('users.profile');
-})->name('profile');
+
 
 
 
