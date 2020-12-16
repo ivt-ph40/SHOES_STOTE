@@ -134,14 +134,13 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
-                    @csrf
+                <form class="ps-search--header" action="/search-product" method="GET">
                     @if($input_search != null)
                         <input name="input_search" value="{{ implode($input_search) }}" class="form-control" type="text" placeholder="Search Product…">
                     @else
                         <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
                     @endif
-                    <button><i class="ps-icon-search"></i></button>
+                    <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
@@ -152,9 +151,6 @@
                         @endif
                     </a>
                 </div>
-                @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
-                @endif
             </div>
         </div>
     </nav>
@@ -185,7 +181,9 @@
             {{-- </div> --}}
             <div class="ps-product__columns">
                 @if(session()->has('message'))
-                    <h3 style="color:red;">{{session()->get('message')}}</h3>
+                    <div class="alert alert-warning" role="alert">
+                        {{session()->get('message')}}
+                    </div>
                 @endif
                 @foreach ($products as $product)
                 <div class="ps-product__column">
@@ -256,21 +254,45 @@
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=name" }}">Name</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=name&input_search=".implode($input_search)}}">Name</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=name&input_search=".old('input_search') }}">Name</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=name" }}">Name</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=price_asc'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=price_asc" }}">Price (Low to High)</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=price_asc&input_search=".implode($input_search)}}">Price (Low to High)</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=price_asc&input_search=".old('input_search') }}">Price (Low to High)</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=price_asc" }}">Price (Low to High)</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=price_desc'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=price_desc" }}">Price (High to Low)</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=price_desc&input_search=".implode($input_search)}}">Price (High to Low)</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=price_desc&input_search=".old('input_search') }}">Price (High to Low)</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=price_desc" }}">Price (High to Low)</a>
+                            @endif
                         </li>
                     </ul>
                 </div>
@@ -286,28 +308,60 @@
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_lifestyle" }}">Lifestyle</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_lifestyle&input_search=".implode($input_search)}}">Lifestyle</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_lifestyle&input_search=".old('input_search') }}">Lifestyle</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_lifestyle" }}">Lifestyle</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=category_running'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_running" }}">Running</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_running&input_search=".implode($input_search)}}">Running</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_running&input_search=".old('input_search') }}">Running</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_running" }}">Running</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=category_football'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_football" }}">Football</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_football&input_search=".implode($input_search)}}">Football</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_football&input_search=".old('input_search') }}">Football</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_football" }}">Football</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=category_training'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_training" }}">Training</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_training&input_search=".implode($input_search)}}">Training</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_training&input_search=".old('input_search') }}">Training</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_training" }}">Training</a>
+                            @endif
                         </li>
                     </ul>
                 </div>
