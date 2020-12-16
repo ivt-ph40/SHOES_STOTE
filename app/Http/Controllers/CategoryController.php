@@ -89,8 +89,24 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $categories = Category::find($id);
-        $categories->delete();
+        $categories = Category::where('id','=',$id)->delete();
         return Redirect() -> route('categories.list')->with('message', 'Delete User Success !');
+    }
+
+    public function showRecord(){
+        $categories = Category::onlyTrashed()->get();
+        return view('categories.record', compact('categories'));
+    }
+
+    public function restore($id){
+        Category::withTrashed()->where('id','=',$id)->restore();
+        $categories = Category::all();
+        return view('categories.list', compact('categories'));
+    }
+
+    public function force($id){
+        Category::withTrashed()->where('id','=',$id)->forceDelete();
+        $categories = Category::all();
+        return view('categories.list', compact('categories'));
     }
 }

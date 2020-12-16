@@ -1,9 +1,7 @@
-
-
 @extends('layouts.master2')
 @section('content')
 
-<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixe">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -443,13 +441,13 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Edit Product: {{$products->product_name}}</h1>
+                            <h1>RECORD</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{route('home.admins')}}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{route('categories.list')}}">Category</a></li>
-                                <li class="breadcrumb-item active">Edit</li>
+                                <li class="breadcrumb-item active"><a href="{{route('categories.list')}}">Category</a></li>
+                                <li class="breadcrumb-item active">Record</li>
                             </ol>
                         </div>
                     </div>
@@ -460,72 +458,89 @@
             <section class="content" style="font-size: 10px;">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12">
-                            <form action="{{route('products.update', $products->id)}}" method="POST" role="form">
-                                @csrf
-                                @method('PUT')
-                                <div class="card-body">
-                                <div class="form-group">
-                                    <label for="">Product ID</label>
-                                    <input type="text" class="form-control" name="product_id" placeholder="Input field"
-                                        value="{{$products->id}}">
-                                </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">CATEGORY</h3>
 
-                                <div class="form-group">
-                                    <label for="">Product Code</label>
-                                    <input type="text" class="form-control" name="product_code"
-                                        placeholder="Input field" value="{{$products->product_code}}">
-                                </div>
+                                    <div class="card-tools">
+                                        <div class="input-group input-group-sm" style="width: 150px;">
+                                            <input type="text" name="table_search" class="form-control float-right"
+                                                placeholder="Search">
 
-                                <div class="form-group">
-                                    <label for="">Product name</label>
-                                    <input type="text" class="form-control" name="product_name"
-                                        placeholder="Input field" value="{{$products->product_name}}">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="">Price</label>
-                                    <input type="text" class="form-control" name="price" placeholder="Input field"
-                                        value="{{$products->price}}">
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($categories as $category)
+                                            <tr>
+                                                <td>{{$category->category_name}}</td>
+                                                <td>
+                                                    @if ($category->parent_id === 1)
+                                                    Men
+                                                    @else
+                                                    Women
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <form action="{{route('categories.restore', $category->id)}}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-block btn-outline-success">Hoàn Tác</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form action="{{route('categories.force', $category->id)}}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-block btn-outline-danger">Xóa Vĩnh
+                                                            Viễn</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="">Description</label>
-                                    <input type="text" class="form-control" name="description" placeholder="Input field"
-                                        value="{{$products->description}}">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="">discount_percent</label>
-                                    <input type="text" class="form-control" name="discount_percent"
-                                        placeholder="Input field" value="{{$products->discount_percent}}">
-                                </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary" action="save">Update</button>
-                            </form>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
                         </div>
-
                     </div>
                 </div>
+            </section>
+            <!-- /.content -->
         </div>
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.1.0-pre
+            </div>
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
+        </footer>
 
-    <footer class="main-footer">
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0-pre
-        </div>
-        <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-        reserved.
-    </footer>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 </body>

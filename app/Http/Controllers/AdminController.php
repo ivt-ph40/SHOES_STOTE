@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Gloudemans\Shoppingcart\Facades\Cart as Cart;
-use App\Http\Requests\SendMessageRequest;
-
-class ContactController extends Controller
+use App\Product;
+use App\Category;
+use App\Brand;
+use App\ProductDetail;
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,24 +16,20 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        $products = Product::with('brand')
+                            ->join('brands',function($join){
+                                $join->on('products.brand_id', '=', 'brands.id');
+                            })
+                            ->join('categories',function($join){
+                                $join->on('products.category_id', '=', 'categories.id');
+                            })
+                            ->orderBy('products.id', 'ASC')
+                            ->limit(7)
+                            ->get();
+        return view('admins.home', compact('categories','products'));
     }
-    public function showContactForm(){
-        $cartCount = Cart::content()->count();
-        return view('users.contact-us', compact('cartCount'));
-    }
-    public function sendMail(SendMessageRequest $request){
-        $toEmail = $request->email;
-        $fromEmail ='admin@gmail.com';
-        $username = $request->username;
-        $data =['username' => $username, 'message' => $request->message]; //get data from form contact-us
-        \Mail::send('mails.contact-us', $data, function($message) use ($toEmail, $fromEmail, $username){
-            $message->to($toEmail, $username);
-            // $message->from($fromEmail, 'Admin');
-            $message->subject('Contact Mail');
-        });
-        return view('users.success');
-    }
+
     /**
      * Show the form for creating a new resource.
      *

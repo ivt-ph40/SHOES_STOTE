@@ -54,11 +54,12 @@ class ProductAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
-        $categories = Category::find($id);
-        $brands = Brand::all();
-        return view('products.create',compact('categories','brands'));
+        $categories = Category::all()->unique('category_name');// lấy tên loại sản phẩm
+        $parents = Category::where('parent_id','=', NULL)->get();// lấy men và women để select
+        $brands = Brand::all(); // Lấy hãng giày
+        return view('products.create',compact('categories','parents','brands'));
     }
 
     /**
@@ -70,8 +71,13 @@ class ProductAdminController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $category = Category::where('category_name','=', $data['category_name'])
+                            ->where('parent_id','=', $data['parent_id'])
+                            ->first();
+                            //dd($category['id']);
+        $data['category_id'] = $category['id'];
         Product::create($data);
-        return redirect()->route('products.select');
+        return redirect()->route('products.list');
     }
 
     /**

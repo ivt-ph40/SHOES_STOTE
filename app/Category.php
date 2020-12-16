@@ -3,16 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; 
+use Illuminate\Notifications\Notifiable;
 
 class Category extends Model
 {
+    use Notifiable,
+        SoftDeletes;
+    
     protected $fillable = [
-<<<<<<< HEAD
-        'category_name', 'parent_id',
-=======
-        'name',
+        'category_name',
         'parent_id',
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
     ];
 
     public function products(){

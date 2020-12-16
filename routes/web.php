@@ -119,9 +119,7 @@ Route::get('/profile', function(){
 
 
 //Admin 
-Route::get('/admins', function(){
-    return view('admins.home');
-})->name('home.admins');
+Route::get('/admins', 'AdminController@index')->name('home.admins');
 
 //Admin category
 Route::get('/categories', 'CategoryController@index')->name('categories.list');
@@ -133,9 +131,15 @@ Route::post('/categories', 'CategoryController@store')->name('categories.store')
 Route::Delete('/categories/{id}', 'CategoryController@destroy')->name('categories.destroy');
 //Admin Show edit form Category
 Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
-
 //Admin update Category
 Route::put('/categories/{id}', 'CategoryController@update')->name('categories.update');
+//Admin category record
+Route::get('/categories/record', 'CategoryController@showRecord')->name('categories.record');
+//Admin Delete Category record
+Route::Delete('/categories/record/{id}', 'CategoryController@force')->name('categories.force');
+//Admin update Category record
+Route::put('/categories/record/{id}', 'CategoryController@restore')->name('categories.restore');
+
 
 
 //Admin brand
@@ -148,18 +152,19 @@ Route::post('/brands', 'BrandController@store')->name('brands.store');
 Route::Delete('/brands/{id}', 'BrandController@destroy')->name('brands.destroy');
 //Admin Show edit form Category
 Route::get('/brands/{id}/edit', 'BrandController@edit')->name('brands.edit');
-
 //Admin update brand
 Route::put('/brands/{id}', 'BrandController@update')->name('brands.update');
 
+
+
+
 //Admin product
 Route::get('/products', 'ProductAdminController@index')->name('products.list');
-
 //Admin select product
 Route::post('/products', 'ProductAdminController@select')->name('products.select');
 //Admin create product
 Route::get('/products/create', 'ProductAdminController@create')->name('products.create');
-//Admin store brand
+//Admin store product
 Route::post('/products/create', 'ProductAdminController@store')->name('products.store');
 //Admin Show edit form Product
 Route::get('/products/{code}/edit', 'ProductAdminController@edit')->name('products.edit');
@@ -168,6 +173,17 @@ Route::put('/products/{id}', 'ProductAdminController@update')->name('products.up
 
 
 
+//Admin productDetail
+Route::get('/productDetail/{code}', 'ProductAdminDetailController@index')->name('productdetail.list');
+//Admin create productDetail
+Route::get('/productDetail/{id}/create', 'ProductAdminDetailController@create')->name('productdetail.create');
+//Admin store productDetail
+Route::post('/productDetail/create', 'ProductAdminDetailController@store')->name('productdetail.store');
+//Admin Show edit form productDetail
+Route::get('/productDetail/{id}/{product_id}/edit', 'ProductAdminDetailController@edit')->name('productdetail.edit');
+//Admin update productDetail
+Route::put('/productDetail/{id}', 'ProductAdminDetailController@update')->name('productdetail.update');
+
 
 //Auth::routes();
 
@@ -175,7 +191,7 @@ Route::put('/products/{id}', 'ProductAdminController@update')->name('products.up
 
 //Gen ra các route cho authern
 // Auth::routes();
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 //Show login form
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('form-login');
