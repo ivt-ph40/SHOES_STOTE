@@ -19,7 +19,10 @@
 Route::get('/', 'HomeController@index')->name('home');
 
 //Search product
-Route::post('/search-product', 'ProductController@search')->name('search-product');
+Route::get('/search-product', 'ProductController@showSearchedList')->name('search-product');
+
+//Show empty product listing
+Route::get('/product-listing', 'ProductController@showList')->name('show-empty-list');
 
 //Show product's detail
 Route::get('/product/{id}', 'ProductController@show')->name('product-detail');

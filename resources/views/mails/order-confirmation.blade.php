@@ -258,7 +258,7 @@
 						<br/>
                         <h3>Thanks {{ $username }}!</h3>
 						<h4><strong>Your Order Code: </strong><small>{{ $orderInfo['order_code'] }}</small></h4>
-						<p>Thank you for placing your order with Skytheme shop. This email is to confirm your order has been placed successfully, and will be processed & shipped to you soon.</p>
+						<p>Thank you for placing your order with Sky store. This email is to confirm your order has been placed successfully, and will be processed & shipped to you soon.</p>
                         <br/>
 
                         <!-- Order detail -->
@@ -328,7 +328,7 @@
                     <table>
                         <tr>
                             <td align="center">
-                                <p>Thank you for shopping at Skytheme shop!</p>
+                                <p>Thank you for shopping at Sky store!</p>
                                 <img src="https://i.pinimg.com/564x/24/7a/0a/247a0a55e5e6aa0cb2215f375b85dc67.jpg" style="width:40px;height:auto;">
                                 <br/><br/>
                                 <p><small>© Skytheme</small></p>

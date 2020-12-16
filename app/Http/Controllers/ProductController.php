@@ -96,17 +96,61 @@ class ProductController extends Controller
     {
         //
     }
-    public function search(Request $request){
-        $input_search = $request->only('input_search');
-        $products = Product::with('images')
-                            ->where('products.product_name', 'like', '%'. $request->input('input_search'). '%')
-                            ->orderBy('products.id', 'ASC')
-                            ->get();
+
+    public function showList(){
+        $products = [];
+        $input_search = [];
         $cartCount = Cart::content()->count();
-        if($products->first() != null){
+        return view('users.product-listing', compact('products', 'input_search','cartCount'));
+    }
+
+    public function showSearchedList(Request $request){
+        $input_search = $request->input_search;
+        $products = Product::with('images')
+                            ->where('products.product_name', 'like', '%'. $input_search. '%');
+        $cartCount = Cart::content()->count();
+
+        switch($request->get('sort')){
+            case 'name':
+                $products = $products->orderBy('products.product_name', 'ASC');
+                break;
+            case 'price_asc':
+                $products = $products->orderBy('products.price', 'ASC');
+                break;
+            case 'price_desc':
+                $products = $products->orderBy('products.price', 'DESC');
+                break;
+            case 'category_lifestyle':
+                $products = $products->whereHas('category', function ($query) {
+                                    $query->whereIn('categories.id', [3,4]);
+                                });
+                break;
+            case 'category_running':
+                $products = $products->whereHas('category', function ($query) {
+                                    $query->whereIn('categories.id', [5,6]);
+                                });
+                break;
+            case 'category_football':
+                $products = $products->whereHas('category', function ($query) {
+                                    $query->whereIn('categories.id', [7,8]);
+                                });
+                break;
+            case 'category_training':
+                $products = $products->whereHas('category', function ($query) {
+                                    $query->where('categories.parent_id', 1)
+                                            ->whereIn('categories.id', [9,10]);
+                                });
+                break;
+            default:
+                $products = $products;
+                break;
+        }
+        $products = $products->orderBy('products.id', 'ASC')->get();
+        $input_search = explode(' ',$input_search);
+        if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cartCount'));
         }else{
-            return redirect()->back()->with('message', 'Not found!')->withInput();
+            return redirect()->route('show-empty-list')->with('message', 'There is no product for your selected option!')->withInput();
         }
 
     }

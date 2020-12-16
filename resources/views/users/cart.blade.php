@@ -130,10 +130,9 @@
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
-                    @csrf
+                <form class="ps-search--header" action="/search-product" method="GET">
                     <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
-                    <button><i class="ps-icon-search"></i></button>
+                    <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
