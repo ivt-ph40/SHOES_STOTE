@@ -137,55 +137,90 @@ Route::get('/404', function(){
 
 
 //Admin
-Route::get('/admins', function(){
-    return view('admins.home');
-})->name('home.admins');
+Route::get('/admins/{name}', 'AdminController@index')->name('home.admins');
 
 //Admin category
-Route::get('/categories', 'CategoryController@index')->name('categories.list');
+Route::get('/categories/{name}', 'CategoryController@index')->name('categories.list');
 //Admin create Category
-Route::get('/categories/create', 'CategoryController@create')->name('categories.create');
+Route::get('/categories/create/{name}', 'CategoryController@create')->name('categories.create');
 //Admin store Category
-Route::post('/categories', 'CategoryController@store')->name('categories.store');
-//Admin Delete Category
-Route::Delete('/categories/{id}', 'CategoryController@destroy')->name('categories.destroy');
+Route::post('/categories/{name}', 'CategoryController@store')->name('categories.store');
 //Admin Show edit form Category
-Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
-
+Route::get('/categories/{id}/{name}/edit', 'CategoryController@edit')->name('categories.edit');
 //Admin update Category
-Route::put('/categories/{id}', 'CategoryController@update')->name('categories.update');
+Route::put('/categories/{id}/{name}', 'CategoryController@update')->name('categories.update');
+//Admin Delete Category
+Route::Delete('/categories/{id}/{name}', 'CategoryController@destroy')->name('categories.destroy');
+//Admin category record
+Route::get('/categories/record/{name}', 'CategoryController@showRecord')->name('categories.record');
+//Admin Delete Category record
+Route::Delete('/categories/record/{id}/{name}', 'CategoryController@force')->name('categories.force');
+//Admin update Category record
+Route::put('/categories/record/{id}/{name}', 'CategoryController@restore')->name('categories.restore');
+
 
 
 //Admin brand
-Route::get('/brands', 'BrandController@index')->name('brands.list');
+Route::get('/brands/{name}', 'BrandController@index')->name('brands.list');
 //Admin create brand
-Route::get('/brands/create', 'BrandController@create')->name('brands.create');
+Route::get('/brands/create/{name}', 'BrandController@create')->name('brands.create');
 //Admin store brand
-Route::post('/brands', 'BrandController@store')->name('brands.store');
+Route::post('/brands/{name}', 'BrandController@store')->name('brands.store');
 //Admin Delete brands
-Route::Delete('/brands/{id}', 'BrandController@destroy')->name('brands.destroy');
+Route::Delete('/brands/{id}/{name}', 'BrandController@destroy')->name('brands.destroy');
 //Admin Show edit form Category
-Route::get('/brands/{id}/edit', 'BrandController@edit')->name('brands.edit');
-
+Route::get('/brands/{id}/{name}/edit', 'BrandController@edit')->name('brands.edit');
 //Admin update brand
-Route::put('/brands/{id}', 'BrandController@update')->name('brands.update');
+Route::put('/brands/{id}/{name}', 'BrandController@update')->name('brands.update');
+//Admin brand record
+Route::get('/brands/record/{name}', 'BrandController@showRecord')->name('brands.record');
+//Admin Delete brand record
+Route::Delete('/brands/record/{id}/{name}', 'BrandController@force')->name('brands.force');
+//Admin update brand record
+Route::put('/brands/record/{id}/{name}', 'BrandController@restore')->name('brands.restore');
+
+
 
 //Admin product
-Route::get('/products', 'ProductAdminController@index')->name('products.list');
-
+Route::get('/products/{name}', 'ProductAdminController@index')->name('products.list');
 //Admin select product
-Route::post('/products', 'ProductAdminController@select')->name('products.select');
+Route::post('/products/{name}', 'ProductAdminController@select')->name('products.select');
 //Admin create product
-Route::get('/products/create', 'ProductAdminController@create')->name('products.create');
-//Admin store brand
-Route::post('/products/create', 'ProductAdminController@store')->name('products.store');
+Route::get('/products/create/{name}', 'ProductAdminController@create')->name('products.create');
+//Admin store product
+Route::post('/products/create/{name}', 'ProductAdminController@store')->name('products.store');
 //Admin Show edit form Product
-Route::get('/products/{code}/edit', 'ProductAdminController@edit')->name('products.edit');
+Route::get('/products/{code}/{name}/edit', 'ProductAdminController@edit')->name('products.edit');
 //Admin update Product
-Route::put('/products/{id}', 'ProductAdminController@update')->name('products.update');
+Route::put('/products/{id}/{name}', 'ProductAdminController@update')->name('products.update');
+//Admin Delete Product
+Route::Delete('/products/{id}/{name}', 'ProductAdminController@destroy')->name('products.destroy');
+//Admin Product record
+Route::get('/products/record/{name}', 'ProductAdminController@showRecord')->name('products.record');
+//Admin Delete Product record
+Route::Delete('/products/record/{code}/{name}', 'ProductAdminController@force')->name('products.force');
+//Admin update Product record
+Route::put('/products/record/{code}/{name}', 'ProductAdminController@restore')->name('products.restore');
 
 
-
+//Admin productDetail
+Route::get('/productDetail/{code}/{name}', 'ProductAdminDetailController@index')->name('productdetail.list');
+//Admin create productDetail
+Route::get('/productDetail/{id}/{name}/create', 'ProductAdminDetailController@create')->name('productdetail.create');
+//Admin store productDetail
+Route::post('/productDetail/create/{name}', 'ProductAdminDetailController@store')->name('productdetail.store');
+//Admin Show edit form productDetail
+Route::get('/productDetail/{id}/{product_id}/{name}/edit', 'ProductAdminDetailController@edit')->name('productdetail.edit');
+//Admin update productDetail
+Route::put('/productDetail/{id}/{name}', 'ProductAdminDetailController@update')->name('productdetail.update');
+//Admin Delete productDetail
+Route::Delete('/productDetail/{id}/{productID}/{name}', 'ProductAdminDetailController@destroy')->name('productdetail.destroy');
+//Admin productDetail record
+Route::get('/productDetail/record/{code}/{name}', 'ProductAdminDetailController@showRecord')->name('productdetail.record');
+//Admin Delete productDetail record
+Route::Delete('/productDetail/record/{code}/{name}', 'ProductAdminDetailController@force')->name('productdetail.force');
+//Admin update productDetail record
+Route::put('/productDetail/record/{name}', 'ProductAdminDetailController@restore')->name('productdetail.restore');
 
 //Auth::routes();
 
@@ -193,7 +228,7 @@ Route::put('/products/{id}', 'ProductAdminController@update')->name('products.up
 
 //Gen ra các route cho authern
 // Auth::routes();
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 //Show login form
 Route::get('/login', 'Auth\LoginController@showLoginForm')->name('form-login');

@@ -441,12 +441,13 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>BRANDS</h1>
+                            <h1>PRODUCTS</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
-                                <li class="breadcrumb-item active">Brand</li>
+                                <li class="breadcrumb-item active"><a href="{{route('products.list',$name)}}">Product</a></li>
+                                <li class="breadcrumb-item active">Record</li>
                             </ol>
                         </div>
                     </div>
@@ -457,17 +458,10 @@
             <section class="content" style="font-size: 10px;">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
-                                <a class="btn btn-block btn-outline-success" href="{{route('brands.create',$name)}}">Create +</a>
-                        </div>
-                        <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning"
-                                href="{{route('brands.record',$name)}}">Record</a>
-                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Brands</h3>
+                                    <h3 class="card-title">PRODUCT</h3>
 
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -485,29 +479,24 @@
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0">
                                     <table class="table table-hover text-nowrap">
-                                        <thead>
+                                    <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>brand_name</th>
+                                                <th>Size</th>
+                                                <th>Color</th>
+                                                <th>Quantity</th>
+                                                <th>Product_status</th>
                                                 <th>Edit</th>
-                                                <th>Detail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($brands as $index => $brand)
+                                            @foreach($productsDetail as $index => $product)
                                             <tr>
                                                 <td scope="row">{{$index}}</td>
-                                                <td>{{$brand->brand_name}}</td>
-                                                <td><a href="{{route('brands.edit', [$brand->id,$name])}}"
-                                                        class="btn btn-primary">Edit</a></td>
-                                                <td>
-                                                    <form action="{{route('brands.destroy', [$brand->id,$name])}}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </td>
+                                                <td>{{$product->size}}</td>
+                                                <td>{{$product->color}}</td>
+                                                <td>{{$product->quantity}}</td>
+                                                <td>{{$product->product_status}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

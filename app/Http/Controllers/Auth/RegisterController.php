@@ -85,7 +85,7 @@ class RegisterController extends Controller
         $data['role_id'] = '2';
         $user = User::create($data);
         \Auth::login($user);
-        return redirect()->route('home');
+        return redirect()->route('login');
 
     }
 }
