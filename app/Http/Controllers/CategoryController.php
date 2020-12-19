@@ -14,10 +14,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($name)
     {
         $categories = Category::all();
-        return view('categories.list',compact('categories'));
+        return view('categories.list',compact('categories','name'));
     }
 
     /**
@@ -25,10 +25,10 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($name)
     {
         $parents = Category::where('parent_id','=', NULL)->get();
-        return view('categories.create',compact('parents'));
+        return view('categories.create',compact('parents','name'));
     }
 
     /**
@@ -37,11 +37,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$name)
     {
         $data = $request->all();
         Category::create($data);
-        return redirect()->route('categories.list');
+        return redirect()->route('categories.list',$name);
     }
 
     /**
@@ -61,10 +61,10 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,$name)
     {
         $categories = Category::find($id);
-        return view('categories.edit', compact('categories'));
+        return view('categories.edit', compact('categories','name'));
     }
 
     /**
@@ -74,11 +74,11 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,$name)
     {
         $data = $request->except('_token', '_method');
         Category::find($id)->update($data);
-        return Redirect() -> route('categories.list')->with('message', 'Update User Success !');//cau event hien thi sau khi update
+        return Redirect() -> route('categories.list',$name)->with('message', 'Update User Success !');//cau event hien thi sau khi update
     }
 
     /**
@@ -87,26 +87,26 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id,$name)
     {
         $categories = Category::where('id','=',$id)->delete();
-        return Redirect() -> route('categories.list')->with('message', 'Delete User Success !');
+        return Redirect() -> route('categories.list',$name)->with('message', 'Delete User Success !');
     }
 
-    public function showRecord(){
+    public function showRecord($name){
         $categories = Category::onlyTrashed()->get();
-        return view('categories.record', compact('categories'));
+        return view('categories.record', compact('categories','name'));
     }
 
-    public function restore($id){
+    public function restore($id,$name){
         Category::withTrashed()->where('id','=',$id)->restore();
         $categories = Category::all();
-        return view('categories.list', compact('categories'));
+        return Redirect() -> route('categories.list',$name)->with('message', 'Delete User Success !');
     }
 
-    public function force($id){
+    public function force($id,$name){
         Category::withTrashed()->where('id','=',$id)->forceDelete();
         $categories = Category::all();
-        return view('categories.list', compact('categories'));
+        return Redirect() -> route('categories.list',$name)->with('message', 'Delete User Success !');
     }
 }

@@ -14,12 +14,11 @@ class ProductAdminDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($code)
+    public function index($code,$name)
     {
         $product = Product::where('product_code','=',$code)->first();
         $productsDetail = ProductDetail::where('product_id','=',$product['id'])->get();
-
-        return view('productdetail.list',compact('productsDetail','product'));
+        return view('productdetail.list',compact('productsDetail','product','name'));
     }
 
     /**
@@ -27,11 +26,11 @@ class ProductAdminDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create($id,$name)
     {
         $product = Product::find($id);
         //dd($id);
-        return view('productdetail.create',compact('product'));
+        return view('productdetail.create',compact('product','name'));
     }
 
     /**
@@ -40,7 +39,7 @@ class ProductAdminDetailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$name)
     {
         $data = $request->all();
         if ($data['quantity']>0) {
@@ -50,7 +49,7 @@ class ProductAdminDetailController extends Controller
             $data['product_status'] = "out of stock";
         }
         ProductDetail::create($data);
-        return redirect()->route('productdetail.list',$data['product_code']);
+        return redirect()->route('productdetail.list',[$data['product_code'],$name]);
     }
 
     /**
@@ -70,11 +69,11 @@ class ProductAdminDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,$product_id)
+    public function edit($id,$product_id,$name)
     {
         $productDetail = ProductDetail::find($id);
         $product = Product::find($product_id);
-        return view('productdetail.edit', compact('productDetail','product'));
+        return view('productdetail.edit', compact('productDetail','product','name'));
     }
 
     /**
@@ -84,7 +83,7 @@ class ProductAdminDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,$name)
     {
         $data = $request->except('_token', '_method');
         if ($data['quantity']>0) {
@@ -94,7 +93,7 @@ class ProductAdminDetailController extends Controller
             $data['product_status'] = "out of stock";
         }
         ProductDetail::find($id)->update($data);
-        return redirect()->route('productdetail.list',$data['product_code'])->with('message', 'Update User Success !');//cau event hien thi sau khi update
+        return redirect()->route('productdetail.list',[$data['product_code'],$name])->with('message', 'Update User Success !');//cau event hien thi sau khi update
     }
 
     /**
@@ -103,10 +102,29 @@ class ProductAdminDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($code)
+    public function destroy($id,$productID,$name)
     {
-        $products = Product::find($code);
+        $product = Product::where('id','=',$productID)->first();
+        $products = ProductDetail::find($id);
         $products->delete();
-        return Redirect() -> route('productdetail.list')->with('message', 'Delete User Success !');
+        return Redirect() -> route('productdetail.list',[$product['product_code'],$name])->with('message', 'Delete User Success !');
     }
+
+    //Record
+    public function showRecord($code,$name){
+        $product = Product::where('product_code','=',$code)->first();
+        $productsDetail = ProductDetail::where('product_id','=',$product['id'])->onlyTrashed()->get();
+        return view('productdetail.record', compact('productsDetail','name'));
+    }
+
+    public function restore($id,$name){
+        ProductDetail::withTrashed()->where('id','=',$id)->restore();
+        return Redirect() -> route('productdetail.list',$name)->with('message', 'Delete User Success !');
+    }
+
+    public function force($id,$name){
+        ProductDetail::withTrashed()->where('id','=',$id)->forceDelete();
+        return Redirect() -> route('productdetail.list',$name)->with('message', 'Delete User Success !');
+    }
+    
 }

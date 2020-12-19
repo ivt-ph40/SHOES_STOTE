@@ -51,8 +51,27 @@
                     <p>92 Quang Trung Street, Da Nang City  -  Hotline: 804-377-3580 - 804-399-3580</p>
                 </div>
 
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                    <div class="header__actions"><a href="#">Login & Regiser</a></div>
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+                    <div class="header__actions">
+                        @if (Route::has('form-login'))
+                            <div class="top-right links">
+                                @auth
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('show-profile', \Auth::user()->id) }}">Profile</a>
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('form-login') }}">Login</a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">Register</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,21 +80,20 @@
     <nav class="navigation">
         <div class="container-fluid">
             <div class="navigation__column left">
-                <div class="header__logo"><a class="ps-logo" href="index.html"><img src="{{ asset('images/logo.png') }}"></a></div>
+                <div class="header__logo"><a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}"></a></div>
             </div>
 
             <div class="navigation__column center">
                 <ul class="main-menu menu">
                     <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Men</a>
+                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="{{ route('all-men-shoes-list') }}">Men</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-men') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-men') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -98,14 +116,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item"><a href="#">Women</a>
+                    <li class="menu-item"><a href="{{ route('all-women-shoes-list') }}">Women</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-women') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-women') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -128,20 +145,15 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact Us</a></li>
+                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact</a></li>
                 </ul>
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
-                    @csrf
-                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
-                    <button><i class="ps-icon-search"></i></button>
+                <form class="ps-search--header" action="/search-product" method="GET">
+                    <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
+                    <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
-
-<<<<<<< HEAD
-                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
-=======
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -154,7 +166,6 @@
                 @if(session()->has('message'))
                     <p style="color:red;">{{session()->get('message')}}</p>
                 @endif
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -189,11 +200,7 @@
                                     </div>
                                 @endforeach
                             </div>
-<<<<<<< HEAD
-                            <a class="popup-youtube ps-product__video" href="http://www.youtube.com/watch?v=0O2aH4XLbto">
-=======
                             <a class="popup-youtube ps-product__video" href="https://www.youtube.com/watch?v=LBukoM3CLic">
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                             <img name="image" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
                         </div>
                         <div class="ps-product__image">
@@ -215,38 +222,6 @@
                     </div>
 
                     <div class="ps-product__info">
-<<<<<<< HEAD
-                        <div class="ps-product__rating">
-                            <select class="ps-rating">
-                                <option value="1">1</option>
-                                <option value="1">2</option>
-                                <option value="1">3</option>
-                                <option value="1">4</option>
-                                <option value="2">5</option>
-                            </select>
-                        </div>
-                        <h1 name="product_name">{{ $product->product_name }}</h1>
-                        <h3 class="ps-product__price" name="price">{{ number_format($product->price) }} đ</h3>
-                        <div class="ps-product__block ps-product__quickview">
-                            <h4 id="product-code" name="brand">BRAND: <span>{{ $product->brand->brand_name }}</span></h4>
-                            <h4 id="product-code" name="code">CODE: <span>{{ $product->product_code }}</span></h4>
-                            <h4 id="product-color" name="color">COLOR: <span>{{ $product->product_details[0]->color }}</span></h4>
-                        </div>
-                        <div class="ps-product__block ps-product__size">
-                            <h4>CHOOSE SIZE</h4>
-                            <select class="ps-select selectpicker">
-                                @foreach($product->product_details as $item)
-                                    <option value="{{ $item->size }}" name="size">{{ $item->size }}</option>
-                                @endforeach
-                            </select>
-                            <div class="form-group">
-                                <input data-id="{{ $product->id }}" id="quantity" name="quantity" class="form-control" type="number" value="1">
-                            </div>
-                        </div>
-                        <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('add-cart', $product->id) }}">Add to cart<i class="ps-icon-next"></i></a>
-                            <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
-                        </div>
-=======
                         <form action={{ route('add-cart')}} method="POST">
                             @csrf
                             <div class="ps-product__rating">
@@ -292,7 +267,6 @@
                                 <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
                             </div>
                         </form>
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                     </div>
 
                     <div class="clearfix"></div>
@@ -334,13 +308,19 @@
                             <form class="ps-product__review" action="{{ route('submit-review') }}" method="POST">
                                 @csrf
                                 <h4>ADD YOUR REVIEW</h4>
-                                <input type="hidden" name="user_id" value="3">
+                                @if(\Auth::user() != null)
+                                    <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
+                                @endif
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                                         <div class="form-group">
                                             <label>Name<span>*</span></label>
-                                            <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                            @if(\Auth::user() != null)
+                                                <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
+                                            @else
+                                                <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                            @endif
                                             @if($errors->has('username'))
                                                 <p style="color: red;">
                                                     {{ $errors->first('username') }}
@@ -349,7 +329,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Email<span>*</span></label>
-                                            <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                            @if(\Auth::user() != null)
+                                                <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
+                                            @else
+                                                <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                            @endif
                                             @if($errors->has('email'))
                                                 <p style="color: red;">
                                                     {{ $errors->first('email') }}
@@ -434,11 +418,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $item->id) }}">{{ $item->product_name }}</a></p>
-<<<<<<< HEAD
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }} đ</span></p>
-=======
                                     <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($item->price) }}đ</span></p>
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                 </div>
                             </div>
                         </div>
@@ -456,7 +436,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " id="footer-area">
                         <aside class="ps-widget--footer ps-widget--info">
                             <header>
-                                <a class="ps-logo" href="index.html"><img src="{{ asset('images/logo-white.png') }}"></a>
+                                <a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo-white.png') }}"></a>
                                 <h3 class="ps-widget__title">Address Office 1</h3>
                             </header>
                             <footer>
@@ -489,14 +469,14 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> DongTQ</a></p>
+                        <p>&copy; <a href="{{ route('home') }}">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://myaccount.google.com/"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="https://twitter.com/?lang=en"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -506,9 +486,18 @@
 </main>
 <script>
     $(document).ready(function(){
-        $('#quantity').on('change', function(){
-            var quantity =parseInt(this.value);
+        var size = null;
+        $("select.ps-select").change(function(){
+            console.log('ok');
+            window.size = $(this).children("option:selected").val();
+        });
+
+        $('#quantity').on('change', function(e){
+            e.preventDefault();
+            var quantity = parseInt($(this).val());
             var productID = $(this).attr('data-id');
+            console.log(quantity,productID,parseInt(window.size));
+
             if(quantity<0 || quantity>10 || isNaN(quantity)){
                 alert('This field must between 0 and 10');
             }
@@ -517,6 +506,7 @@
                 url: '/api/products/'+productID+'/check-quantity',
                 data: {
                     'quantity' : quantity,
+                    'size' : window.size,
                 },
                 success: function(res){
                     console.log('ok');
@@ -524,9 +514,9 @@
                 error: function(err){
                     console.log(err, err.responseJSON.message)
                     alert(err.responseJSON.message);
-                    $('#quantity').value(1);
+                    $('#quantity').val(1);
                 }
-            })
+            });
         });
     });
 

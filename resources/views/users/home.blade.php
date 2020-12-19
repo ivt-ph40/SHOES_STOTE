@@ -10,6 +10,9 @@
     #nav-mega-wrap{
         width: 70%;
     }
+    #message{
+        margin-right: 160px;
+    }
     #big-product-img{
         width: 100%;
         height: 320px;
@@ -42,22 +45,26 @@
                     <p>92 Quang Trung Street, Da Nang City  -  Hotline: 804-377-3580 - 804-399-3580</p>
                 </div>
 
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
                     <div class="header__actions">
-                        {{-- @if (Route::has('form-login'))
+                        @if (Route::has('form-login'))
                             <div class="top-right links">
                                 @auth
-                                    <a href="{{ url('/home') }}">Home</a>
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('show-profile', \Auth::user()->id) }}">Profile</a>
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
                                 @else
                                     <a href="{{ route('form-login') }}">Login</a>
-
                                     @if (Route::has('register'))
                                         <a href="{{ route('register') }}">Register</a>
                                     @endif
                                 @endauth
                             </div>
-                        @endif --}}
-                        <a href="#">Login & Regiser</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -67,21 +74,20 @@
     <nav class="navigation">
         <div class="container-fluid">
             <div class="navigation__column left">
-                <div class="header__logo"><a class="ps-logo" href="index.html"><img src="{{ asset('images/logo.png') }}"></a></div>
+                <div class="header__logo"><a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}"></a></div>
             </div>
 
             <div class="navigation__column center">
                 <ul class="main-menu menu">
                     <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Men</a>
+                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="{{ route('all-men-shoes-list') }}">Men</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-men') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-men') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -104,14 +110,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item"><a href="#">Women</a>
+                    <li class="menu-item"><a href="{{ route('all-women-shoes-list') }}">Women</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-women') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-women') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -134,20 +139,15 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact Us</a></li>
+                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact</a></li>
                 </ul>
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
-                    @csrf
-                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
-                    <button><i class="ps-icon-search"></i></button>
+                <form class="ps-search--header" action="/search-product" method="GET">
+                    <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
+                    <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
-<<<<<<< HEAD
-
-                <div class="ps-cart"><a class="ps-cart__toggle" href="{{ route('show-cart') }}"><span><i>20</i></span><i class="ps-icon-shopping-cart"></i></a></div>
-=======
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -158,9 +158,8 @@
                     </a>
                 </div>
                 @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
+                    <p id="message" style="color:red;">{{session()->get('message')}}</p>
                 @endif
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
             </div>
         </div>
     </nav>
@@ -248,12 +247,8 @@
                                         </div>
 
                                         <div class="ps-shoe__detail">
-                                            <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
-<<<<<<< HEAD
-                                            <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
-=======
+                                            <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
                                             <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                         </div>
                                     </div>
                                 </div>
@@ -313,11 +308,7 @@
                                 </div>
                                 <div class="ps-shoe__detail">
                                     <p id="product-name"><a class="ps-shoe__name" href="{{ route('product-detail', $product->id) }}">{{ $product->product_name }}</a></p>
-<<<<<<< HEAD
-                                    <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
-=======
                                     <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }}đ</span></p>
->>>>>>> 7460118e39d061dca36f8a2a9014ad76418aeaff
                                 </div>
                             </div>
                         </div>
@@ -375,7 +366,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " id="footer-area">
                         <aside class="ps-widget--footer ps-widget--info">
                             <header>
-                                <a class="ps-logo" href="index.html"><img src="{{ asset('images/logo-white.png') }}"></a>
+                                <a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo-white.png') }}"></a>
                                 <h3 class="ps-widget__title">Address Office 1</h3>
                             </header>
                             <footer>
@@ -408,14 +399,14 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> DongTQ</a></p>
+                        <p>&copy; <a href="{{ route('home') }}">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://myaccount.google.com/"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="https://twitter.com/?lang=en"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>

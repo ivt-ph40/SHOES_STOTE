@@ -11,7 +11,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('home.admins')}}" class="nav-link">Home</a>
+                    <a href="{{route('home.admins',$name)}}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -445,7 +445,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins')}}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
                                 <li class="breadcrumb-item active">Category</li>
                             </ol>
                         </div>
@@ -458,9 +458,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-success" href="{{route('categories.create')}}">Create +</a></div>
+                            <a class="btn btn-block btn-outline-success" href="{{route('categories.create',$name)}}">Create +</a></div>
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning" href="{{route('categories.record')}}">Record</a></div>   
+                            <a class="btn btn-block btn-outline-warning" href="{{route('categories.record',$name)}}">Record</a></div>   
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
@@ -507,10 +507,10 @@
                                                     Women
                                                     @endif
                                                 </td>
-                                                <td><a href="{{route('categories.edit', $category->id)}}"
+                                                <td><a href="{{route('categories.edit', [$category->id,$name])}}"
                                                         class="btn btn-primary">Edit</a></td>
                                                 <td>
-                                                    <form action="{{route('categories.destroy', $category->id)}}"
+                                                    <form action="{{route('categories.destroy', [$category->id,$name])}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes; 
+use Illuminate\Notifications\Notifiable;
 class Product extends Model
 {
+    use Notifiable,
+        SoftDeletes;
     protected $fillable = [
         'category_id',
         'brand_id',

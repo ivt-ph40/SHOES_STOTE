@@ -11,7 +11,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('home.admins')}}" class="nav-link">Home</a>
+                    <a href="{{route('home.admins',$name)}}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -445,8 +445,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins')}}">Home</a></li>
-                                <li class="breadcrumb-item active"><a href="{{route('categories.list')}}">Category</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
+                                <li class="breadcrumb-item active"><a href="{{route('categories.list',$name)}}">Category</a></li>
                                 <li class="breadcrumb-item active">Record</li>
                             </ol>
                         </div>
@@ -497,7 +497,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <form action="{{route('categories.restore', $category->id)}}"
+                                                    <form action="{{route('categories.restore', [$category->id,$name])}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('PUT')
@@ -505,7 +505,7 @@
                                                     </form>
                                                 </td>
                                                 <td>
-                                                    <form action="{{route('categories.force', $category->id)}}"
+                                                    <form action="{{route('categories.force', [$category->id,$name])}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

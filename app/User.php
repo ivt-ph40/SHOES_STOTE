@@ -53,5 +53,8 @@ class User extends Authenticatable
     public function orders(){
         return $this->hasMany('App\Order');
     }
-    
+
+    public function setPasswordAttribute($password){
+        $this->attributes['password'] = bcrypt($password);
+    }
 }

@@ -15,7 +15,7 @@ class ProductAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($name)
     {
         $categories = Category::all()->unique('category_name');
         $products = Product::with('brand')
@@ -28,7 +28,7 @@ class ProductAdminController extends Controller
                             ->orderBy('products.id', 'ASC')
                             ->get();
         $parents = Category::where('parent_id','=', NULL)->get();
-        return view('products.list',compact('products','parents','categories'));
+        return view('products.list',compact('products','parents','categories','name'));
     }
 
     public function select(Request $request)
@@ -54,12 +54,12 @@ class ProductAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($name)
     {
         $categories = Category::all()->unique('category_name');// lấy tên loại sản phẩm
         $parents = Category::where('parent_id','=', NULL)->get();// lấy men và women để select
         $brands = Brand::all(); // Lấy hãng giày
-        return view('products.create',compact('categories','parents','brands'));
+        return view('products.create',compact('categories','parents','brands','name'));
     }
 
     /**
@@ -68,7 +68,7 @@ class ProductAdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$name)
     {
         $data = $request->all();
         $category = Category::where('category_name','=', $data['category_name'])
@@ -77,7 +77,7 @@ class ProductAdminController extends Controller
                             //dd($category['id']);
         $data['category_id'] = $category['id'];
         Product::create($data);
-        return redirect()->route('products.list');
+        return redirect()->route('products.list',$name);
     }
 
     /**
@@ -97,10 +97,10 @@ class ProductAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($code)
+    public function edit($code,$name)
     {
         $products = Product::where('product_code','=',$code)->first();
-        return view('products.edit', compact('products'));
+        return view('products.edit', compact('products','name'));
     }
 
     /**
@@ -110,7 +110,7 @@ class ProductAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id,$name)
     {
         $data = $request->except('_token', '_method');
         // $category = Category::where('category_name','=', $data['category_name'])
@@ -118,7 +118,7 @@ class ProductAdminController extends Controller
         //                     ->first();
         // $data['category_id'] = $category['id'];
         Product::find($id)->update($data);
-        return redirect()->route('products.select')->with('message', 'Update User Success !');//cau event hien thi sau khi update
+        return redirect()->route('products.select',$name)->with('message', 'Update User Success !');//cau event hien thi sau khi update
     }
 
     /**
@@ -127,8 +127,35 @@ class ProductAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($code,$name)
     {
-        //
+        $products = Product::where('product_code','=',$code)->first();
+        $products->delete();
+        return Redirect() -> route('products.list',$name)->with('message', 'Delete User Success !');
+    }
+
+    //Record
+    public function showRecord($name){
+        $products = Product::with('brand')
+                            ->join('brands',function($join){
+                                $join->on('products.brand_id', '=', 'brands.id');
+                            })
+                            ->join('categories',function($join){
+                                $join->on('products.category_id', '=', 'categories.id');
+                            })
+                            ->onlyTrashed()
+                            ->orderBy('products.id', 'ASC')
+                            ->get();
+        return view('products.record', compact('products','name'));
+    }
+
+    public function restore($code,$name){
+        Product::withTrashed()->where('product_code','=',$code)->restore();
+        return Redirect() -> route('products.list',$name)->with('message', 'Delete User Success !');
+    }
+
+    public function force($code,$name){
+        Product::withTrashed()->where('product_code','=',$code)->forceDelete();
+        return Redirect() -> route('products.list',$name)->with('message', 'Delete User Success !');
     }
 }

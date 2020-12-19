@@ -441,12 +441,13 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>PRODUCTS DETAIL</h1>
+                            <h1>PRODUCTS</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">HOME</a></li>
-                                <li class="breadcrumb-item active"><a href="{{route('products.list',$name)}}">PRODUCT</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
+                                <li class="breadcrumb-item active"><a href="{{route('products.list',$name)}}">Product</a></li>
+                                <li class="breadcrumb-item active">Record</li>
                             </ol>
                         </div>
                     </div>
@@ -457,18 +458,10 @@
             <section class="content" style="font-size: 10px;">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-success"
-                                href="{{route('productdetail.create',[$product->id,$name])}}">Create +</a>
-                        </div>
-                        <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning"
-                                href="{{route('productdetail.record',[$product->product_code,$name])}}">Record</a>
-                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">PRODUCTS DETAIL</h3>
+                                    <h3 class="card-title">PRODUCT</h3>
 
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -485,41 +478,59 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap" style="font-size: 12px;">
-                                        <table class="table table-hover text-nowrap" style="font-size: 10px;">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Size</th>
-                                                    <th>Color</th>
-                                                    <th>Quantity</th>
-                                                    <th>Product_status</th>
-                                                    <th>Edit</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($productsDetail as $index => $product)
-                                                <tr>
-                                                    <td scope="row">{{$index}}</td>
-                                                    <td>{{$product->size}}</td>
-                                                    <td>{{$product->color}}</td>
-                                                    <td>{{$product->quantity}}</td>
-                                                    <td>{{$product->product_status}}</td>
-                                                    <td><a href="{{route('productdetail.edit',[$product->id,$product->product_id,$name])}}"
-                                                            class="btn btn-primary">Edit</a></td>
-                                                    <td>
-                                                        <form
-                                                            action="{{route('productdetail.destroy', [$product->id,$product->product_id,$name])}}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                    <table class="table table-hover text-nowrap">
+                                    <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Product_code</th>
+                                                <th>Product_name</th>
+                                                <th>Hãng</th>
+                                                <th>Giới Tính</th>
+                                                <th>Loại Giày</th>
+                                                <th>Price</th>
+                                                <th>Discount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($products as $index => $product)
+                                            <tr>
+                                                @if ($loop->iteration)
+                                                <td scope="row">
+                                                    {{ $index }}
+                                                </td>
+                                                @endif
+                                                <td>{{$product->product_code}}</td>
+                                                <td>{{$product->product_name}}</td>
+                                                <td>{{$product->brand_name}}</td>
+                                                <td>
+                                                    @if ($product->parent_id === 1)
+                                                    Men
+                                                    @else
+                                                    Women
+                                                    @endif</td>
+                                                <td>{{$product->category_name}}</td>
+                                                <td>{{$product->price}}</td>
+                                                <td>{{$product->discount_percent}}</td>
+                                                <td>
+                                                    <form action="{{route('products.restore', [$product->product_code,$name])}}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-block btn-outline-success">Hoàn Tác</button>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form action="{{route('products.force', [$product->product_code,$name])}}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-block btn-outline-danger">Xóa Vĩnh
+                                                            Viễn</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
                                 </div>
                                 <!-- /.card-body -->
                             </div>

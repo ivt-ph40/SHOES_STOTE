@@ -1,5 +1,3 @@
-
-
 @extends('layouts.master2')
 @section('content')
 
@@ -13,7 +11,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('home.admins')}}" class="nav-link">Home</a>
+                    <a href="{{route('home.admins',$name)}}" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -447,9 +445,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins')}}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{route('categories.list')}}">Category</a></li>
-                                <li class="breadcrumb-item active">Edit</li>
+                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">HOME</a></li>
+                                <li class="breadcrumb-item active"><a href="{{route('products.list',$name)}}">PRODUCT</a></li>
                             </ol>
                         </div>
                     </div>
@@ -461,14 +458,14 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="{{route('products.update', $products->id)}}" method="POST" role="form">
+                        <form action="{{route('products.update', [$products->id,$name])}}" method="POST" role="form">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
                                 <div class="form-group">
-                                    <label for="">Product ID</label>
+                                    
                                     <input type="text" class="form-control" name="product_id" placeholder="Input field"
-                                        value="{{$products->id}}">
+                                        value="{{$products->id}}" hidden>
                                 </div>
 
                                 <div class="form-group">

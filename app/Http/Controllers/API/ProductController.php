@@ -19,7 +19,8 @@ class ProductController extends Controller
     }
     public function checkQuantity(Request $request, $id){
         $product = Product::whereHas('product_details',function($query) use($request){
-            $query->where('quantity', '>=', $request->quantity);
+            $query->where('quantity', '>=', $request->quantity)
+                    ->where('size', $request->size);
         })->find($id);
 
         if($product){

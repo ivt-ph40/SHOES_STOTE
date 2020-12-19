@@ -14,7 +14,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($name)
     {
         $categories = Category::all();
         $products = Product::with('brand')
@@ -27,7 +27,7 @@ class AdminController extends Controller
                             ->orderBy('products.id', 'ASC')
                             ->limit(7)
                             ->get();
-        return view('admins.home', compact('categories','products'));
+        return view('admins.home', compact('categories','products','name'));
     }
 
     /**

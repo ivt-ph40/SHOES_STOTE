@@ -1,7 +1,7 @@
 @extends('layouts.master2')
 @section('content')
 
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -11,7 +11,10 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{route('home.admins')}}" class="nav-link">Home</a>
+                    <a href="{{route('home.admins',$name)}}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Contact</a>
                 </li>
             </ul>
 
@@ -438,12 +441,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>PRoducts</h1>
+                            <h1>PRODUCTS</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins')}}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Product</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
+                                <li class="breadcrumb-item active">PRODUCTS</li>
                             </ol>
                         </div>
                     </div>
@@ -454,10 +457,14 @@
             <section class="content" style="font-size: 10px;">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-md-6">
+                            <a class="btn btn-block btn-outline-success" href="{{route('products.create',$name)}}">Create +</a></div>
+                        <div class="col-md-6">
+                            <a class="btn btn-block btn-outline-warning" href="{{route('products.record',$name)}}">Record</a></div>   
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Responsive Hover Table</h3>
+                                    <h3 class="card-title">PRODUCTS</h3>
 
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -474,8 +481,8 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap" style="font-size: 10px;">
-                                        <thead>
+                                    <table class="table table-hover text-nowrap" style="font-size: 12px;">
+                                    <thead>
                                             <tr>
                                                 <th>STT</th>
                                                 <th>Product_code</th>
@@ -508,19 +515,24 @@
                                                     Women
                                                     @endif</td>
                                                 <td>{{$product->category_name}}</td>
-                                                <td>{{$product->price}}</td>
+                                                <td>{{number_format($product->price)}} VND</td>
                                                 <td>{{$product->discount_percent}}</td>
-                                                <td><a href="{{route('productdetail.list', $product->product_code)}}"
+                                                <td><a href="{{route('productdetail.list', [$product->product_code,$name])}}"
                                                 class="btn btn-block bg-gradient-primary" style="font-size: 10px;">Detail</a></td>
-                                                <td><a href="{{route('products.edit', $product->product_code)}}"
+                                                <td><a href="{{route('products.edit', [$product->product_code,$name])}}"
                                                 class="btn btn-block bg-gradient-primary" style="font-size: 10px;">Edit</a></td>
-                                                <td><a href="{{route('products.edit', $product->product_code)}}"
-                                                class="btn btn-block bg-gradient-danger" style="font-size: 10px;">Delete</a></td>
+                                                <td>
+                                                    <form action="{{route('products.destroy', [$product->product_code,$name])}}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
                                             </tr>
 
                                             @endforeach
                                         </tbody>
-                                    </table>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -532,7 +544,6 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 3.1.0-pre
@@ -549,3 +560,4 @@
     </div>
     <!-- ./wrapper -->
 </body>
+

@@ -40,20 +40,26 @@ class LoginController extends Controller
     }
 
     public function showLoginForm(){
-        return view('auth.login');
+        // return view('auth.login');
+        return view('users.login');
     }
 
     public function login(Request $request){
         $data =  $request->only('email', 'password');
         //attempt(): truyền mảng data, kiểm tra mảng data có khớp với user nào không
         if(\Auth::attempt($data)){
-            return redirect()->route('home');
+            if(\Auth::user()->role_id == 1){
+                return redirect()->route('home.admins',\Auth::user()->first_name);
+            }
+            elseif(\Auth::user()->role_id == 2){
+                return redirect()->route('home');
+            }
         }
         return redirect()->back()->with('fail', 'Email, password is wrong. Please try again!!')->withInput();
         //withInput(): giá trị đã nhập (old value)
     }
     public function logout(Request $request){
         \Auth::logout();
-        return redirect()->route('form-login');
+        return redirect()->route('login');
     }
 }

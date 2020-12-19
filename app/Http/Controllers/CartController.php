@@ -85,20 +85,32 @@ class CartController extends Controller
     }
     public function showCart(Request $request){
         $product_id = $request->get('product_id');
-        if ($product_id && $request->get('remove')) {
+        if ($product_id && $request->get('remove'))
+        {
+
             $rowId = Cart::search(function ($cartItem, $rowId) use ($product_id){
                 return $cartItem->id == $product_id;
             });
             Cart::remove($rowId->first()->rowId);
         }
+
         $cart = Cart::content();
+        foreach($cart as $item)
+        {
+            $itemCart = Cart::get($item->rowId);
+            $subTotal = $item->qty * $item->price;
+            $options = $itemCart->options->merge(['subTotal' => $subTotal]);
+            Cart::update($item->rowId, ['options' => $options]);
+        }
         $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         return view('users.cart', compact('cart', 'totalAmount', 'cartCount'));
     }
 
-    public function addCart(Request $request) {
-        if ($request->isMethod('post')) {
+    public function addCart(Request $request)
+    {
+        if ($request->isMethod('post'))
+        {
             $data = $request->all();
             $product_id = $data['product_id'];
             $product = Product::with('product_details','brand')->find($product_id);
@@ -107,13 +119,15 @@ class CartController extends Controller
                 return $cartItem->id == $product_id;
             })->first();
 
-            if(($item != null) && (!empty($item->rowId)) && ($product['product_name'] == $item->name) &&($data['size'] == $item->options->size)){
+            if(($item != null) && (!empty($item->rowId)) && ($product['product_name'] == $item->name) &&($data['size'] == $item->options->size))
+            {
                 $newQty = $data['quantity'] + $item->qty;
                 $newSubTotal = $newQty * $item->price;
                 $itemCart = Cart::get($item->rowId);
                 $options = $itemCart->options->merge(['subTotal' => $newSubTotal]);
                 Cart::update($item->rowId, ['qty' => $newQty, 'price' => $itemCart->price,'options' => $options]);
-            }else{
+            }
+            else{
                 Cart::add(
                     ['id' => $product['id'],
                     'name' => $product['product_name'],

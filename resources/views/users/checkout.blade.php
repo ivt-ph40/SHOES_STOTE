@@ -31,8 +31,27 @@
                     <p>92 Quang Trung Street, Da Nang City  -  Hotline: 804-377-3580 - 804-399-3580</p>
                 </div>
 
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                    <div class="header__actions"><a href="#">Login & Regiser</a></div>
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+                    <div class="header__actions">
+                        @if (Route::has('form-login'))
+                            <div class="top-right links">
+                                @auth
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('show-profile', \Auth::user()->id) }}">Profile</a>
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('form-login') }}">Login</a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">Register</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,21 +60,20 @@
     <nav class="navigation">
         <div class="container-fluid">
             <div class="navigation__column left">
-                <div class="header__logo"><a class="ps-logo" href="index.html"><img src="{{ asset('images/logo.png') }}"></a></div>
+                <div class="header__logo"><a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}"></a></div>
             </div>
 
             <div class="navigation__column center">
                 <ul class="main-menu menu">
                     <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Men</a>
+                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="{{ route('all-men-shoes-list') }}">Men</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-men') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-men') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -78,14 +96,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item"><a href="#">Women</a>
+                    <li class="menu-item"><a href="{{ route('all-women-shoes-list') }}">Women</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-women') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-women') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -108,17 +125,15 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact Us</a></li>
+                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact</a></li>
                 </ul>
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
-                    @csrf
-                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
-                    <button><i class="ps-icon-search"></i></button>
+                <form class="ps-search--header" action="/search-product" method="GET">
+                    <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
+                    <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
-
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -158,9 +173,17 @@
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing">
                             <h3>Billing Detail</h3>
+                            @if(\Auth::user() != null)
+                                <input type="hidden" name="user_id" value="{{ \Auth::user()->id }}">
+                            @endif
                             <div class="form-group form-group--inline">
                                 <label>Customer Name<span>*</span></label>
-                                <input name="username" class="form-control" type="text" value="{{ old('username') }}">
+                                @if(\Auth::user()!= null)
+                                    <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                                @endif
+
                                 @if($errors->has('username'))
                                 <p style="color: red;">
                                     {{ $errors->first('username') }}
@@ -169,7 +192,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Email Address<span>*</span></label>
-                                <input name="email" class="form-control" type="text" value="{{ old('email') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                                @endif
+
                                 @if($errors->has('email'))
                                     <p style="color: red;">
                                         {{ $errors->first('email') }}
@@ -178,7 +206,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Phone<span>*</span></label>
-                                <input name="phone" class="form-control" type="text" value="{{ old('phone') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="phone" value="{{ \Auth::user()->addresses[0]->phone }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="phone" class="form-control" type="text" value="{{ old('phone') }}">
+                                @endif
+
                                 @if($errors->has('phone'))
                                     <p style="color: red;">
                                         {{ $errors->first('phone') }}
@@ -187,7 +220,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Street<span>*</span></label>
-                                <input name="street" class="form-control" type="text" value="{{ old('street') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="street" value="{{ \Auth::user()->addresses[0]->street }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="street" class="form-control" type="text" value="{{ old('street') }}">
+                                @endif
+
                                 @if($errors->has('street'))
                                     <p style="color: red;">
                                         {{ $errors->first('street') }}
@@ -196,7 +234,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Ward<span>*</span></label>
-                                <input name="ward" class="form-control" type="text" value="{{ old('ward') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="ward" value="{{ \Auth::user()->addresses[0]->ward }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="ward" class="form-control" type="text" value="{{ old('ward') }}">
+                                @endif
+
                                 @if($errors->has('ward'))
                                     <p style="color: red;">
                                         {{ $errors->first('ward') }}
@@ -205,7 +248,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>District<span>*</span></label>
-                                <input name="district" class="form-control" type="text" value="{{ old('district') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="district" value="{{ \Auth::user()->addresses[0]->district }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="district" class="form-control" type="text" value="{{ old('district') }}">
+                                @endif
+
                                 @if($errors->has('district'))
                                     <p style="color: red;">
                                         {{ $errors->first('district') }}
@@ -214,7 +262,12 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>City<span>*</span></label>
-                                <input name="city" class="form-control" type="text" value="{{ old('city') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="city" value="{{ \Auth::user()->addresses[0]->city }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="city" class="form-control" type="text" value="{{ old('city') }}">
+                                @endif
+
                                 @if($errors->has('city'))
                                     <p style="color: red;">
                                         {{ $errors->first('city') }}
@@ -223,23 +276,17 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Zipcode</label>
-                                <input name="zip_code" class="form-control" type="text" value="{{ old('zip_code') }}">
+                                @if(\Auth::user() != null)
+                                    <input name="zip_code" value="{{ \Auth::user()->addresses[0]->zip_code }}" class="form-control" type="text" placeholder="">
+                                @else
+                                    <input name="zip_code" class="form-control" type="text" value="{{ old('zip_code') }}">
+                                @endif
+
                                 @if($errors->has('zip_code'))
                                     <p style="color: red;">
                                         {{ $errors->first('zip_code') }}
                                     </p>
                                 @endif
-                            </div>
-                            {{-- <div class="form-group">
-                                <div class="ps-checkbox">
-                                    <input class="form-control" type="checkbox" id="cb01">
-                                    <label for="cb01">Create an account?</label>
-                                </div>
-                            </div> --}}
-                            <h3 class="mt-40"> Addition information</h3>
-                            <div class="form-group form-group--inline textarea">
-                                <label>Order Notes</label>
-                                <textarea class="form-control" rows="5" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                             </div>
                         </div>
                     </div>
@@ -302,7 +349,7 @@
                         </div>
                         <div class="ps-shipping">
                             <h3>FREE SHIPPING</h3>
-                            <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.<br> <a href="#"> Singup </a> for free shipping on every order, every time.</p>
+                            <p>YOUR ORDER QUALIFIES FOR FREE SHIPPING.</p>
                         </div>
                     </div>
                 </div>
@@ -317,7 +364,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " id="footer-area">
                         <aside class="ps-widget--footer ps-widget--info">
                             <header>
-                                <a class="ps-logo" href="index.html"><img src="{{ asset('images/logo-white.png') }}"></a>
+                                <a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo-white.png') }}"></a>
                                 <h3 class="ps-widget__title">Address Office 1</h3>
                             </header>
                             <footer>
@@ -350,14 +397,14 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> DongTQ</a></p>
+                        <p>&copy; <a href="{{ route('home') }}">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://myaccount.google.com/"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="https://twitter.com/?lang=en"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>

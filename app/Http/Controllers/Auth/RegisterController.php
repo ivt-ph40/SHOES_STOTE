@@ -75,16 +75,17 @@ class RegisterController extends Controller
     }
 
     public function showRegistrationForm(){
-        return view('auth.register');
+        return view('users.register');
     }
 
     public function register(Request $request){
         $data = $request->all();
         // $this->create($data);
         //$data['password'] = bcrypt($data['password']);
+        $data['role_id'] = '1';
         $user = User::create($data);
         \Auth::login($user);
-        return redirect()->route('home');
+        return redirect()->route('login');
 
     }
 }

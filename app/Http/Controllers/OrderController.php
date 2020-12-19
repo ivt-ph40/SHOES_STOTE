@@ -95,31 +95,63 @@ class OrderController extends Controller
     }
 
     public function submitOrder(CreateOrderRequest $request){
-        $data = $request->all();
-        $cart = Cart::content();
-        if(Cart::count() >= 1){
-            $data['order_code'] = $this->genString();
-            $orderAddress = Address::create($data);
-            $data['ship_address_id'] = $orderAddress->id;
-            $order = Order::create($data);
-            foreach($cart as $itemCart){
-                $orderDetail = [
-                    'order_id' => $order->id,
-                    'product_id' => $itemCart->id,
-                    'size' => $itemCart->options->size,
-                    'color' => $itemCart->options->color,
-                    'price' => $itemCart->price,
-                    'quantity' => $itemCart->qty,
-                ];
-                OrderDetail::create($orderDetail);
+        $user_id = $request->get('user_id');
+        if( $user_id != null){
+            $data = $request->all();
+            $cart = Cart::content();
+            if(Cart::count() >= 1){
+                $data['user_id'] = $user_id;
+                $data['order_code'] = $this->genString();
+                $orderAddress = Address::where('user_id', $user_id)->get();
+                $data['ship_address_id'] = $orderAddress->first()->id;
+                $order = Order::create($data);
+                foreach($cart as $itemCart){
+                    $orderDetail = [
+                        'order_id' => $order->id,
+                        'product_id' => $itemCart->id,
+                        'size' => $itemCart->options->size,
+                        'color' => $itemCart->options->color,
+                        'price' => $itemCart->price,
+                        'quantity' => $itemCart->qty,
+                    ];
+                    OrderDetail::create($orderDetail);
+                }
+                $totalAmount = Cart::priceTotal();
+                $this->sendOrderConfirmationMail($data, $cart, $totalAmount);
+                return redirect()->route('cart_remove');
             }
-            $totalAmount = Cart::priceTotal();
-            $this->sendOrderConfirmationMail($data, $cart, $totalAmount);
-            return redirect()->route('cart_remove');
+            else{
+                return redirect()->route('checkout')->with('error', 'There is nothing to order!')->withInput();
+            }
         }
         else{
-            return redirect()->route('checkout')->with('error', 'There is nothing to order!')->withInput();
+            $data = $request->all();
+            $cart = Cart::content();
+            if(Cart::count() >= 1){
+                $data['order_code'] = $this->genString();
+                $orderAddress = Address::create($data);
+                $data['ship_address_id'] = $orderAddress->id;
+                $order = Order::create($data);
+                foreach($cart as $itemCart){
+                    $orderDetail = [
+                        'order_id' => $order->id,
+                        'product_id' => $itemCart->id,
+                        'size' => $itemCart->options->size,
+                        'color' => $itemCart->options->color,
+                        'price' => $itemCart->price,
+                        'quantity' => $itemCart->qty,
+                    ];
+                    OrderDetail::create($orderDetail);
+                }
+                $totalAmount = Cart::priceTotal();
+                $this->sendOrderConfirmationMail($data, $cart, $totalAmount);
+                return redirect()->route('cart_remove');
+            }
+            else{
+                return redirect()->route('checkout')->with('error', 'There is nothing to order!')->withInput();
+            }
         }
+
 
     }
 

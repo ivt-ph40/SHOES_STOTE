@@ -128,6 +128,9 @@
                         <i class="fas fa-th-large"></i>
                     </a>
                 </li>
+                <li class="nav-item">
+                <a class="btn btn-block btn-outline-warning" href="{{route('logout')}}">LOG OUT</a></div>
+                </li>
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -136,7 +139,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                <img src="{{ asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
@@ -146,10 +149,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{ asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">{{$name}}</a>
                     </div>
                 </div>
 
@@ -828,7 +831,7 @@
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                                 <div class="info-box-content">
-                                    <a href="{{route('categories.list')}}"><span class="info-box-text">CATEGORY</span></a>
+                                    <a href="{{route('categories.list',$name)}}"><span class="info-box-text">CATEGORY</span></a>
                                     <span class="info-box-number">
                                         10
                                         <small>%</small>
@@ -845,7 +848,7 @@
                                         class="fas fa-thumbs-up"></i></span>
 
                                 <div class="info-box-content">
-                                    <a href="{{route('brands.list')}}"><span class="info-box-text">BRAND</span></a>
+                                    <a href="{{route('brands.list',$name)}}"><span class="info-box-text">BRAND</span></a>
                                     <span class="info-box-number">41,410</span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -863,7 +866,7 @@
                                         class="fas fa-shopping-cart"></i></span>
 
                                 <div class="info-box-content">
-                                    <a href="{{route('products.list')}}"><span class="info-box-text">PRODUCTS</span></a>
+                                    <a href="{{route('products.list',$name)}}"><span class="info-box-text">PRODUCTS</span></a>
                                     <span class="info-box-number">760</span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -942,7 +945,7 @@
                                 <div class="card-footer clearfix">
                                     <a href="" class="btn btn-sm btn-info float-left">Place New
                                         Order</a>
-                                    <a href="{{route('products.list')}}" class="btn btn-sm btn-secondary float-right">View All
+                                    <a href="{{route('products.list',$name)}}" class="btn btn-sm btn-secondary float-right">View All
                                         Orders</a>
                                 </div>
                                 <!-- /.card-footer -->

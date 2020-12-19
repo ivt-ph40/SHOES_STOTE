@@ -35,8 +35,27 @@
                     <p>92 Quang Trung Street, Da Nang City  -  Hotline: 804-377-3580 - 804-399-3580</p>
                 </div>
 
-                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12 ">
-                    <div class="header__actions"><a href="#">Login & Regiser</a></div>
+                <div class="col-lg-6 col-md-4 col-sm-6 col-xs-12">
+                    <div class="header__actions">
+                        @if (Route::has('form-login'))
+                            <div class="top-right links">
+                                @auth
+                                    <span>
+                                        Welcome {{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }} !
+                                    </span>
+                                    @if (Route::has('login'))
+                                        <a href="{{ route('show-profile', \Auth::user()->id) }}">Profile</a>
+                                        <a href="{{ route('logout') }}">Logout</a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('form-login') }}">Login</a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}">Register</a>
+                                    @endif
+                                @endauth
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,21 +64,20 @@
     <nav class="navigation">
         <div class="container-fluid">
             <div class="navigation__column left">
-                <div class="header__logo"><a class="ps-logo" href="index.html"><img src="{{ asset('images/logo.png') }}"></a></div>
+                <div class="header__logo"><a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo.png') }}"></a></div>
             </div>
 
             <div class="navigation__column center">
                 <ul class="main-menu menu">
                     <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="#">Men</a>
+                    <li class="menu-item menu-item-has-children has-mega-menu"><a href="{{ route('all-men-shoes-list') }}">Men</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-men') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-men') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -82,14 +100,13 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item"><a href="#">Women</a>
+                    <li class="menu-item"><a href="{{ route('all-women-shoes-list') }}">Women</a>
                         <div class="mega-menu">
                             <div class="mega-wrap" id="nav-mega-wrap">
                                 <div class="mega-column" id="nav-mega">
                                     <ul class="mega-item mega-features">
-                                        <li><a href="product-listing.html">NEW RELEASES</a></li>
-                                        <li><a href="product-listing.html">FEATURES SHOES</a></li>
-                                        <li><a href="product-listing.html">TOP SALES</a></li>
+                                        <li><a href="{{ route('new-releases-women') }}">NEW RELEASES</a></li>
+                                        <li><a href="{{ route('sale-shoes-women') }}">TOP SALES</a></li>
                                     </ul>
                                 </div>
                                 <div class="mega-column" id="nav-mega">
@@ -112,17 +129,19 @@
                             </div>
                         </div>
                     </li>
-                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact Us</a></li>
+                    <li class="menu-item menu-item-has-children dropdown"><a href="{{ route('contact-form') }}">Contact</a></li>
                 </ul>
             </div>
 
             <div class="navigation__column right">
-                <form class="ps-search--header" action="{{ route('search-product') }}" method="POST">
-                    @csrf
-                    <input name="input-search" value="{{ old('input-search') }}" class="form-control" type="text" placeholder="Search Product…">
-                    <button><i class="ps-icon-search"></i></button>
+                <form class="ps-search--header" action="/search-product" method="GET">
+                    @if($input_search != null)
+                        <input name="input_search" value="{{ implode($input_search) }}" class="form-control" type="text" placeholder="Search Product…">
+                    @else
+                        <input name="input_search" value="{{ old('input_search') }}" class="form-control" type="text" placeholder="Search Product…">
+                    @endif
+                    <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
-
                 <div class="ps-cart">
                     <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                         @if($cartCount != null)
@@ -132,9 +151,6 @@
                         @endif
                     </a>
                 </div>
-                @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
-                @endif
             </div>
         </div>
     </nav>
@@ -164,6 +180,11 @@
                 </div> --}}
             {{-- </div> --}}
             <div class="ps-product__columns">
+                @if(session()->has('message'))
+                    <div class="alert alert-warning" role="alert">
+                        {{session()->get('message')}}
+                    </div>
+                @endif
                 @foreach ($products as $product)
                 <div class="ps-product__column">
                     <div class="ps-shoe mb-30">
@@ -233,21 +254,45 @@
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=name" }}">Name</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=name&input_search=".implode($input_search)}}">Name</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=name&input_search=".old('input_search') }}">Name</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=name" }}">Name</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=price_asc'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=price_asc" }}">Price (Low to High)</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=price_asc&input_search=".implode($input_search)}}">Price (Low to High)</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=price_asc&input_search=".old('input_search') }}">Price (Low to High)</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=price_asc" }}">Price (Low to High)</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=price_desc'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=price_desc" }}">Price (High to Low)</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=price_desc&input_search=".implode($input_search)}}">Price (High to Low)</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=price_desc&input_search=".old('input_search') }}">Price (High to Low)</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=price_desc" }}">Price (High to Low)</a>
+                            @endif
                         </li>
                     </ul>
                 </div>
@@ -263,33 +308,65 @@
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_lifestyle" }}">Lifestyle</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_lifestyle&input_search=".implode($input_search)}}">Lifestyle</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_lifestyle&input_search=".old('input_search') }}">Lifestyle</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_lifestyle" }}">Lifestyle</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=category_running'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_running" }}">Running</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_running&input_search=".implode($input_search)}}">Running</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_running&input_search=".old('input_search') }}">Running</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_running" }}">Running</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=category_football'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_football" }}">Football</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_football&input_search=".implode($input_search)}}">Football</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_football&input_search=".old('input_search') }}">Football</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_football" }}">Football</a>
+                            @endif
                         </li>
                         <li
                             @if(str_contains(Request::fullUrl(), 'sort=category_training'))
                                 class="current"
                             @endif
                         >
-                            <a href="{{ URL::current()."?sort=category_training" }}">Training</a>
+                            @if(str_contains(Request::fullUrl(), 'search-product'))
+                                @if($input_search != null)
+                                    <a href="{{ URL::current()."?sort=category_training&input_search=".implode($input_search)}}">Training</a>
+                                @else
+                                    <a href="{{ URL::current()."?sort=category_training&input_search=".old('input_search') }}">Training</a>
+                                @endif
+                            @else
+                                <a href="{{ URL::current()."?sort=category_training" }}">Training</a>
+                            @endif
                         </li>
                     </ul>
                 </div>
             </aside>
-            <aside class="ps-widget--sidebar ps-widget--filter">
+            {{-- <aside class="ps-widget--sidebar ps-widget--filter">
                 <div class="ps-widget__header">
                     <h3>Category</h3>
                 </div>
@@ -297,7 +374,7 @@
                     <div class="ac-slider" data-default-min="300" data-default-max="2000" data-max="3450" data-step="50" data-unit="$"></div>
                     <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
                 </div>
-            </aside>
+            </aside> --}}
         </div>
     </div>
 
@@ -308,7 +385,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " id="footer-area">
                         <aside class="ps-widget--footer ps-widget--info">
                             <header>
-                                <a class="ps-logo" href="index.html"><img src="{{ asset('images/logo-white.png') }}"></a>
+                                <a class="ps-logo" href="{{ route('home') }}"><img src="{{ asset('images/logo-white.png') }}"></a>
                                 <h3 class="ps-widget__title">Address Office 1</h3>
                             </header>
                             <footer>
@@ -341,14 +418,14 @@
             <div class="ps-container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">SKYTHEMES</a>, Inc. All rights Resevered. Design by <a href="#"> DongTQ</a></p>
+                        <p>&copy; <a href="{{ route('home') }}">SKYTHEMES</a>, Inc. All rights Resevered. Design by DongTQ</a></p>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
                         <ul class="ps-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://myaccount.google.com/"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="https://twitter.com/?lang=en"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
