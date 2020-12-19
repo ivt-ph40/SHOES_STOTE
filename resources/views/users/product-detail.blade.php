@@ -167,9 +167,6 @@
                         @endif
                     </a>
                 </div>
-                @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
-                @endif
             </div>
         </div>
     </nav>

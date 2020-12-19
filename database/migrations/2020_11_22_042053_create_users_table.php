@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name',50);
             $table->unsignedBigInteger('role_id');
             $table->string('email',255)->unique();
-            $table->longText('password',255);
+            $table->string('password',255);
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->timestamps();
         });

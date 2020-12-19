@@ -23,6 +23,9 @@ class HomeController extends Controller
         $cartCount = Cart::content()->count();
         $allCount = Product::count('id');
         $products = Product::with('images')
+                        ->whereHas('category', function ($query) {
+                            $query->whereIn('categories.id', [5,6,7,8,9,10]);
+                        })
                         ->orderBy('id', 'ASC')
                         ->take(8)
                         ->get();

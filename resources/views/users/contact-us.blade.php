@@ -136,9 +136,6 @@
                         @endif
                     </a>
                 </div>
-                @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
-                @endif
             </div>
         </div>
     </nav>
@@ -161,7 +158,7 @@
                     <form class="ps-contact__form" action="{{ route('send-contact') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label>Name <sub>*</sub></label>
+                            <label>Name<span>*</span></label>
                             <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
                             @if($errors->has('username'))
                                 <p style="color: red;">
@@ -170,8 +167,8 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Email <sub>*</sub></label>
-                            <input name="email" value="{{ old('email') }}"" class="form-control" type="text" placeholder="">
+                            <label>Email<span>*</span></label>
+                            <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
                             @if($errors->has('email'))
                                 <p style="color: red;">
                                     {{ $errors->first('email') }}
@@ -179,7 +176,7 @@
                             @endif
                         </div>
                         <div class="form-group mb-25">
-                            <label>Your Message <sub>*</sub></label>
+                            <label>Your Message<span>*</span></label>
                             <textarea name="message" value="{{ old('message') }}" class="form-control" rows="6"></textarea>
                             @if($errors->has('message'))
                                 <p style="color: red;">
@@ -188,7 +185,7 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <button class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
+                            <button type="submit" class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
                         </div>
                     </form>
                     </div>
