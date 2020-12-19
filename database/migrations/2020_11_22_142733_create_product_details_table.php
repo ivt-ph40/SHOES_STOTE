@@ -24,6 +24,7 @@ class CreateProductDetailsTable extends Migration
             $table->string('specifications',255);
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -49,7 +49,7 @@ class LoginController extends Controller
         //attempt(): truyền mảng data, kiểm tra mảng data có khớp với user nào không
         if(\Auth::attempt($data)){
             if(\Auth::user()->role_id == 1){
-                return redirect()->route('home.admins');
+                return redirect()->route('home.admins',\Auth::user()->first_name);
             }
             elseif(\Auth::user()->role_id == 2){
                 return redirect()->route('home');
@@ -60,6 +60,6 @@ class LoginController extends Controller
     }
     public function logout(Request $request){
         \Auth::logout();
-        return redirect()->back();
+        return redirect()->route('login');
     }
 }

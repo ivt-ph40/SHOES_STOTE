@@ -1,7 +1,7 @@
 @extends('layouts.master2')
 @section('content')
 
-<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixed">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-footer-fixe">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -441,12 +441,13 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>BRANDS</h1>
+                            <h1>Edit Product: {{$product->product_name}}</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
-                                <li class="breadcrumb-item active">Brand</li>
+                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">HOME</a></li>
+                                <li class="breadcrumb-item active"><a href="{{route('products.list',$name)}}">PRODUCT</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('productdetail.list',[$product->product_code,$name])}}">PRODUCT DETAIL</a></li>
                             </ol>
                         </div>
                     </div>
@@ -457,84 +458,56 @@
             <section class="content" style="font-size: 10px;">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-6">
-                                <a class="btn btn-block btn-outline-success" href="{{route('brands.create',$name)}}">Create +</a>
-                        </div>
-                        <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning"
-                                href="{{route('brands.record',$name)}}">Record</a>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Brands</h3>
-
-                                    <div class="card-tools">
-                                        <div class="input-group input-group-sm" style="width: 150px;">
-                                            <input type="text" name="table_search" class="form-control float-right"
-                                                placeholder="Search">
-
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-default">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-md-12">
+                            <h1>Mã Sản Phẩm: {{$product->product_code}}</h1>
+                            <form action="{{route('productdetail.update', [$productDetail->id,$name])}}"
+                                method="POST" role="form" style="font-size: 15px;">
+                                @csrf
+                                @method('PUT')
+                                <div class="form-group">
+                                    <input type="text" name="product_code" value="{{$product->product_code}}"
+                                        class="form-control" placeholder="" aria-describedby="helpId" required hidden>
+                                    <label for="">Size</label>
+                                    <input type="text" name="size" value="{{$productDetail->size}}" class="form-control"
+                                        placeholder="" aria-describedby="helpId" required>
+                                    <label for="">Color</label>
+                                    <input type="text" name="color" value="{{$productDetail->color}}"
+                                        class="form-control" placeholder="" aria-describedby="helpId" required>
+                                    <label for="">Chất liệu</label>
+                                    <input type="text" name="material" value="{{$productDetail->material}}"
+                                        class="form-control" placeholder="" aria-describedby="helpId" required>
+                                    <label for="">Thông số</label>
+                                    <input type="text" name="specifications" value="{{$productDetail->specifications}}"
+                                        class="form-control" placeholder="" aria-describedby="helpId" required>
+                                    <label for="">Số lượng</label>
+                                    <input type="text" name="quantity" value="{{$productDetail->quantity}}"
+                                        class="form-control" placeholder="" aria-describedby="helpId" required>
                                 </div>
-                                <!-- /.card-header -->
-                                <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>STT</th>
-                                                <th>brand_name</th>
-                                                <th>Edit</th>
-                                                <th>Detail</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($brands as $index => $brand)
-                                            <tr>
-                                                <td scope="row">{{$index}}</td>
-                                                <td>{{$brand->brand_name}}</td>
-                                                <td><a href="{{route('brands.edit', [$brand->id,$name])}}"
-                                                        class="btn btn-primary">Edit</a></td>
-                                                <td>
-                                                    <form action="{{route('brands.destroy', [$brand->id,$name])}}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
+                                <button type="submit" class="btn btn-primary" action="save">Confirm</button>
+                            </form>
                         </div>
+
                     </div>
                 </div>
-            </section>
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.1.0-pre
-            </div>
-            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0-pre
+        </div>
+        <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 </body>
