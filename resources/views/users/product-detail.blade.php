@@ -174,9 +174,9 @@
 
 <div class="header-services">
     <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
     </div>
 </div>
 
@@ -265,7 +265,6 @@
                             </div>
                             <div class="ps-product__shopping">
                                 <button id="add-cart-btn" type="submit"><span class="ps-btn mb-10">Add to cart<i class="ps-icon-next"></i></span></button>
-                                <div class="ps-product__actions"><a class="mr-10" href="{{ route('wishlist') }}"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div>
                             </div>
                         </form>
                     </div>
@@ -398,7 +397,6 @@
                                     <span>{{''}}</span>
                                 </div>
                                 @endif
-                                <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                 <img id="big-product-img" src="{{ asset('images/shoe/' .$item->images[0]->image_name .'') }}">
                                 <a class="ps-shoe__overlay" href="{{ route('product-detail', $item->id) }}"></a>
                             </div>

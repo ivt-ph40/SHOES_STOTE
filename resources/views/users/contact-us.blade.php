@@ -143,9 +143,9 @@
 
 <div class="header-services">
     <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
     </div>
 </div>
 <main class="ps-main">
@@ -159,7 +159,11 @@
                         @csrf
                         <div class="form-group">
                             <label>Name<span>*</span></label>
-                            <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                            @if(\Auth::user() != null)
+                                <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
+                            @else
+                                <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                            @endif
                             @if($errors->has('username'))
                                 <p style="color: red;">
                                     {{ $errors->first('username') }}
@@ -168,7 +172,11 @@
                         </div>
                         <div class="form-group">
                             <label>Email<span>*</span></label>
-                            <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                            @if(\Auth::user() != null)
+                                <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
+                            @else
+                                <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                            @endif
                             @if($errors->has('email'))
                                 <p style="color: red;">
                                     {{ $errors->first('email') }}
@@ -191,7 +199,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                    <div id="contact-map" data-address="New York, NY" data-title="Sky Store!" data-zoom="17"></div>
+                    <div id="contact-map" data-address="New York, NY" data-title="Skytheme Store!" data-zoom="17"></div>
                 </div>
             </div>
         </div>
