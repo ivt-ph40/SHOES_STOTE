@@ -18,6 +18,10 @@
         width: 100%;
         height: 320px;
     }
+    #small-product-img{
+        width: 60px;
+        height: 70px;
+    }
     #product-name{
         max-width: 200px;
     }

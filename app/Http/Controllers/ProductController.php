@@ -137,8 +137,7 @@ class ProductController extends Controller
                 break;
             case 'category_training':
                 $products = $products->whereHas('category', function ($query) {
-                                    $query->where('categories.parent_id', 1)
-                                            ->whereIn('categories.id', [9,10]);
+                                    $query->whereIn('categories.id', [9,10]);
                                 });
                 break;
             default:

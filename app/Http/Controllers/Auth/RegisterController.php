@@ -81,8 +81,8 @@ class RegisterController extends Controller
     public function register(Request $request){
         $data = $request->all();
         // $this->create($data);
-        //$data['password'] = bcrypt($data['password']);
-        $data['role_id'] = '1';
+        // $data['password'] = bcrypt($data['password']);
+        $data['role_id'] = '2';
         $user = User::create($data);
         \Auth::login($user);
         return redirect()->route('login');
