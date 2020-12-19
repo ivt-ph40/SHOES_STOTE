@@ -40,8 +40,8 @@ class HomeController extends Controller
 
     public function updateProfile(UpdateProfileRequest $request, $userID){
         $data = $request->except('_token', '_method');
-        // DB::beginTransaction();
-        // try {
+        DB::beginTransaction();
+        try {
             User::find($userID)->update($data);
             Address::where('user_id', $userID)->update(
                                 array(
@@ -52,12 +52,12 @@ class HomeController extends Controller
                                     'city' => $data['city'],
                                     'zip_code' => $data['zip_code'],
                                 ));
-        //         DB::commit();
-        // }
-        // catch (Exception $e) {
-        //     DB::rollBack();
-        //     throw new Exception($e->getMessage());
-        // }
+        DB::commit();
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception($e->getMessage());
+        }
         $user = User::with('addresses')->find($userID);
         \Auth::setUser($user);
         return redirect()->route('show-profile', $user->id)->with('inform-message', 'Update Profile Successfully!');

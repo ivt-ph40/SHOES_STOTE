@@ -14,10 +14,6 @@
         width: 100%;
         height: 320px;
     }
-    #small-product-img{
-        width: 70px;
-        height: 60px;
-    }
     #product-name{
         max-width: 150px;
     }
@@ -204,23 +200,23 @@
                          </div>
                          <div class="ps-shoe__content">
                              <div class="ps-shoe__variants">
-                                 <div class="ps-shoe__variant normal">
-                                     @foreach($product->images as $image)
-                                     <img id="small-product-img" src="{{ asset('images/shoe/' .$image->image_name .'') }}">
-                                     @endforeach
-                                 </div>
-                                 <select class="ps-rating ps-shoe__rating">
-                                     <option value="1">1</option>
-                                     <option value="1">2</option>
-                                     <option value="1">3</option>
-                                     <option value="1">4</option>
-                                     <option value="2">5</option>
-                                 </select>
+                                <div class="ps-shoe__variant normal">
+                                @foreach($product->images as $image)
+                                <img id="small-product-img" src="{{ asset('images/shoe/' .$image->image_name .'') }}">
+                                @endforeach
+                                </div>
+                                    <select class="ps-rating ps-shoe__rating">
+                                    <option value="1">1</option>
+                                    <option value="1">2</option>
+                                    <option value="1">3</option>
+                                    <option value="1">4</option>
+                                    <option value="2">5</option>
+                                </select>
                              </div>
 
                              <div class="ps-shoe__detail">
-                                 <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
-                                 <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
+                                <p id="product-name"><a class="ps-shoe__name" href="#">{{ $product->product_name }}</a></p>
+                                <p class="ps-shoe__categories"><span class="ps-shoe__price">{{ number_format($product->price) }} đ</span></p>
                              </div>
                          </div>
                      </div>
