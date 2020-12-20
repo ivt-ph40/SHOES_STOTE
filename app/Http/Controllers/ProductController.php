@@ -50,6 +50,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $product = Product::with('images','product_details', 'brand')->find($id);
         $reviews = Review::with('product', 'user')
@@ -60,7 +62,7 @@ class ProductController extends Controller
         $relatedItems = Product::with('images','category')
                             ->whereNotIn('products.id', [$id])
                             ->get();
-        return view('users.product-detail', compact('product', 'relatedItems', 'reviews','cartCount'));
+        return view('users.product-detail', compact('product', 'relatedItems', 'reviews','cart', 'totalAmount', 'cartCount'));
     }
 
     /**
@@ -97,17 +99,21 @@ class ProductController extends Controller
         //
     }
 
-    public function showList(){
+    public function showList(Request $request){
         $products = [];
-        $input_search = [];
+        $input_search = $request->input_search;
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
-        return view('users.product-listing', compact('products', 'input_search','cartCount'));
+        return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
     }
 
     public function showSearchedList(Request $request){
         $input_search = $request->input_search;
         $products = Product::with('images')
                             ->where('products.product_name', 'like', '%'. $input_search. '%');
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
 
         switch($request->get('sort')){
@@ -144,16 +150,18 @@ class ProductController extends Controller
                 $products = $products;
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         $input_search = explode(' ',$input_search);
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
-            return redirect()->route('show-empty-list')->with('message', 'There is no product for your selected option!')->withInput();
+            return redirect()->route('show-empty-list')->with('message', 'There is no product!')->withInput();
         }
     }
 
     public function showMenNewReleases(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -222,15 +230,17 @@ class ProductController extends Controller
                             ->take(4);
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'No product for new realease!');
         }
     }
 
     public function showWomenNewReleases(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -300,15 +310,17 @@ class ProductController extends Controller
                             ->take(4);
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'No product for new realease!');
         }
     }
 
     public function showMenSaleShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -369,15 +381,17 @@ class ProductController extends Controller
                             ->where('products.discount_percent', '<>', '0');
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'No product for sale!');
         }
     }
 
     public function showWomenSaleShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -438,15 +452,17 @@ class ProductController extends Controller
                             ->where('products.discount_percent', '<>', '0');
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'No product for sale!');
         }
     }
 
     public function showAllMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -499,11 +515,13 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
-        return view('users.product-listing', compact('products', 'input_search', 'cartCount'));
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        return view('users.product-listing', compact('products', 'input_search', 'cart', 'totalAmount', 'cartCount'));
     }
 
     public function showAllWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -556,15 +574,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showLifestyleMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -617,15 +637,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showLifestyleWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -678,15 +700,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showRunningMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -739,15 +763,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showRunningWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -800,15 +826,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showTrainingMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -861,7 +889,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cartCount'));
         }else{
@@ -870,6 +898,8 @@ class ProductController extends Controller
     }
 
     public function showTrainingWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -923,15 +953,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showFootballMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -984,15 +1016,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showFootballWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -1045,15 +1079,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showNikeMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -1126,15 +1162,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showNikeWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -1207,15 +1245,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showAdidasMenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -1290,15 +1330,17 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }
     }
 
     public function showAdidasWomenShoes(Request $request){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $input_search = $request->input_search;
         $products = Product::with('images');
@@ -1371,9 +1413,9 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
         if(count($products)){
-            return view('users.product-listing', compact('products', 'input_search','cartCount'));
+            return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
             return redirect()->route('show-empty-list')->with('message', 'There\'s no product!');
         }

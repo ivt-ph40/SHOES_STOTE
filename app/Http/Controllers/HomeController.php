@@ -20,6 +20,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
         $allCount = Product::count('id');
         $products = Product::with('images')
@@ -33,12 +35,14 @@ class HomeController extends Controller
                         ->where('products.discount_percent', '<>', '0')
                         ->orderBy('id', 'ASC')
                         ->get();
-        return view('users.home', compact('allCount', 'products','saleProducts','cartCount'));
+        return view('users.home', compact('allCount', 'products','saleProducts','cartCount','cart','totalAmount'));
     }
 
     public function showProfile(){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
-        return view('users.profile', compact('cartCount'));
+        return view('users.profile', compact('cartCount','cart','totalAmount'));
     }
 
     public function updateProfile(UpdateProfileRequest $request, $userID){
