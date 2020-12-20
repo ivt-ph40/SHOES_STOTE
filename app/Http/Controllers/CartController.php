@@ -161,8 +161,9 @@ class CartController extends Controller
     public function checkout()
     {
         $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
-        return view('users.checkout', compact('cartCount'));
+        return view('users.checkout', compact('cart', 'totalAmount', 'cartCount'));
     }
 
 

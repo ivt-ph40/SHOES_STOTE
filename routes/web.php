@@ -11,10 +11,6 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 //Show homepage
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -111,21 +107,6 @@ Route::get('/profile/{userID}/edit', 'HomeController@showProfile')->name('show-p
 
 //Update profile
 Route::put('/profile/{userID}', 'HomeController@updateProfile')->name('update-profile');
-
-//Show favorite product list
-Route::get('/wishlist', function(){
-    return view('users.wishlist');
-})->name('wishlist');
-
-//Compare products
-Route::get('/compare', function(){
-    return view('users.compare');
-})->name('compare');
-
-//Show company info
-Route::get('/company', function(){
-    return view('users.about');
-})->name('company-info');
 
 //Show 404 page
 Route::get('/404', function(){
