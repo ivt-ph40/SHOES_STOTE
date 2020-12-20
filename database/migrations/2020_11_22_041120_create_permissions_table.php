@@ -17,6 +17,7 @@ class CreatePermissionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('permission_name', 20)->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

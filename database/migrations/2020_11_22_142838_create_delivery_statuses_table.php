@@ -17,6 +17,7 @@ class CreateDeliveryStatusesTable extends Migration
             $table->bigIncrements('id');
             $table->string('status',20);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
