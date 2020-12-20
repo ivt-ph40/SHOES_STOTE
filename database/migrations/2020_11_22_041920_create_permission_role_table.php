@@ -20,6 +20,7 @@ class CreatePermissionRoleTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

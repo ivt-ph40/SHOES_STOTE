@@ -21,6 +21,7 @@ class CreateReviewsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
