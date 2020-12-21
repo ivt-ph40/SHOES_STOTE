@@ -441,12 +441,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>PRODUCTS</h1>
+                            <h1>BRANDS</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
-                                <li class="breadcrumb-item active">PRODUCTS</li>
+                                <li class="breadcrumb-item active">Brand</li>
                             </ol>
                         </div>
                     </div>
@@ -458,13 +458,12 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-success" href="{{route('products.create',$name)}}">Create +</a></div>
-                        <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning" href="{{route('products.record',$name)}}">Record</a></div>   
+                                <a class="btn btn-block btn-outline-success" href="{{route('imageadmin.create',[$product->id,$name])}}">Create +</a>
+                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">PRODUCTS</h3>
+                                    <h3 class="card-title">Brands</h3>
 
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -481,66 +480,23 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap" style="font-size: 12px;">
-                                    <thead>
+                                    <table class="table table-hover text-nowrap">
+                                        <thead>
                                             <tr>
                                                 <th>STT</th>
-                                                <th>Product_code</th>
-                                                <th>Product_name</th>
-                                                <th>Hãng</th>
-                                                <th>Giới Tính</th>
-                                                <th>Loại Giày</th>
-                                                <th>Price</th>
-                                                <th>Discount</th>
-                                                <th>Detail</th>
-                                                <th>Edit</th>
                                                 <th>Image</th>
-                                                <th>Delete</th>
+                                                <th>Edit</th>
+                                                <th>Detail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($products as $index => $product)
+                                            @foreach($images as $index => $image)
                                             <tr>
-                                                @if ($loop->iteration)
-                                                <td scope="row">
-                                                    {{ $index }}
-                                                </td>
-                                                @endif
-                                                <td>{{$product->product_code}}</td>
-                                                <td>{{substr($product->product_name,0,20)}}...</td>
-                                                <td>{{$product->brand_name}}</td>
-                                                <td>
-                                                    @if ($product->parent_id === 1)
-                                                    Men
-                                                    @else
-                                                    Women
-                                                    @endif</td>
-                                                <td>{{$product->category_name}}</td>
-                                                <td>{{number_format($product->price)}} VND</td>
-                                                <td>{{$product->discount_percent}}</td>
-
-                                                <td><a href="{{route('productdetail.list', [$product->product_code,$name])}}"
-                                                class="btn btn-block bg-gradient-primary" style="font-size: 10px;">Detail</a></td>
-
-                                                <td><a href="{{route('products.edit', [$product->product_code,$name])}}"
-                                                class="btn btn-block bg-gradient-primary" style="font-size: 10px;">Edit</a></td>
-
-                                                <td><a href="{{route('imageadmin.list', [$product->product_code,$name])}}"
-                                                class="btn btn-block btn-outline-secondary" style="font-size: 10px;">Image</a></td>
-
-                                                <td>
-                                                    <form action="{{route('products.destroy', [$product->product_code,$name])}}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-block btn-outline-danger" style="font-size: 10px;">Delete</button>
-                                                    </form>
-                                                </td>
+                                                <td scope="row">{{$index}}</td>
+                                                <td><img src="{{ asset('images/shoe/'.$image->image_name)}}" width="60"></td>
                                             </tr>
-
                                             @endforeach
                                         </tbody>
-                                        {{$products->links()}}
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -568,4 +524,3 @@
     </div>
     <!-- ./wrapper -->
 </body>
-

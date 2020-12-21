@@ -26,7 +26,7 @@ class ProductAdminController extends Controller
                                 $join->on('products.category_id', '=', 'categories.id');
                             })
                             ->orderBy('products.id', 'ASC')
-                            ->get();
+                            ->paginate(3);
         $parents = Category::where('parent_id','=', NULL)->get();
         return view('products.list',compact('products','parents','categories','name'));
     }

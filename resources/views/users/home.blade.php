@@ -227,6 +227,7 @@
                                         </div>
                                         @endif
                                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                        
                                         <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                                         <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
                                     </div>

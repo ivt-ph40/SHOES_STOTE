@@ -157,7 +157,8 @@ Route::get('/categories/record/{name}', 'CategoryController@showRecord')->name('
 Route::Delete('/categories/record/{id}/{name}', 'CategoryController@force')->name('categories.force');
 //Admin update Category record
 Route::put('/categories/record/{id}/{name}', 'CategoryController@restore')->name('categories.restore');
-
+//Admin filter Category
+Route::post('/categories/{name}', 'CategoryController@filter')->name('categories.filter');
 
 
 //Admin brand
@@ -221,6 +222,26 @@ Route::get('/productDetail/record/{code}/{name}', 'ProductAdminDetailController@
 Route::Delete('/productDetail/record/{code}/{name}', 'ProductAdminDetailController@force')->name('productdetail.force');
 //Admin update productDetail record
 Route::put('/productDetail/record/{name}', 'ProductAdminDetailController@restore')->name('productdetail.restore');
+
+//Admin Image
+Route::get('/Image/{code}/{name}', 'ImageProductAdminController@index')->name('imageadmin.list');
+//Admin create Image
+Route::get('/Image/{id}/{name}/create', 'ImageProductAdminController@create')->name('imageadmin.create');
+//Admin store Image
+Route::post('/Image/create/{name}', 'ImageProductAdminController@store')->name('imageadmin.store');
+//Admin Show edit form Image
+Route::get('/Image/{id}/{product_id}/{name}/edit', 'ImageProductAdminController@edit')->name('image.edit');
+//Admin update Image
+Route::put('/Image/{id}/{name}', 'ImageProductAdminController@update')->name('image.update');
+//Admin Delete Image
+Route::Delete('/Image/{id}/{productID}/{name}', 'ImageProductAdminController@destroy')->name('image.destroy');
+
+//Admin Order
+Route::get('/Order/{name}', 'OrderAdminController@index')->name('order.list');
+//Admin update Order
+Route::put('/Order/{code}/{name}', 'OrderAdminController@update')->name('order.update');
+//Admin update Order
+Route::get('/Order/{code}/{nameUser}/{name}', 'OrderAdminController@show')->name('order.show');
 
 //Auth::routes();
 

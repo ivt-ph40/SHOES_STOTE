@@ -441,12 +441,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>PRODUCTS</h1>
+                            <h1>PRODUCTS DETAIL</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
-                                <li class="breadcrumb-item active">PRODUCTS</li>
+                                <!-- <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">HOME</a></li>
+                                <li class="breadcrumb-item active"><a href="{{route('products.list',$name)}}">PRODUCT</a></li> -->
                             </ol>
                         </div>
                     </div>
@@ -458,13 +458,15 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-success" href="{{route('products.create',$name)}}">Create +</a></div>
+
+                        </div>
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning" href="{{route('products.record',$name)}}">Record</a></div>   
+
+                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">PRODUCTS</h3>
+                                    <h3 class="card-title">Orders</h3>
 
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -482,65 +484,49 @@
                                 <!-- /.card-header -->
                                 <div class="card-body table-responsive p-0">
                                     <table class="table table-hover text-nowrap" style="font-size: 12px;">
-                                    <thead>
-                                            <tr>
-                                                <th>STT</th>
-                                                <th>Product_code</th>
-                                                <th>Product_name</th>
-                                                <th>Hãng</th>
-                                                <th>Giới Tính</th>
-                                                <th>Loại Giày</th>
-                                                <th>Price</th>
-                                                <th>Discount</th>
-                                                <th>Detail</th>
-                                                <th>Edit</th>
-                                                <th>Image</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($products as $index => $product)
-                                            <tr>
-                                                @if ($loop->iteration)
-                                                <td scope="row">
-                                                    {{ $index }}
-                                                </td>
-                                                @endif
-                                                <td>{{$product->product_code}}</td>
-                                                <td>{{substr($product->product_name,0,20)}}...</td>
-                                                <td>{{$product->brand_name}}</td>
-                                                <td>
-                                                    @if ($product->parent_id === 1)
-                                                    Men
-                                                    @else
-                                                    Women
-                                                    @endif</td>
-                                                <td>{{$product->category_name}}</td>
-                                                <td>{{number_format($product->price)}} VND</td>
-                                                <td>{{$product->discount_percent}}</td>
+                                        <table class="table table-hover text-nowrap" style="font-size: 10px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>User</th>
+                                                    <th>Code</th>
+                                                    <th>Order Date</th>
+                                                    <th>Trạng Thái</th>
+                                                    <th>Change Trạng Thái</th>
+                                                    <th>Detail</th>
 
-                                                <td><a href="{{route('productdetail.list', [$product->product_code,$name])}}"
-                                                class="btn btn-block bg-gradient-primary" style="font-size: 10px;">Detail</a></td>
-
-                                                <td><a href="{{route('products.edit', [$product->product_code,$name])}}"
-                                                class="btn btn-block bg-gradient-primary" style="font-size: 10px;">Edit</a></td>
-
-                                                <td><a href="{{route('imageadmin.list', [$product->product_code,$name])}}"
-                                                class="btn btn-block btn-outline-secondary" style="font-size: 10px;">Image</a></td>
-
-                                                <td>
-                                                    <form action="{{route('products.destroy', [$product->product_code,$name])}}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-block btn-outline-danger" style="font-size: 10px;">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-
-                                            @endforeach
-                                        </tbody>
-                                        {{$products->links()}}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($orders as $index => $order)
+                                                <tr>
+                                                    <td scope="row">{{$index}}</td>
+                                                    <td>{{$order->email}}</td>
+                                                    <td>{{$order->order_code}}</td>
+                                                    <td>{{$order->order_date}}</td>
+                                                    <td>{{$order->status}}</td>
+                                                    <td>
+                                                        <form
+                                                            action="{{route('order.update',[$order->order_code,$name])}}"
+                                                            method="post">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <select name="delivery_status_id" id="car"
+                                                                onchange="javascript:this.form.submit()">
+                                                                <option value=""> -- Chọn -- </option>
+                                                                @foreach($statuss as $status)
+                                                                <option value="{{$status->id}}">{{$status->status}}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </form>
+                                                    </td>
+                                                    <td><a href="{{route('order.show',[$order->order_code,$order->email,$name])}}"
+                                                            class="btn btn-primary">Detail</a></td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -566,6 +552,11 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
+    <script type="text/javascript">
+    jQuery(function() {
+        jQuery('#car').change(function() {
+            this.form.submit();
+        });
+    });
+    </script>
 </body>
-

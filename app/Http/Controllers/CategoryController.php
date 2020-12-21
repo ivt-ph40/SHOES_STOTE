@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Validations\Validation;
 
 use App\Category;
 use App\Brand;
@@ -16,8 +17,9 @@ class CategoryController extends Controller
      */
     public function index($name)
     {
-        $categories = Category::all();
-        return view('categories.list',compact('categories','name'));
+        $categories = Category::paginate(10);
+        $parents = Category::where('parent_id','=', NULL)->get();
+        return view('categories.list',compact('categories','name','parents'));
     }
 
     /**
@@ -76,6 +78,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id,$name)
     {
+        Validation::validateCategorydRequest($request);
         $data = $request->except('_token', '_method');
         Category::find($id)->update($data);
         return Redirect() -> route('categories.list',$name)->with('message', 'Update User Success !');//cau event hien thi sau khi update
@@ -108,5 +111,14 @@ class CategoryController extends Controller
         Category::withTrashed()->where('id','=',$id)->forceDelete();
         $categories = Category::all();
         return Redirect() -> route('categories.list',$name)->with('message', 'Delete User Success !');
+    }
+
+    ///filter
+
+    public function filter(Request $request, $name){
+        $data = $request->except('_token', '_method');
+        $categories = Category::where('parent_id','=',$data['parent_id'])->paginate(3);
+        $parents = Category::where('parent_id','=', NULL)->get();
+        return view('categories.list', compact('categories','name','parents'));
     }
 }

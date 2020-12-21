@@ -458,14 +458,30 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-success" href="{{route('categories.create',$name)}}">Create +</a></div>
+                            <a class="btn btn-block btn-outline-success"
+                                href="{{route('categories.create',$name)}}">Create +</a>
+                        </div>
                         <div class="col-md-6">
-                            <a class="btn btn-block btn-outline-warning" href="{{route('categories.record',$name)}}">Record</a></div>   
+                            <a class="btn btn-block btn-outline-warning"
+                                href="{{route('categories.record',$name)}}">Record</a>
+                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">CATEGORY</h3>
-
+                                    <form method="post" action="{{route('categories.filter',$name)}}">
+                                        @csrf
+                                                <label for="">Parent</label>
+                                                <select class="form-control" name="parent_id">
+                                                    @foreach($parents as $parent)
+                                                    <option name="parent_id" value="{{$parent->id}}">
+                                                        {{$parent->category_name}}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" action="save">Lọc</button>
+                                    </form>
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm" style="width: 150px;">
                                             <input type="text" name="table_search" class="form-control float-right"
@@ -510,7 +526,8 @@
                                                 <td><a href="{{route('categories.edit', [$category->id,$name])}}"
                                                         class="btn btn-primary">Edit</a></td>
                                                 <td>
-                                                    <form action="{{route('categories.destroy', [$category->id,$name])}}"
+                                                    <form
+                                                        action="{{route('categories.destroy', [$category->id,$name])}}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -522,6 +539,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    {{$categories->appends(request()->query())->links()}}
                                 </div>
                                 <!-- /.card-body -->
                             </div>
