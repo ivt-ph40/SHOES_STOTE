@@ -47,8 +47,9 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
+        $input_search = $request->input_search;
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
@@ -61,7 +62,7 @@ class ProductController extends Controller
         $relatedItems = Product::with('images','category')
                             ->whereNotIn('products.id', [$id])
                             ->get();
-        return view('users.product-detail', compact('product', 'relatedItems', 'reviews','cart', 'totalAmount', 'cartCount'));
+        return view('users.product-detail', compact('product', 'input_search','relatedItems', 'reviews','cart', 'totalAmount', 'cartCount'));
     }
 
     /**
