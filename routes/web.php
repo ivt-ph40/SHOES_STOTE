@@ -11,6 +11,8 @@
 |
 */
 
+//Start route user
+
 //Show homepage
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -113,7 +115,7 @@ Route::get('/404', function(){
     return view('users.404');
 })->name('notfound');
 
-
+//End root user
 
 
 
