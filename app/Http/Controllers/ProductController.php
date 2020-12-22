@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 use Illuminate\Support\Facades\Route;
 use App\Review;
-use DB;
 
 class ProductController extends Controller
 {
@@ -150,7 +149,7 @@ class ProductController extends Controller
                 $products = $products;
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         $input_search = explode(' ',$input_search);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
@@ -230,7 +229,7 @@ class ProductController extends Controller
                             ->take(4);
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -310,7 +309,7 @@ class ProductController extends Controller
                             ->take(4);
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -381,7 +380,7 @@ class ProductController extends Controller
                             ->where('products.discount_percent', '<>', '0');
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -452,7 +451,7 @@ class ProductController extends Controller
                             ->where('products.discount_percent', '<>', '0');
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -515,7 +514,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         return view('users.product-listing', compact('products', 'input_search', 'cart', 'totalAmount', 'cartCount'));
     }
 
@@ -574,7 +573,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -637,7 +636,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -700,7 +699,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -763,7 +762,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -826,7 +825,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -889,7 +888,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cartCount'));
         }else{
@@ -953,7 +952,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -1016,7 +1015,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -1079,7 +1078,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -1162,7 +1161,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -1245,7 +1244,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -1330,7 +1329,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
@@ -1413,7 +1412,7 @@ class ProductController extends Controller
                             });
                 break;
         }
-        $products = $products->orderBy('products.id', 'ASC')->paginate(4)->appends(request()->query());
+        $products = $products->orderBy('products.id', 'ASC')->paginate(4);
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
