@@ -312,7 +312,7 @@
                         </div>
 
                         <div class="tab-pane" role="tabpanel" id="tab_02">
-                            @if($reviews != null)
+                            @if(count($reviews))
                                 <p class="mb-20"><strong>{{ $reviews[0]->product->product_name }}</strong></p>
                                 @foreach($reviews as $review)
                                     <div class="ps-review">
