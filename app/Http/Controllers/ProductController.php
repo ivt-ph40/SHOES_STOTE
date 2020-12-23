@@ -171,63 +171,55 @@ class ProductController extends Controller
                                 $query->where('categories.parent_id', 1);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.product_name', 'ASC')
-                            ->take(4);
+                            ->orderBy('products.product_name', 'ASC');
                 break;
             case 'price_asc':
             $products = $products>whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.price', 'ASC')
-                            ->take(4);
+                            ->orderBy('products.price', 'ASC');
                 break;
             case 'price_desc':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.price', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.price', 'DESC');
                 break;
             case 'category_lifestyle':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1)
                                         ->whereIn('categories.id', [3,4]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             case 'category_running':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1)
                                         ->whereIn('categories.id', [5,6]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             case 'category_football':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1)
                                         ->whereIn('categories.id', [7,8]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             case 'category_training':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1)
                                         ->whereIn('categories.id', [9,10]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             default:
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 1);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
         }
         $products = $products->orderBy('products.id', 'ASC')->paginate(4);
@@ -250,64 +242,56 @@ class ProductController extends Controller
                                 $query->where('categories.parent_id', 2);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.product_name', 'ASC')
-                            ->take(4);
+                            ->orderBy('products.product_name', 'ASC');
                 break;
             case 'price_asc':
             $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.price', 'ASC')
-                            ->take(4);
+                            ->orderBy('products.price', 'ASC');
                 break;
             case 'price_desc':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.price', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.price', 'DESC');
                 break;
             case 'category_lifestyle':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2)
                                         ->whereIn('categories.id', [3,4]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             case 'category_running':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2)
                                         ->whereIn('categories.id', [5,6]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             case 'category_football':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2)
                                         ->whereIn('categories.id', [7,8]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             case 'category_training':
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2)
                                         ->whereIn('categories.id', [9,10]);
                             })
-                            ->orderBy('products.created_at', 'DESC')
-                            ->take(4);
+                            ->orderBy('products.created_at', 'DESC');
                 break;
             default:
                 $products = $products->whereHas('category', function ($query) {
                                 $query->where('categories.parent_id', 2);
                             })
                             ->orderBy('products.created_at', 'DESC')
-                            ->orderBy('products.id', 'ASC')
-                            ->take(4);
+                            ->orderBy('products.id', 'ASC');
                 break;
         }
         $products = $products->orderBy('products.id', 'ASC')->paginate(4);
