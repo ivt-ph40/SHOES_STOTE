@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateUserRequest; //Sử dụng form request RegisterUserRequest đã tạo trong folder Requests
+use App\Http\Requests\CreateUserRequest;
 
 class RegisterController extends Controller
 {
@@ -78,10 +78,8 @@ class RegisterController extends Controller
         return view('users.register');
     }
 
-    public function register(Request $request){
+    public function register(CreateUserRequest $request){
         $data = $request->all();
-        // $this->create($data);
-        // $data['password'] = bcrypt($data['password']);
         $data['role_id'] = '2';
         $user = User::create($data);
         \Auth::login($user);

@@ -24,7 +24,6 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //định nghĩa các rule
             'first_name' => 'required|min:3|max:10',
             'last_name' => 'required|min:3|max:10',
             'email' => 'required|email|unique:users,email',
@@ -34,7 +33,6 @@ class CreateUserRequest extends FormRequest
 
     public function messages(){
         return[
-            //input_name.rule_name
             'first_name.required' => 'The name field is required.',
             'first_name.min' => 'The name must be at least 3 characters.',
             'first_name.max' => 'The name may not be greater than 10 characters.',

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CreateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; //return true để enable validation
+        return true;
     }
 
     /**
@@ -24,9 +24,6 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //định nghĩa các rule
-            'first_name' => 'required|min:3|max:10',
-            'last_name' => 'required|min:3|max:10',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|numeric|min:3',
         ];
@@ -34,13 +31,6 @@ class CreateUserRequest extends FormRequest
 
     public function messages(){
         return[
-            //input_name.rule_name
-            'first_name.required' => 'The name field is required.',
-            'first_name.min' => 'The name must be at least 3 characters.',
-            'first_name.max' => 'The name may not be greater than 10 characters.',
-            'last_name.required' => 'The name field is required.',
-            'last_name.min' => 'The name must be at least 3 characters.',
-            'last_name.max' => 'The name may not be greater than 10 characters.',
             'email.email' => 'The email  must be a valid email address.',
             'email.required' => 'The email field is required',
             'email.unique' => 'The email has already been taken.',

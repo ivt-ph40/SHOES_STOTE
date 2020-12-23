@@ -42,10 +42,20 @@
                         <div class="form-group">
                             <label>Email<span>*</span></label>
                             <input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="Input email">
+                            @if($errors->has('email'))
+                                <p style="color: red;">
+                                    {{ $errors->first('email') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group mb-25">
                             <label>Password<span>*</span></label>
                             <input type="password" name="password" value="{{ old('password') }}" class="form-control" placeholder="Input password">
+                            @if($errors->has('password'))
+                                <p style="color: red;">
+                                    {{ $errors->first('password') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
                             <button type="submit" class="ps-btn">Sign in<i class="ps-icon-next"></i></button>
