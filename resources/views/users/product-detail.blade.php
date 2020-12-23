@@ -21,6 +21,7 @@
     #small-product-img{
         width: 60px;
         height: 70px;
+        margin-bottom: 5px;
     }
     #product-name{
         max-width: 200px;
@@ -231,7 +232,7 @@
                                 @endforeach
                             </div>
                             <a class="popup-youtube ps-product__video" href="https://www.youtube.com/watch?v=LBukoM3CLic">
-                            <img name="image" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
+                            <img id="small-product-img" name="image" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}"><i class="fa fa-play"></i></a>
                         </div>
                         <div class="ps-product__image">
                             @foreach($product->images as $image)

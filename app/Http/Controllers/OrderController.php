@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\OrderDetail;
 use App\Address;
+use App\ProductDetail;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 use App\Http\Requests\CreateOrderRequest;
@@ -115,6 +116,27 @@ class OrderController extends Controller
                         'quantity' => $itemCart->qty,
                     ];
                     OrderDetail::create($orderDetail);
+                    $oldQuantity = ProductDetail::where('product_id', $itemCart->id)
+                                            ->where('size', $itemCart->options->size)
+                                            ->select('quantity')
+                                            ->get();
+                    $newQuantity = $oldQuantity->first()->quantity - $itemCart->qty;
+                    if($newQuantity == 0){
+                        ProductDetail::where('product_id', $itemCart->id)
+                                    ->where('size', $itemCart->options->size)
+                                    ->update(
+                                        array(
+                                            'quantity' => $newQuantity,
+                                            'product_status' => 'out of stock',
+                                        ));
+                    }else{
+                        ProductDetail::where('product_id', $itemCart->id)
+                                    ->where('size', $itemCart->options->size)
+                                    ->update(
+                                        array(
+                                            'quantity' => $newQuantity,
+                                    ));
+                    }
                 }
                 $totalAmount = Cart::priceTotal();
                 $this->sendOrderConfirmationMail($data, $cart, $totalAmount);
@@ -142,6 +164,27 @@ class OrderController extends Controller
                         'quantity' => $itemCart->qty,
                     ];
                     OrderDetail::create($orderDetail);
+                    $oldQuantity = ProductDetail::where('product_id', $itemCart->id)
+                                            ->where('size', $itemCart->options->size)
+                                            ->select('quantity')
+                                            ->get();
+                    $newQuantity = $oldQuantity->first()->quantity - $itemCart->qty;
+                    if($newQuantity == 0){
+                        ProductDetail::where('product_id', $itemCart->id)
+                                    ->where('size', $itemCart->options->size)
+                                    ->update(
+                                        array(
+                                            'quantity' => $newQuantity,
+                                            'product_status' => 'out of stock',
+                                        ));
+                    }else{
+                        ProductDetail::where('product_id', $itemCart->id)
+                                    ->where('size', $itemCart->options->size)
+                                    ->update(
+                                        array(
+                                            'quantity' => $newQuantity,
+                                    ));
+                    }
                 }
                 $totalAmount = Cart::priceTotal();
                 $this->sendOrderConfirmationMail($data, $cart, $totalAmount);

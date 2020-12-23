@@ -10,6 +10,9 @@
     #nav-mega-wrap{
         width: 70%;
     }
+    #quantity{
+        top: -1px;
+    }
     #product-image{
         width: 80px;
         height: 80px;
@@ -220,11 +223,11 @@
                                 <td><span name="price">{{ number_format($item->price) }}đ</span></td>
                                 <td>
                                     <div class="form-group--number">
-                                        <button class="minus" type="button" onclick="updateQuantity(this)" data-action="minus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
+                                        <button id="minus" class="minus" type="button" onclick="updateQuantity(this)" data-action="minus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
                                             <span > - </span>
                                         </button>
                                         <input id="quantity" data-id="{{ $item->id }}" name="qty-{{$item->rowId}}" class="form-control" type="text" value="{{ $item->qty }}" readonly>
-                                        <button class="plus" type="button" onclick="updateQuantity(this)" data-action="plus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
+                                        <button id="plus" class="plus" type="button" onclick="updateQuantity(this)" data-action="plus" data-row-id="{{$item->rowId}}" data-qty="{{$item->qty}}">
                                             <span> + </span>
                                         </button>
                                     </div>
