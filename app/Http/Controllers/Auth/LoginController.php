@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -43,9 +44,8 @@ class LoginController extends Controller
         return view('users.login');
     }
 
-    public function login(Request $request){
+    public function login(LoginRequest $request){
         $data =  $request->only('email', 'password');
-        //attempt(): truyền mảng data, kiểm tra mảng data có khớp với user nào không
         if(\Auth::attempt($data)){
             if(\Auth::user()->role_id == 1){
                 return redirect()->route('home.admins',\Auth::user()->first_name);
@@ -55,7 +55,6 @@ class LoginController extends Controller
             }
         }
         return redirect()->back()->with('fail', 'Email, password is wrong. Please try again!!')->withInput();
-        //withInput(): giá trị đã nhập (old value)
     }
     public function logout(Request $request){
         \Auth::logout();

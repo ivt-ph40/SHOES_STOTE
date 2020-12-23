@@ -34,20 +34,40 @@
                     <form class="ps-contact__form" action="{{ route('register') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="name">First name<span>*</span></label>
+                            <label for="first_name">First name<span>*</span></label>
                             <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('name') }}" placeholder="Input first name">
+                            @if($errors->has('first_name'))
+                                <p style="color: red;">
+                                    {{ $errors->first('first_name') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
-                            <label for="name">Last name<span>*</span></label>
+                            <label for="last_name">Last name<span>*</span></label>
                             <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('name') }}" placeholder="Input last name">
+                            @if($errors->has('last_name'))
+                                <p style="color: red;">
+                                    {{ $errors->first('last_name') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label for="email">Email<span>*</span></label>
                             <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Input email address">
+                            @if($errors->has('email'))
+                                <p style="color: red;">
+                                    {{ $errors->first('email') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label for="password">Password<span>*</span></label>
                             <input type="password" class="form-control" id="password" name="password" value="{{ old('password') }}" placeholder="Input password">
+                            @if($errors->has('password'))
+                                <p style="color: red;">
+                                    {{ $errors->first('password') }}
+                                </p>
+                            @endif
                         </div>
                         <div class="form-group">
                             <button type="submit" class="ps-btn">Submit<i class="ps-icon-next"></i></button>
