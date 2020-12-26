@@ -107,4 +107,50 @@ class OrderAdminController extends Controller
     {
         //
     }
+    
+    //SEARCH
+    public function search(Request $request,$name){
+        $search = $request->input('search');
+        $orders = Order::where(function($query) use ($search) {
+                $user = User::where('email', 'LIKE', '%'. $search . '%')->pluck('id');
+
+                $query->where('order_code', 'LIKE', '%' . $search . '%')
+                      ->orWhereIn('user_id', $user);
+            })
+            ->with('deliver_status','user')
+            ->join('delivery_statuses',function($join){
+                $join->on('orders.delivery_status_id', '=', 'delivery_statuses.id');
+            })
+            ->join('users',function($join){
+                $join->on('orders.user_id', '=', 'users.id');
+            })
+            ->get();
+        $statuss = DeliveryStatus::all();
+        return view('order.list',compact('orders','statuss','name'));
+    }
+
+    // SORT
+    public function sort(Request $request,$name){
+        $sort = $request->input('sort');
+        $Order1 = Order::with('deliver_status','user')
+        ->join('delivery_statuses',function($join){
+            $join->on('orders.delivery_status_id', '=', 'delivery_statuses.id');
+        })
+        ->join('users',function($join){
+            $join->on('orders.user_id', '=', 'users.id');
+        })
+        ->get();
+   
+        
+        if($sort == 'date-up'){
+            $orders = $Order1->sortBy('created_at');
+            $orders->values()->all();
+        } 
+        else {
+            $orders = $Order1->sortByDesc('created_at');
+            $orders->values()->all();
+        }
+        $statuss = DeliveryStatus::all();
+        return view('order.list',compact('orders','statuss','name'));
+    }
 }

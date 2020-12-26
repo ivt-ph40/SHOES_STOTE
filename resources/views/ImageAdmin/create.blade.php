@@ -464,7 +464,7 @@
                                 @csrf
                                 <div class="card-body">            
                                             <input type="text" class="form-control" name="product_id"
-                                                value="{{$product->id}}">
+                                                value="{{$product->id}}" hidden>
                                 
                                     <div class="form-group">
                                             <label for="">Image</label>

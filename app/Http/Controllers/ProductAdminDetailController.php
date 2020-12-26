@@ -126,5 +126,7 @@ class ProductAdminDetailController extends Controller
         ProductDetail::withTrashed()->where('id','=',$id)->forceDelete();
         return Redirect() -> route('productdetail.list',$name)->with('message', 'Delete User Success !');
     }
+
+    
     
 }

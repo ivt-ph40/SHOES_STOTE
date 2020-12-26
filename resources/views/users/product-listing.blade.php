@@ -139,14 +139,43 @@
                     <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
                 <div class="ps-cart">
-                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
-                        @if($cartCount != null)
+                    @if($cartCount != null)
+                        <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                             <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
-                        @else
-                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
-                        @endif
-                    </a>
+                        </a>
+                        <div class="ps-cart__listing">
+                            <div class="ps-cart__content">
+                                @foreach($cart as $item)
+                                <div class="ps-cart-item">
+                                    <div class="ps-cart-item__thumbnail">
+                                        <a href="{{ route('product-detail', $item->id) }}"></a>
+                                        <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
+                                    </div>
+                                    <div class="ps-cart-item__content">
+                                        <a class="ps-cart-item__title" href="{{ route('product-detail', $item->id) }}">{{ $item->name }}</a>
+                                        <p>
+                                            <span>Quantity:<i>{{ $item->qty }}</i></span>
+                                            <span>Subtotal:<i>{{ number_format($item->options->subTotal) }}đ</i></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="ps-cart__total">
+                                <p>Number of items:<span>{{ $cartCount }}</span></p>
+                                <p>Total Amount:<span>{{ $totalAmount }}đ</span></p>
+                            </div>
+                            <div class="ps-cart__footer">
+                                <a class="ps-btn" href="{{ route('show-cart') }}">View detail<i class="ps-icon-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    @else
+                        <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                            <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        </a>
+                    @endif
                 </div>
+                <div class="menu-toggle"><span></span></div>
             </div>
         </div>
     </nav>
@@ -154,27 +183,23 @@
 
 <div class="header-services">
     <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
     </div>
 </div>
 
 <main class="ps-main">
     <div class="ps-products-wrap pt-80 pb-80">
         <div class="ps-products" data-mh="product-listing">
-            {{-- <div class="ps-product-action"> --}}
-                {{-- <div class="ps-pagination">
-                    <ul class="pagination">
-                        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">...</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
-                </div> --}}
-            {{-- </div> --}}
+            @if(count($products))
+            <div class="ps-product-action">
+                <div class="pagination">
+                    {{ $products->appends(request()->query())->links() }}
+                </div>
+            </div>
+            @endif
+
             <div class="ps-product__columns">
                 @if(session()->has('message'))
                     <div class="alert alert-warning" role="alert">
@@ -194,7 +219,6 @@
                                 <span>{{''}}</span>
                             </div>
                             @endif
-                            <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                             <img id="big-product-img" src="{{ asset('images/shoe/' .$product->images[0]->image_name .'') }}">
                             <a class="ps-shoe__overlay" href="{{ route('product-detail', $product->id) }}"></a>
                          </div>
@@ -223,19 +247,6 @@
                 </div>
                 @endforeach
             </div>
-
-            {{-- <div class="ps-product-action">
-                <div class="ps-pagination">
-                    <ul class="pagination">
-                        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">...</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                    </ul>
-                </div>
-            </div> --}}
         </div>
 
         <div class="ps-sidebar" data-mh="product-listing">
@@ -362,15 +373,6 @@
                     </ul>
                 </div>
             </aside>
-            {{-- <aside class="ps-widget--sidebar ps-widget--filter">
-                <div class="ps-widget__header">
-                    <h3>Category</h3>
-                </div>
-                <div class="ps-widget__content">
-                    <div class="ac-slider" data-default-min="300" data-default-max="2000" data-max="3450" data-step="50" data-unit="$"></div>
-                    <p class="ac-slider__meta">Price:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p><a class="ac-slider__filter ps-btn" href="#">Filter</a>
-                </div>
-            </aside> --}}
         </div>
     </div>
 

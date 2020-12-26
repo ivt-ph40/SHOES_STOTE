@@ -15,7 +15,9 @@
 		margin:0;
 		padding:0;
 	}
-	* { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+	* {
+        font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    }
 
 	img {
 		max-width: 100%;
@@ -88,9 +90,13 @@
 	------------------------------------- */
 	table.head-wrap { width: 100%;}
 
-	.header.container table td.logo { padding: 15px; }
-	.header.container table td.label { padding: 15px; padding-left:0px;}
-
+	.header.container table td.logo {
+        padding: 15px;
+    }
+	.header.container table td.label {
+        padding: 15px;
+        padding-left:0px;
+    }
 
 	/* -------------------------------------
 			BODY
@@ -103,7 +109,10 @@
 	------------------------------------- */
 	table.footer-wrap { width: 100%;	clear:both!important;
 	}
-	.footer-wrap .container td.content  p { border-top: 1px solid rgb(215,215,215); padding-top:15px;}
+	.footer-wrap .container td.content  p {
+        border-top: 1px solid rgb(215,215,215);
+        padding-top:15px;
+    }
 	.footer-wrap .container td.content p {
 		font-size:10px;
 		font-weight: bold;
@@ -115,18 +124,48 @@
 			TYPOGRAPHY
 	------------------------------------- */
 	h1,h2,h3,h4,h5,h6 {
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; line-height: 1.1; margin-bottom:15px; color:#000;
+        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+        line-height: 1.1;
+        margin-bottom:15px;
+        color:#000;
 	}
-	h1 small, h2 small, h3 small, h4 small, h5 small, h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; text-transform: none; }
+	h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+        font-size: 60%;
+        color: #6f6f6f;
+        line-height: 0;
+        text-transform: none;
+    }
 
-	h1 { font-weight:200; font-size: 44px;}
-	h2 { font-weight:200; font-size: 37px;}
-	h3 { font-weight:500; font-size: 27px;}
-	h4 { font-weight:500; font-size: 23px;}
-	h5 { font-weight:900; font-size: 17px;}
-	h6 { font-weight:900; font-size: 14px; text-transform: uppercase; color:#444;}
+	h1 {
+        font-weight:200;
+        font-size: 44px;
+    }
+	h2 {
+        font-weight:200;
+        font-size: 37px;
+    }
+	h3 {
+        font-weight:500;
+        font-size: 27px;
+    }
+	h4 {
+        font-weight:500;
+        font-size: 23px;
+    }
+	h5 {
+        font-weight:900;
+        font-size: 17px;
+    }
+    h6 {
+        font-weight:900;
+        font-size: 14px;
+        text-transform: uppercase;
+        color:#444;
+    }
 
-	.collapse { margin:0!important;}
+	.collapse {
+        margin:0!important;
+    }
 
 	p, ul {
 		margin-bottom: 10px;
@@ -134,8 +173,12 @@
 		font-size:14px;
 		line-height:1.6;
 	}
-	p.lead { font-size:17px; }
-	p.last { margin-bottom:0px;}
+	p.lead {
+        font-size:17px;
+    }
+	p.last {
+        margin-bottom:0px;
+    }
 
 	ul li {
 		margin-left:5px;
@@ -192,10 +235,15 @@
 	}
 
 	/* Let's make sure tables in the content area are 100% wide */
-	.content table { width: 100%; }
+	.content table {
+        width: 100%;
+    }
 
 	/* Be sure to place a .clear element after each set of columns, just to be safe */
-	.clear { display: block; clear: both; }
+	.clear {
+        display: block;
+        clear: both;
+    }
 
 
 	/* -------------------------------------------
@@ -205,9 +253,17 @@
 	-------------------------------------------- */
 	@media only screen and (max-width: 600px) {
 
-		a[class="btn"] { display:block!important; margin-bottom:10px!important; background-image:none!important; margin-right:0!important;}
+		a[class="btn"] {
+            display:block!important;
+            margin-bottom:10px!important;
+            background-image:none!important;
+            margin-right:0!important;
+        }
 
-		div[class="column"] { width: auto!important; float:none!important;}
+		div[class="column"] {
+            width: auto!important;
+            float:none!important;
+        }
 
 		table.social div[class="column"] {
 			width:auto!important;
@@ -258,7 +314,7 @@
 						<br/>
                         <h3>Thanks {{ $username }}!</h3>
 						<h4><strong>Your Order Code: </strong><small>{{ $orderInfo['order_code'] }}</small></h4>
-						<p>Thank you for placing your order with Sky store. This email is to confirm your order has been placed successfully, and will be processed & shipped to you soon.</p>
+						<p>Thank you for placing your order with Skytheme store. This email is to confirm your order has been placed successfully, and will be processed & shipped to you soon.</p>
                         <br/>
 
                         <!-- Order detail -->
@@ -328,7 +384,7 @@
                     <table>
                         <tr>
                             <td align="center">
-                                <p>Thank you for shopping at Sky store!</p>
+                                <p>Thank you for shopping at Skytheme store!</p>
                                 <img src="https://i.pinimg.com/564x/24/7a/0a/247a0a55e5e6aa0cb2215f375b85dc67.jpg" style="width:40px;height:auto;">
                                 <br/><br/>
                                 <p><small>© Skytheme</small></p>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Validations\Validation;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\CategoryRequest;
 
 use App\Category;
 use App\Brand;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+
 
 class CategoryController extends Controller
 {
@@ -41,6 +43,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request,$name)
     {
+        Validation::validateCategorydRequest($request);
         $data = $request->all();
         Category::create($data);
         return redirect()->route('categories.list',$name);

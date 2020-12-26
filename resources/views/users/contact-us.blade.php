@@ -128,17 +128,43 @@
                     <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
                 <div class="ps-cart">
-                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
-                        @if($cartCount != null)
+                    @if($cartCount != null)
+                        <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                             <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
-                        @else
-                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
-                        @endif
-                    </a>
+                        </a>
+                        <div class="ps-cart__listing">
+                            <div class="ps-cart__content">
+                                @foreach($cart as $item)
+                                <div class="ps-cart-item">
+                                    <div class="ps-cart-item__thumbnail">
+                                        <a href="{{ route('product-detail', $item->id) }}"></a>
+                                        <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
+                                    </div>
+                                    <div class="ps-cart-item__content">
+                                        <a class="ps-cart-item__title" href="{{ route('product-detail', $item->id) }}">{{ $item->name }}</a>
+                                        <p>
+                                            <span>Quantity:<i>{{ $item->qty }}</i></span>
+                                            <span>Subtotal:<i>{{ number_format($item->options->subTotal) }}đ</i></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="ps-cart__total">
+                                <p>Number of items:<span>{{ $cartCount }}</span></p>
+                                <p>Total Amount:<span>{{ $totalAmount }}đ</span></p>
+                            </div>
+                            <div class="ps-cart__footer">
+                                <a class="ps-btn" href="{{ route('show-cart') }}">View detail<i class="ps-icon-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    @else
+                        <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                            <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        </a>
+                    @endif
                 </div>
-                @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
-                @endif
+                <div class="menu-toggle"><span></span></div>
             </div>
         </div>
     </nav>
@@ -146,9 +172,9 @@
 
 <div class="header-services">
     <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
     </div>
 </div>
 <main class="ps-main">
@@ -161,8 +187,12 @@
                     <form class="ps-contact__form" action="{{ route('send-contact') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label>Name <sub>*</sub></label>
-                            <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                            <label>Name<span>*</span></label>
+                            @if(\Auth::user() != null)
+                                <input name="username" value="{{ \Auth::user()->last_name. ' '.\Auth::user()->first_name }}" class="form-control" type="text" placeholder="">
+                            @else
+                                <input name="username" value="{{ old('username') }}" class="form-control" type="text" placeholder="">
+                            @endif
                             @if($errors->has('username'))
                                 <p style="color: red;">
                                     {{ $errors->first('username') }}
@@ -170,8 +200,12 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label>Email <sub>*</sub></label>
-                            <input name="email" value="{{ old('email') }}"" class="form-control" type="text" placeholder="">
+                            <label>Email<span>*</span></label>
+                            @if(\Auth::user() != null)
+                                <input name="email" value="{{ \Auth::user()->email }}" class="form-control" type="text" placeholder="">
+                            @else
+                                <input name="email" value="{{ old('email') }}" class="form-control" type="text" placeholder="">
+                            @endif
                             @if($errors->has('email'))
                                 <p style="color: red;">
                                     {{ $errors->first('email') }}
@@ -179,7 +213,7 @@
                             @endif
                         </div>
                         <div class="form-group mb-25">
-                            <label>Your Message <sub>*</sub></label>
+                            <label>Your Message<span>*</span></label>
                             <textarea name="message" value="{{ old('message') }}" class="form-control" rows="6"></textarea>
                             @if($errors->has('message'))
                                 <p style="color: red;">
@@ -188,13 +222,13 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <button class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
+                            <button type="submit" class="ps-btn">Send Message<i class="ps-icon-next"></i></button>
                         </div>
                     </form>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
-                    <div id="contact-map" data-address="New York, NY" data-title="Sky Store!" data-zoom="17"></div>
+                    <div id="contact-map" data-address="New York, NY" data-title="Skytheme Store!" data-zoom="17"></div>
                 </div>
             </div>
         </div>

@@ -22,4 +22,12 @@ class Validation
             ->where('parent_id',$request->parent_id)],
         ]);
     }
+
+    public static function validateProductRequest($request)
+    {
+        return $request->validate([
+            'product_code' => 'bail|required|string|min:3|max:10|unique:products',
+            'product_name' => 'bail|required|string|min:3|max:200',
+        ]);
+    }
 }

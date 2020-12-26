@@ -11,10 +11,6 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 //Show homepage
 Route::get('/', 'HomeController@index')->name('home');
 
@@ -112,21 +108,6 @@ Route::get('/profile/{userID}/edit', 'HomeController@showProfile')->name('show-p
 //Update profile
 Route::put('/profile/{userID}', 'HomeController@updateProfile')->name('update-profile');
 
-//Show favorite product list
-Route::get('/wishlist', function(){
-    return view('users.wishlist');
-})->name('wishlist');
-
-//Compare products
-Route::get('/compare', function(){
-    return view('users.compare');
-})->name('compare');
-
-//Show company info
-Route::get('/company', function(){
-    return view('users.about');
-})->name('company-info');
-
 //Show 404 page
 Route::get('/404', function(){
     return view('users.404');
@@ -144,7 +125,7 @@ Route::get('/categories/{name}', 'CategoryController@index')->name('categories.l
 //Admin create Category
 Route::get('/categories/create/{name}', 'CategoryController@create')->name('categories.create');
 //Admin store Category
-Route::post('/categories/{name}', 'CategoryController@store')->name('categories.store');
+Route::post('/categories/create/{name}', 'CategoryController@store')->name('categories.store');
 //Admin Show edit form Category
 Route::get('/categories/{id}/{name}/edit', 'CategoryController@edit')->name('categories.edit');
 //Admin update Category
@@ -202,6 +183,10 @@ Route::get('/products/record/{name}', 'ProductAdminController@showRecord')->name
 Route::Delete('/products/record/{code}/{name}', 'ProductAdminController@force')->name('products.force');
 //Admin update Product record
 Route::put('/products/record/{code}/{name}', 'ProductAdminController@restore')->name('products.restore');
+//Admin Product Search
+Route::get('/products/search/{name}', 'ProductAdminController@search')->name('products.search');
+//Admin Product Sort
+Route::get('/products/sort/{name}', 'ProductAdminController@sort')->name('products.sort');
 
 
 //Admin productDetail
@@ -242,6 +227,10 @@ Route::get('/Order/{name}', 'OrderAdminController@index')->name('order.list');
 Route::put('/Order/{code}/{name}', 'OrderAdminController@update')->name('order.update');
 //Admin update Order
 Route::get('/Order/{code}/{nameUser}/{name}', 'OrderAdminController@show')->name('order.show');
+//Admin Product Search
+Route::get('/Order/search/{name}', 'OrderAdminController@search')->name('order.search');
+//Admin Product Sort
+Route::get('/Order/sort/{name}', 'OrderAdminController@sort')->name('order.sort');
 
 //Auth::routes();
 

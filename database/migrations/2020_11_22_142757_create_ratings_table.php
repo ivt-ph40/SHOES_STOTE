@@ -19,6 +19,7 @@ class CreateRatingsTable extends Migration
             $table->float('rating',3,2)->default(0);
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('RESTRICT')->onDelete('CASCADE');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

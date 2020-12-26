@@ -135,17 +135,43 @@
                     <button type="submit"><i class="ps-icon-search"></i></button>
                 </form>
                 <div class="ps-cart">
-                    <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
-                        @if($cartCount != null)
+                    @if($cartCount != null)
+                        <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
                             <span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i>
-                        @else
-                        <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
-                        @endif
-                    </a>
+                        </a>
+                        <div class="ps-cart__listing">
+                            <div class="ps-cart__content">
+                                @foreach($cart as $item)
+                                <div class="ps-cart-item">
+                                    <div class="ps-cart-item__thumbnail">
+                                        <a href="{{ route('product-detail', $item->id) }}"></a>
+                                        <img id="product-image" class="mr-15" src="{{ asset('images/shoe/' .$item->options->image.'') }}">
+                                    </div>
+                                    <div class="ps-cart-item__content">
+                                        <a class="ps-cart-item__title" href="{{ route('product-detail', $item->id) }}">{{ $item->name }}</a>
+                                        <p>
+                                            <span>Quantity:<i>{{ $item->qty }}</i></span>
+                                            <span>Subtotal:<i>{{ number_format($item->options->subTotal) }}đ</i></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="ps-cart__total">
+                                <p>Number of items:<span>{{ $cartCount }}</span></p>
+                                <p>Total Amount:<span>{{ $totalAmount }}đ</span></p>
+                            </div>
+                            <div class="ps-cart__footer">
+                                <a class="ps-btn" href="{{ route('show-cart') }}">View detail<i class="ps-icon-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    @else
+                        <a class="ps-cart__toggle" href="{{ route('show-cart') }}">
+                            <span><i>0</i></span><i class="ps-icon-shopping-cart"></i>
+                        </a>
+                    @endif
                 </div>
-                @if(session()->has('message'))
-                    <p style="color:red;">{{session()->get('message')}}</p>
-                @endif
+                <div class="menu-toggle"><span></span></div>
             </div>
         </div>
     </nav>
@@ -153,9 +179,9 @@
 
 <div class="header-services">
     <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
+        <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Skytheme Store</p>
     </div>
 </div>
 
@@ -338,7 +364,7 @@
                                 <div class="form-group paypal">
                                     <div class="ps-radio ps-radio--inline">
                                         <input class="form-control" type="radio" name="payment_method_id" value="3" id="rdo03">
-                                        <label for="rdo03">Credit card</label>
+                                        <label for="rdo03">Master card</label>
                                     </div>
                                     <div class="ps-payment-method">
                                         <img src="{{ asset('images/payment/2.png') }}">

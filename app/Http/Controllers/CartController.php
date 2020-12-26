@@ -154,15 +154,16 @@ class CartController extends Controller
     public function cart_remove()
     {
         Cart::destroy();
-        return redirect()->away('cart')->with('message', 'Order Successfully!');
+        return redirect()->away('cart')->with('message', 'Order Successfully! Please confirm your email.');
     }
 
 
     public function checkout()
     {
         $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
-        return view('users.checkout', compact('cartCount'));
+        return view('users.checkout', compact('cart', 'totalAmount', 'cartCount'));
     }
 
 

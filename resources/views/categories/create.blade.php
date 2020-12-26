@@ -158,18 +158,6 @@
                     </div>
                 </div>
 
-                <!-- SidebarSearch Form -->
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
@@ -476,6 +464,23 @@
                                         </select>
                                     </div>
                                 </div>
+                                @if ($errors->any())
+                                <section class="error">
+                                    <div class="container">
+                                        <div class="columns is-centered">
+                                            <div class="column is-6">
+                                                <div class="notification is-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                        <li style="color:red; font-size:20px;">{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                @endif
                                 <button type="submit" class="btn btn-primary" action="save">Confirm</button>
                             </form>
                         </div>

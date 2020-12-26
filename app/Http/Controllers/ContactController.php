@@ -18,17 +18,18 @@ class ContactController extends Controller
         //
     }
     public function showContactForm(){
+        $cart = Cart::content();
+        $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();
-        return view('users.contact-us', compact('cartCount'));
+        return view('users.contact-us', compact('cart', 'totalAmount', 'cartCount'));
     }
     public function sendMail(SendMessageRequest $request){
         $toEmail = $request->email;
         $fromEmail ='admin@gmail.com';
         $username = $request->username;
-        $data =['username' => $username, 'message' => $request->message]; //get data from form contact-us
+        $data =['username' => $username, 'message' => $request->message];
         \Mail::send('mails.contact-us', $data, function($message) use ($toEmail, $fromEmail, $username){
             $message->to($toEmail, $username);
-            // $message->from($fromEmail, 'Admin');
             $message->subject('Contact Mail');
         });
         return view('users.success');

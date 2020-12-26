@@ -336,11 +336,11 @@ table.full-width-gmail-android {
     table[class*="head-wrap"],
     table[class*="body-wrap"],
     table[class*="footer-wrap"] {
-    width: 100% !important;
+        width: 100% !important;
     }
 
     td[class*="container"] {
-    margin: 0 auto !important;
+        margin: 0 auto !important;
     }
 
 }
@@ -383,7 +383,7 @@ table.full-width-gmail-android {
         <div class="content">
             <span class="brand">
             <a href="#">
-                Skytheme shop
+                Skytheme store
             </a>
             </span>
         </div>
@@ -415,7 +415,7 @@ table.full-width-gmail-android {
                         <tr>
                             <td class="body-signature-cell">
                             <p>Thanks for being a customer!</p>
-                            <p class="body-signature">Shoes shop</p>
+                            <p class="body-signature">Skytheme store</p>
                             </td>
                         </tr>
                         </table>
@@ -437,7 +437,7 @@ table.full-width-gmail-android {
             <td></td>
             <td class="container">
             <div class="content footer-lead">
-                <a href="#"><b>Get in touch</b></a> if you have any questions or feedback
+                <a href="{{ route('contact-form') }}"><b>Get in touch</b></a> if you have any questions or feedback
             </div>
             </td>
             <td></td>

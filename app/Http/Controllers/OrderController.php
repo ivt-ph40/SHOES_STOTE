@@ -88,6 +88,7 @@ class OrderController extends Controller
     }
 
     public function showOrderInfo(){
+        dd('dd');
         $cart = Cart::content();
         $totalAmount = Cart::priceTotal();
         $cartCount = Cart::content()->count();

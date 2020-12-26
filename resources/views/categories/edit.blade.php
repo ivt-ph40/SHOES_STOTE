@@ -446,7 +446,8 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{route('home.admins',$name)}}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{route('categories.list',$name)}}">Category</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('categories.list',$name)}}">Category</a>
+                                </li>
                                 <li class="breadcrumb-item active">Edit</li>
                             </ol>
                         </div>
@@ -459,9 +460,10 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <form action="{{ route('categories.update', [$categories->id,$name])}}" method="POST" role="form">
-                            @csrf
-	                        @method('PUT')
+                            <form action="{{ route('categories.update', [$categories->id,$name])}}" method="POST"
+                                role="form">
+                                @csrf
+                                @method('PUT')
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Category Name</label>
@@ -472,24 +474,41 @@
                                         <label>Select</label>
                                         <select class="form-control" name="parent_id">
                                             <option value="{{$categories->parent_id}}">
-                                                @if ($categories->parent_id == 1) 
-                                                    Men
+                                                @if ($categories->parent_id == 1)
+                                                Men
                                                 @else
-                                                    Women
+                                                Women
                                                 @endif
                                             </option>
                                             @if($categories->parent_id == 1)
-                                                <option value="2">Women</option>
+                                            <option value="2">Women</option>
                                             @else
-                                                <option value="1">Men</option>
+                                            <option value="1">Men</option>
                                             @endif
                                         </select>
                                     </div>
                                 </div>
+                                @if ($errors->any())
+                                <section class="error">
+                                    <div class="container">
+                                        <div class="columns is-centered">
+                                            <div class="column is-6">
+                                                <div class="notification is-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                        <li style="color:red; font-size:20px;">{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                @endif
                                 <!-- /.card-body -->
 
-                                
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                                <button type="submit" class="btn btn-primary">Submit</button>
 
                             </form>
                         </div>
@@ -503,12 +522,12 @@
     <!-- /.content-wrapper -->
 
     <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.1.0-pre
-            </div>
-            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0-pre
+        </div>
+        <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        reserved.
+    </footer>
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">

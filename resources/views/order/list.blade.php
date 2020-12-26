@@ -441,7 +441,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>PRODUCTS DETAIL</h1>
+                            <h1>ORDER</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -466,74 +466,89 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Orders</h3>
-
-                                    <div class="card-tools">
-                                        <div class="input-group input-group-sm" style="width: 150px;">
-                                            <input type="text" name="table_search" class="form-control float-right"
-                                                placeholder="Search">
-
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-default">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h3 class="card-title">Orders</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10" style="text-align: right; float:right; display:block;margin-top:5px;">
+                                            <form action="{{route('order.sort',$name)}}" method="GET">
+                                                <label>Sắp Xếp Theo Date</label>
+                                                <select name="sort" id="car" onchange="javascript:this.form.submit()">
+                                                    <option value=""> -- Chọn -- </option>
+                                                    <option value="date-up">
+                                                        Tăng Dần
+                                                    <option value="date-down">
+                                                        Giảm Dần
+                                                    </option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-2" style="text-align: right; float:right">
+                                            <div class="" style="float:right; display:block">
+                                                <form action="{{route('order.search',$name)}}" method="GET">
+                                                    <input type="text" name="search" placeholder="Search">
+                                                    <button type="submit" class="btn btn-default">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body table-responsive p-0">
-                                    <table class="table table-hover text-nowrap" style="font-size: 12px;">
-                                        <table class="table table-hover text-nowrap" style="font-size: 10px;">
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>User</th>
-                                                    <th>Code</th>
-                                                    <th>Order Date</th>
-                                                    <th>Trạng Thái</th>
-                                                    <th>Change Trạng Thái</th>
-                                                    <th>Detail</th>
+                                    <!-- /.card-header -->
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table table-hover text-nowrap" style="font-size: 12px;">
+                                            <table class="table table-hover text-nowrap" style="font-size: 10px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STT</th>
+                                                        <th>User</th>
+                                                        <th>Code</th>
+                                                        <th>Order Date</th>
+                                                        <th>Trạng Thái</th>
+                                                        <th>Change Trạng Thái</th>
+                                                        <th>Detail</th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($orders as $index => $order)
-                                                <tr>
-                                                    <td scope="row">{{$index}}</td>
-                                                    <td>{{$order->email}}</td>
-                                                    <td>{{$order->order_code}}</td>
-                                                    <td>{{$order->order_date}}</td>
-                                                    <td>{{$order->status}}</td>
-                                                    <td>
-                                                        <form
-                                                            action="{{route('order.update',[$order->order_code,$name])}}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <select name="delivery_status_id" id="car"
-                                                                onchange="javascript:this.form.submit()">
-                                                                <option value=""> -- Chọn -- </option>
-                                                                @foreach($statuss as $status)
-                                                                <option value="{{$status->id}}">{{$status->status}}
-                                                                </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </form>
-                                                    </td>
-                                                    <td><a href="{{route('order.show',[$order->order_code,$order->email,$name])}}"
-                                                            class="btn btn-primary">Detail</a></td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($orders as $index => $order)
+                                                    <tr>
+                                                        <td scope="row">{{$index}}</td>
+                                                        <td>{{$order->email}}</td>
+                                                        <td>{{$order->order_code}}</td>
+                                                        <td>{{$order->order_date}}</td>
+                                                        <td>{{$order->status}}</td>
+                                                        <td>
+                                                            <form
+                                                                action="{{route('order.update',[$order->order_code,$name])}}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <select name="delivery_status_id" id="car"
+                                                                    onchange="javascript:this.form.submit()">
+                                                                    <option value=""> -- Chọn -- </option>
+                                                                    @foreach($statuss as $status)
+                                                                    <option value="{{$status->id}}">{{$status->status}}
+                                                                    </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </form>
+                                                        </td>
+                                                        <td><a href="{{route('order.show',[$order->order_code,$order->email,$name])}}"
+                                                                class="btn btn-primary "style="font-size: 10px;">Detail</a></td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card-body -->
+                                <!-- /.card -->
                             </div>
-                            <!-- /.card -->
                         </div>
                     </div>
-                </div>
             </section>
             <!-- /.content -->
         </div>
