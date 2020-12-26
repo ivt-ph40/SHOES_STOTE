@@ -155,7 +155,7 @@ class ProductController extends Controller
         if(count($products)){
             return view('users.product-listing', compact('products', 'input_search','cart', 'totalAmount', 'cartCount'));
         }else{
-            return redirect()->back()->with('message', 'There is no product with '.$request->get('sort').'!')->withInput();
+            return redirect()->route('show-empty-list')->with('message', 'There is no product!')->withInput();
         }
     }
 
