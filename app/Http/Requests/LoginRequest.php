@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'password' => 'required|numeric|min:3',
         ];
     }
@@ -33,7 +33,6 @@ class LoginRequest extends FormRequest
         return[
             'email.email' => 'The email  must be a valid email address.',
             'email.required' => 'The email field is required',
-            'email.unique' => 'The email has already been taken.',
             'password.required' => 'The password field is required.',
             'password.numeric' => 'The email must be a number.',
             'password.min' => 'The password must be at least 3 characters.',
